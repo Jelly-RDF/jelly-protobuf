@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+// Protocol Buffers RDF serialization.
+
+// === RDF Terms ===
+message RDF_IRI {
+  // Either of these can be zero if either the prefix or the suffix are not used.
+  uint32 prefixId = 1;
+  uint32 nameId = 2;
+}
+
+message RDF_BNode {
+  string label = 1;
+}
+
+message RDF_Datatype {
+  uint32 dtId = 1;
+}
+
+message RDF_Literal {
+  string lex = 1;
+  oneof literalKind {
+    bool simple = 2;
+    string langtag = 3;
+    RDF_Datatype datatype = 4;
+  }
+}
+
+message RDF_REPEAT {}
+
+message RDF_Term {
+  oneof term {
+    RDF_IRI        iri = 1;
+    RDF_BNode      bnode = 2;
+    RDF_Literal    literal = 3;
+    RDF_Triple     tripleTerm = 4;
+    RDF_REPEAT     repeat = 5;
+  }
+}
+
+// === Triples and quads ===
+message RDF_Triple {
+  RDF_Term S = 1;
+  RDF_Term P = 2;
+  RDF_Term O = 3;
+}
+
+message RDF_Quad {
+  RDF_Term S = 1;
+  RDF_Term P = 2;
+  RDF_Term O = 3;
+  RDF_Term G = 4;
+}
+
+// === Lookup tables ===
+
+message RDF_NameEntry {
+  // 1-based
+  uint32 id = 1;
+  string value = 2;
+}
+
+message RDF_PrefixEntry {
+  // 1-based
+  uint32 id = 1;
+  string value = 2;
+}
+
+message RDF_DatatypeEntry {
+  // 1-based
+  uint32 id = 1;
+  string value = 2;
+}
+
+message RDF_StreamOptions {
+  uint32 maxNameTableSize = 1;
+  uint32 maxPrefixTableSize = 2;
+  uint32 maxDatatypeTableSize = 3;
+  bool useRepeat = 4;
+}
+
+// === Streams ===
+message RDF_StreamRow {
+  oneof row {
+    RDF_Triple triple = 1;
+    RDF_Quad quad = 2;
+    RDF_NameEntry name = 3;
+    RDF_PrefixEntry prefix = 4;
+    RDF_DatatypeEntry datatype = 5;
+    RDF_StreamOptions options = 6;
+  }
+}
+
+message RDF_StreamFrame {
+  repeated RDF_StreamRow row = 1;
+}

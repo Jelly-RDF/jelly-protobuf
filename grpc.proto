@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+// gRPC service specifications for RDF streaming.
+
+import "rdf.proto";
+
+// === Pub/Sub ===
+message RDF_StreamSubscribe {
+  string topic = 1;
+}
+
+service RDFStreamService {
+  rpc StreamRDF (RDF_StreamSubscribe) returns (stream RDF_StreamFrame);
+}
