@@ -5,10 +5,10 @@ syntax = "proto3";
 import "rdf.proto";
 
 // === Pub/Sub ===
-message RDF_StreamSubscribe {
+message RdfStreamSubscribe {
   string topic = 1;
 }
 
-service RDFStreamService {
-  rpc StreamRDF (RDF_StreamSubscribe) returns (stream RDF_StreamFrame);
+service RdfStreamService {
+  rpc StreamRdf (RdfStreamSubscribe) returns (stream RdfStreamFrame);
 }
