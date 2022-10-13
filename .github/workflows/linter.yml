@@ -1,0 +1,26 @@
+---
+name: Lint codebase
+
+on:
+  push:
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  build:
+    name: Lint codebase
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          # Full git history is needed to get a proper
+          # list of changed files within `super-linter`
+          fetch-depth: 0
+      - name: Lint codebase
+        uses: github/super-linter@v4
+        env:
+          # This repo is small enough for a full check
+          VALIDATE_ALL_CODEBASE: true
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
