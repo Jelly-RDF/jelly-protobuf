@@ -4,7 +4,7 @@ syntax = "proto3";
 
 // === Rdf Terms ===
 message RdfIri {
-  // Either of these can be zero if either the prefix or the suffix are not used.
+  // Either of these can be zero if the prefix or the suffix are not used.
   uint32 prefix_id = 1;
   uint32 name_id = 2;
 }
