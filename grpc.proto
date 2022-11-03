@@ -1,4 +1,5 @@
 syntax = "proto3";
+package pl.ostrzyciel.jelly.core.proto;
 
 // gRPC service specifications for RDF streaming.
 

@@ -1,4 +1,5 @@
 syntax = "proto3";
+package pl.ostrzyciel.jelly.core.proto;
 
 // Protocol Buffers Rdf serialization.
 
