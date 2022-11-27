@@ -12,6 +12,7 @@ message RdfIri {
 
 message RdfLiteral {
   string lex = 1;
+  // TODO: use literalKind.Empty instead of simple=true? will it be smaller and/or faster?
   oneof literalKind {
     bool simple = 2;
     string langtag = 3;
@@ -19,7 +20,7 @@ message RdfLiteral {
   }
 }
 
-// TODO: message vs simple value?
+// TODO: compare size & perf of empty message vs simple value (bool)
 message RdfRepeat {
 }
 
