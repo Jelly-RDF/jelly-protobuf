@@ -10,30 +10,23 @@ message RdfIri {
   uint32 name_id = 2;
 }
 
-message RdfBnode {
-  string label = 1;
-}
-
-message RdfDatatype {
-  uint32 dt_id = 1;
-}
-
 message RdfLiteral {
   string lex = 1;
   oneof literalKind {
     bool simple = 2;
     string langtag = 3;
-    RdfDatatype datatype = 4;
+    uint32 datatype = 4;
   }
 }
 
+// TODO: message vs simple value?
 message RdfRepeat {
 }
 
 message RdfTerm {
   oneof term {
     RdfIri        iri = 1;
-    RdfBnode      bnode = 2;
+    string        bnode = 2;
     RdfLiteral    literal = 3;
     RdfTriple     triple_term = 4;
     RdfRepeat     repeat = 5;
