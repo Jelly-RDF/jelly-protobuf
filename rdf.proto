@@ -12,7 +12,8 @@ message RdfIri {
 
 message RdfLiteral {
   string lex = 1;
-  // TODO: use literalKind.Empty instead of simple=true? will it be smaller and/or faster?
+  // TODO: use literalKind.Empty instead of simple=true?
+  // Will it be smaller and/or faster?
   oneof literalKind {
     bool simple = 2;
     string langtag = 3;
@@ -90,10 +91,10 @@ message RdfStreamOptions {
 }
 
 enum RdfStreamType {
-  UNSPECIFIED = 0;
-  TRIPLES = 1;
-  QUADS = 2;
-  GRAPHS = 3;
+  RDF_STREAM_TYPE_UNSPECIFIED = 0;
+  RDF_STREAM_TYPE_TRIPLES = 1;
+  RDF_STREAM_TYPE_QUADS = 2;
+  RDF_STREAM_TYPE_GRAPHS = 3;
 }
 
 // === Streams ===
@@ -106,7 +107,7 @@ message RdfStreamRow {
     // RDF quad statement.
     // Only valid in a QUADS stream.
     RdfQuad quad = 3;
-    // Graph boundary – ends the currently transmitted graph and starts a new one.
+    // Graph boundary: ends the currently transmitted graph and starts a new one
     // Only valid in a GRAPHS stream.
     RdfGraph graph_start = 4;
     // Explicit end of a graph.
