@@ -31,7 +31,7 @@ message RdfTerm {
     string        bnode = 2;
     RdfLiteral    literal = 3;
     RdfTriple     triple_term = 4;
-    RdfRepeat     repeat = 5;
+    RdfRepeat     repeat = 10;
   }
 }
 
@@ -41,6 +41,8 @@ message RdfGraph {
     string      bnode = 2;
     RdfLiteral  literal = 3;
     bool        default_graph = 4;
+    // Only valid in a QUADS stream.
+    RdfRepeat   repeat = 10;
   }
 }
 
@@ -56,6 +58,10 @@ message RdfQuad {
   RdfTerm  p = 2;
   RdfTerm  o = 3;
   RdfGraph g = 4;
+}
+
+message RdfGraphStart {
+  RdfGraph graph = 1;
 }
 
 // === Lookup tables ===
@@ -109,7 +115,7 @@ message RdfStreamRow {
     RdfQuad quad = 3;
     // Graph boundary: ends the currently transmitted graph and starts a new one
     // Only valid in a GRAPHS stream.
-    RdfGraph graph_start = 4;
+    RdfGraphStart graph_start = 4;
     // Explicit end of a graph.
     // Signals the consumer that the transmitted graph is complete.
     bool graph_end = 5;
