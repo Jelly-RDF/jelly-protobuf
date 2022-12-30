@@ -35,14 +35,17 @@ message RdfTerm {
   }
 }
 
+message RdfDefaultGraph {
+}
+
 message RdfGraph {
   oneof graph {
-    RdfIri      iri = 1;
-    string      bnode = 2;
-    RdfLiteral  literal = 3;
-    bool        default_graph = 4;
+    RdfIri           iri = 1;
+    string           bnode = 2;
+    RdfLiteral       literal = 3;
+    RdfDefaultGraph  default_graph = 4;
     // Only valid in a QUADS stream.
-    RdfRepeat   repeat = 10;
+    RdfRepeat        repeat = 10;
   }
 }
 
@@ -62,6 +65,9 @@ message RdfQuad {
 
 message RdfGraphStart {
   RdfGraph graph = 1;
+}
+
+message RdfGraphEnd {
 }
 
 // === Lookup tables ===
@@ -118,7 +124,7 @@ message RdfStreamRow {
     RdfGraphStart graph_start = 4;
     // Explicit end of a graph.
     // Signals the consumer that the transmitted graph is complete.
-    bool graph_end = 5;
+    RdfGraphEnd graph_end = 5;
     RdfNameEntry name = 9;
     RdfPrefixEntry prefix = 10;
     RdfDatatypeEntry datatype = 11;
