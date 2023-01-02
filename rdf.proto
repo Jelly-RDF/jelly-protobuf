@@ -12,7 +12,8 @@ message RdfIri {
 
 message RdfLiteral {
   string lex = 1;
-  // TODO: use literalKind.Empty instead of simple=true? will it be smaller and/or faster?
+  // TODO: use literalKind.Empty instead of simple=true?
+  // Will it be smaller and/or faster?
   oneof literalKind {
     bool simple = 2;
     string langtag = 3;
@@ -30,11 +31,25 @@ message RdfTerm {
     string        bnode = 2;
     RdfLiteral    literal = 3;
     RdfTriple     triple_term = 4;
-    RdfRepeat     repeat = 5;
+    RdfRepeat     repeat = 10;
   }
 }
 
-// === Triples and quads ===
+message RdfDefaultGraph {
+}
+
+message RdfGraph {
+  oneof graph {
+    RdfIri           iri = 1;
+    string           bnode = 2;
+    RdfLiteral       literal = 3;
+    RdfDefaultGraph  default_graph = 4;
+    // Only valid in a QUADS stream.
+    RdfRepeat        repeat = 10;
+  }
+}
+
+// === Triples, quads, graphs ===
 message RdfTriple {
   RdfTerm s = 1;
   RdfTerm p = 2;
@@ -42,10 +57,17 @@ message RdfTriple {
 }
 
 message RdfQuad {
-  RdfTerm s = 1;
-  RdfTerm p = 2;
-  RdfTerm o = 3;
-  RdfTerm g = 4;
+  RdfTerm  s = 1;
+  RdfTerm  p = 2;
+  RdfTerm  o = 3;
+  RdfGraph g = 4;
+}
+
+message RdfGraphStart {
+  RdfGraph graph = 1;
+}
+
+message RdfGraphEnd {
 }
 
 // === Lookup tables ===
@@ -69,21 +91,43 @@ message RdfDatatypeEntry {
 }
 
 message RdfStreamOptions {
-  uint32 max_name_table_size = 1;
-  uint32 max_prefix_table_size = 2;
-  uint32 max_datatype_table_size = 3;
-  bool use_repeat = 4;
+  RdfStreamType stream_type = 1;
+  // Whether the stream may contain generalized triples, quads, or datasets
+  bool generalized_statements = 2;
+  // Whether RdfRepeat will be used
+  bool use_repeat = 3;
+  // Prefix tables
+  uint32 max_name_table_size = 9;
+  uint32 max_prefix_table_size = 10;
+  uint32 max_datatype_table_size = 11;
+}
+
+enum RdfStreamType {
+  RDF_STREAM_TYPE_UNSPECIFIED = 0;
+  RDF_STREAM_TYPE_TRIPLES = 1;
+  RDF_STREAM_TYPE_QUADS = 2;
+  RDF_STREAM_TYPE_GRAPHS = 3;
 }
 
 // === Streams ===
 message RdfStreamRow {
   oneof row {
-    RdfTriple triple = 1;
-    RdfQuad quad = 2;
-    RdfNameEntry name = 3;
-    RdfPrefixEntry prefix = 4;
-    RdfDatatypeEntry datatype = 5;
-    RdfStreamOptions options = 6;
+    RdfStreamOptions options = 1;
+    // RDF triple statement.
+    // Valid in TRIPLES and GRAPHS streams.
+    RdfTriple triple = 2;
+    // RDF quad statement.
+    // Only valid in a QUADS stream.
+    RdfQuad quad = 3;
+    // Graph boundary: ends the currently transmitted graph and starts a new one
+    // Only valid in a GRAPHS stream.
+    RdfGraphStart graph_start = 4;
+    // Explicit end of a graph.
+    // Signals the consumer that the transmitted graph is complete.
+    RdfGraphEnd graph_end = 5;
+    RdfNameEntry name = 9;
+    RdfPrefixEntry prefix = 10;
+    RdfDatatypeEntry datatype = 11;
   }
 }
 
