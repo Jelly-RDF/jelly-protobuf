@@ -15,10 +15,10 @@ The `dev` release tag corresponds to the main branch in the repository and is up
 
 Tagged (versioned) releases are created manually. To create a new tagged release (example for version 1.2.3):
 ```sh
-$ git checkout main
-$ git pull
-$ git tag v1.2.3
-$ git push origin v1.2.3
+git checkout main
+git pull
+git tag v1.2.3
+git push origin v1.2.3
 ```
 
 The rest (packaging and release creation) will be handled automatically by the CI.
