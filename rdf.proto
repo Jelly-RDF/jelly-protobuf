@@ -1,7 +1,7 @@
 syntax = "proto3";
-package eu.ostrzyciel.jelly.core.proto;
+package eu.ostrzyciel.jelly.core.proto.v1;
 
-// Protocol Buffers Rdf serialization.
+// Jelly RDF serialization with Protocol Buffers.
 
 // === Rdf Terms ===
 message RdfIri {
