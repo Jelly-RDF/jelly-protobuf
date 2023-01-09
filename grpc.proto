@@ -7,9 +7,19 @@ import "rdf.proto";
 
 // === Pub/Sub ===
 message RdfStreamSubscribe {
+  // The topic to which the client wants to subscribe.
   string topic = 1;
+  // Optional: the stream options requested by the client.
+  // The server should respond with a stream that matches these options.
+  // In case that is not possible, the server must respond with the
+  // INVALID_ARGUMENT error.
+  RdfStreamOptions requested_options = 2;
+}
+
+message RdfStreamReceived {
 }
 
 service RdfStreamService {
-  rpc StreamRdf (RdfStreamSubscribe) returns (stream RdfStreamFrame);
+  rpc SubscribeRdf (RdfStreamSubscribe) returns (stream RdfStreamFrame);
+  rpc PublishRdf (stream RdfStreamFrame) returns (RdfStreamReceived);
 }
