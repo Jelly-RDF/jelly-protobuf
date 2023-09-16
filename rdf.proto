@@ -100,6 +100,8 @@ message RdfStreamOptions {
   bool generalized_statements = 3;
   // Whether RdfRepeat will be used
   bool use_repeat = 4;
+  // Whether the stream may contain RDF-star statements
+  bool rdf_star = 5;
   // Prefix tables
   uint32 max_name_table_size = 9;
   uint32 max_prefix_table_size = 10;
