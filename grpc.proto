@@ -26,5 +26,7 @@ service RdfStreamService {
   // Subscribe to an RDF stream.
   rpc SubscribeRdf (RdfStreamSubscribe) returns (stream RdfStreamFrame);
   // Publish an RDF stream.
+  // In case the server cannot process the stream, it must respond with
+  // the INVALID_ARGUMENT error.
   rpc PublishRdf (stream RdfStreamFrame) returns (RdfStreamReceived);
 }
