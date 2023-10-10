@@ -5,9 +5,9 @@ package eu.ostrzyciel.jelly.core.proto.v1;
 
 import "rdf.proto";
 
-// === Pub/Sub ===
+// Subscribe command sent by the client to the server.
 message RdfStreamSubscribe {
-  // The topic to which the client wants to subscribe.
+  // The topic to which the client wants to subscribe (UTF-8 encoded).
   string topic = 1;
   // Optional: the stream options requested by the client.
   // The server should respond with a stream that matches these options.
@@ -16,10 +16,14 @@ message RdfStreamSubscribe {
   RdfStreamOptions requested_options = 2;
 }
 
+// Acknowledgement of receiving a stream sent by the server to the client.
 message RdfStreamReceived {
 }
 
+// Pub/Sub service for RDF streams, to be implemented by the server.
 service RdfStreamService {
+  // Subscribe to an RDF stream.
   rpc SubscribeRdf (RdfStreamSubscribe) returns (stream RdfStreamFrame);
+  // Publish an RDF stream.
   rpc PublishRdf (stream RdfStreamFrame) returns (RdfStreamReceived);
 }

@@ -3,93 +3,133 @@ package eu.ostrzyciel.jelly.core.proto.v1;
 
 // Jelly RDF serialization with Protocol Buffers.
 
-// === Rdf Terms ===
+// RDF IRIs
+// Either prefix_id or name_id can be zero if the prefix or the suffix are not used.
 message RdfIri {
-  // Either of these can be zero if the prefix or the suffix are not used.
+  // 1-based, refers to an entry in the prefix lookup.
   uint32 prefix_id = 1;
+  // 1-based, refers to an entry in the name lookup.
   uint32 name_id = 2;
 }
 
+// RDF literals
 message RdfLiteral {
+  // The lexical form of the literal.
   string lex = 1;
+
+  // Literal kind – exactly one of these fields must be set.
   oneof literalKind {
+    // Simple literal with datatype xsd:string.
     RdfLiteralSimple simple = 2;
+    // Language-tagged string.
     string langtag = 3;
+    // Typed literal. The datatype is a reference to an entry in the datatype lookup.
     uint32 datatype = 4;
   }
 }
 
+// Empty message indicating a simple literal
 message RdfLiteralSimple {
 }
 
+// Empty message indicating a repeated term from the previous statement.
 message RdfRepeat {
 }
 
+// RDF terms
 message RdfTerm {
+  // Exactly one of these fields must be set.
   oneof term {
+    // IRI
     RdfIri        iri = 1;
+    // Blank node
     string        bnode = 2;
+    // Literal
     RdfLiteral    literal = 3;
+    // RDF-star quoted triple
     RdfTriple     triple_term = 4;
+    // Repeated term from the previous statement. Only valid in statements, not quoted triples.
     RdfRepeat     repeat = 10;
   }
 }
 
+// Empty message indicating the default RDF graph.
 message RdfDefaultGraph {
 }
 
+// RDF graph nodes
 message RdfGraph {
+  // Exactly one of these fields must be set.
   oneof graph {
+    // IRI
     RdfIri           iri = 1;
+    // Blank node
     string           bnode = 2;
+    // Literal – only valid for generalized RDF streams
     RdfLiteral       literal = 3;
+    // Default graph
     RdfDefaultGraph  default_graph = 4;
-    // Only valid in a QUADS stream.
+    // Repeated term – only valid in a QUADS stream
     RdfRepeat        repeat = 10;
   }
 }
 
-// === Triples, quads, graphs ===
+// RDF triple
 message RdfTriple {
+  // Triple subject
   RdfTerm s = 1;
+  // Triple predicate
   RdfTerm p = 2;
+  // Triple object
   RdfTerm o = 3;
 }
 
+// RDF quad
 message RdfQuad {
+  // Quad subject
   RdfTerm  s = 1;
+  // Quad predicate
   RdfTerm  p = 2;
+  // Quad object
   RdfTerm  o = 3;
+  // Quad graph node
   RdfGraph g = 4;
 }
 
+// Start of a graph in a GRAPHS stream
 message RdfGraphStart {
   RdfGraph graph = 1;
 }
 
+// End of a graph in a GRAPHS stream
 message RdfGraphEnd {
 }
 
-// === Lookup tables ===
-
+// Entry in the name lookup table
 message RdfNameEntry {
-  // 1-based
+  // 1-based identifier
   uint32 id = 1;
+  // Value of the name (UTF-8 encoded)
   string value = 2;
 }
 
+// Entry in the prefix lookup table
 message RdfPrefixEntry {
-  // 1-based
+  // 1-based identifier
   uint32 id = 1;
+  // Value of the prefix (UTF-8 encoded)
   string value = 2;
 }
 
+// Entry in the datatype lookup table
 message RdfDatatypeEntry {
-  // 1-based
+  // 1-based identifier
   uint32 id = 1;
+  // Value of the datatype (UTF-8 encoded)
   string value = 2;
 }
 
+// RDF stream options
 message RdfStreamOptions {
   // Name of the stream (completely optional).
   // This may be used for, e.g., topic names in a pub/sub system.
@@ -102,22 +142,31 @@ message RdfStreamOptions {
   bool use_repeat = 4;
   // Whether the stream may contain RDF-star statements
   bool rdf_star = 5;
-  // Prefix tables
+  // Maximum size of the name lookup table
   uint32 max_name_table_size = 9;
+  // Maximum size of the prefix lookup table
   uint32 max_prefix_table_size = 10;
+  // Maximum size of the datatype lookup table
   uint32 max_datatype_table_size = 11;
 }
 
+// RDF stream type
 enum RdfStreamType {
+  // Unspecified stream type – invalid
   RDF_STREAM_TYPE_UNSPECIFIED = 0;
+  // RDF triples
   RDF_STREAM_TYPE_TRIPLES = 1;
+  // RDF quads
   RDF_STREAM_TYPE_QUADS = 2;
+  // RDF triples grouped in graphs
   RDF_STREAM_TYPE_GRAPHS = 3;
 }
 
-// === Streams ===
+// RDF stream row
 message RdfStreamRow {
+  // Exactly one of these fields must be set.
   oneof row {
+    // Stream options. Must occur at the start of the stream.
     RdfStreamOptions options = 1;
     // RDF triple statement.
     // Valid in TRIPLES and GRAPHS streams.
@@ -130,13 +179,19 @@ message RdfStreamRow {
     RdfGraphStart graph_start = 4;
     // Explicit end of a graph.
     // Signals the consumer that the transmitted graph is complete.
+    // Only valid in a GRAPHS stream.
     RdfGraphEnd graph_end = 5;
+    // Entry in the name lookup table.
     RdfNameEntry name = 9;
+    // Entry in the prefix lookup table.
     RdfPrefixEntry prefix = 10;
+    // Entry in the datatype lookup table.
     RdfDatatypeEntry datatype = 11;
   }
 }
 
+// RDF stream frame
 message RdfStreamFrame {
+  // Stream rows
   repeated RdfStreamRow rows = 1;
 }
