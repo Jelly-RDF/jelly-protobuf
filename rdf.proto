@@ -148,6 +148,10 @@ message RdfStreamOptions {
   uint32 max_prefix_table_size = 10;
   // Maximum size of the datatype lookup table
   uint32 max_datatype_table_size = 11;
+  // Protocol version (required)
+  // For Jelly 1.0.x value must be 1.
+  // For custom extensions, the value must be 1000 or higher.
+  uint32 version = 15;
 }
 
 // RDF stream type
