@@ -2,6 +2,7 @@ syntax = "proto3";
 package eu.ostrzyciel.jelly.core.proto.v1;
 
 // Jelly RDF serialization with Protocol Buffers.
+// Protocol version: 1.0.0
 
 // RDF IRIs
 // Either prefix_id or name_id can be zero if the prefix or the suffix are not used.
