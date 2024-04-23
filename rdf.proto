@@ -136,7 +136,7 @@ message RdfStreamOptions {
   // This may be used for, e.g., topic names in a pub/sub system.
   string stream_name = 1;
   // Type of the stream (required)
-  RdfStreamType stream_type = 2;
+  PhysicalStreamType physical_type = 2;
   // Whether the stream may contain generalized triples, quads, or datasets
   bool generalized_statements = 3;
   // Whether RdfRepeat will be used
@@ -149,22 +149,54 @@ message RdfStreamOptions {
   uint32 max_prefix_table_size = 10;
   // Maximum size of the datatype lookup table
   uint32 max_datatype_table_size = 11;
+  // Logical (RDF-STaX-based) stream type
+  LogicalStreamType logical_type = 14;
   // Protocol version (required)
   // For Jelly 1.0.x value must be 1.
   // For custom extensions, the value must be 1000 or higher.
   uint32 version = 15;
 }
 
-// RDF stream type
-enum RdfStreamType {
+// Physical stream type
+enum PhysicalStreamType {
   // Unspecified stream type – invalid
-  RDF_STREAM_TYPE_UNSPECIFIED = 0;
+  PHYSICAL_STREAM_TYPE_UNSPECIFIED = 0;
   // RDF triples
-  RDF_STREAM_TYPE_TRIPLES = 1;
+  PHYSICAL_STREAM_TYPE_TRIPLES = 1;
   // RDF quads
-  RDF_STREAM_TYPE_QUADS = 2;
+  PHYSICAL_STREAM_TYPE_QUADS = 2;
   // RDF triples grouped in graphs
-  RDF_STREAM_TYPE_GRAPHS = 3;
+  PHYSICAL_STREAM_TYPE_GRAPHS = 3;
+}
+
+// Logical stream type, according to the RDF Stream Taxonomy (RDF-STaX).
+// Type 0 is reserved for the unspecified stream type.
+// The rest of the type numbers follow the taxonomical structure of RDF-STaX.
+// For example: 1 is a subtype of 0, 13 and 23 are subtypes of 3, 114 is a subtype of 14, etc.
+// Types 1–4 correspond to the four base concrete stream types. Their subtypes can be
+// in most cases simply processed in the same way as the base types.
+// Therefore, implementations can take the modulo 10 of the stream type to determine
+// the base type of the stream and use this information to select the appropriate
+// processing logic.
+enum LogicalStreamType {
+  // Unspecified stream type – invalid
+  LOGICAL_STREAM_TYPE_UNSPECIFIED = 0;
+  // Flat RDF triple stream
+  LOGICAL_STREAM_TYPE_FLAT_TRIPLES = 1;
+  // Flat RDF quad stream
+  LOGICAL_STREAM_TYPE_FLAT_QUADS = 2;
+  // RDF graph stream
+  LOGICAL_STREAM_TYPE_GRAPHS = 3;
+  // RDF dataset stream
+  LOGICAL_STREAM_TYPE_DATASETS = 4;
+
+  // RDF subject graph stream (subtype of RDF graph stream)
+  LOGICAL_STREAM_TYPE_SUBJECT_GRAPHS = 13;
+
+  // RDF named graph stream (subtype of RDF dataset stream)
+  LOGICAL_STREAM_TYPE_NAMED_GRAPHS = 14;
+  // RDF timestamped named graph stream (subtype of RDF dataset stream)
+  LOGICAL_STREAM_TYPE_TIMESTAMPED_NAMED_GRAPHS = 114;
 }
 
 // RDF stream row
