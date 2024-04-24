@@ -11,10 +11,14 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - uses: "marvinpinto/action-automatic-releases@v1.2.1"
+      - uses: ncipollo/release-action@v1.14.0
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
-          files: '*.proto'
+          draft: false
+          makeLatest: true
+          tag: "${{ env.GITHUB_REF_NAME }}"
+          name: "${{ env.GITHUB_REF_NAME }}"
+          artifacts: '*.proto'
+          generateReleaseNotes: true
