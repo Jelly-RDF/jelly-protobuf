@@ -21,6 +21,6 @@ jobs:
           omitDraftDuringUpdate: false
           makeLatest: false
           tag: dev
-          title: "Development build"
+          name: "Development build"
           artifacts: '*.proto'
           generateReleaseNotes: true
