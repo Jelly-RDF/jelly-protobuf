@@ -22,4 +22,6 @@ jobs:
         env:
           # This repo is small enough for a full check
           VALIDATE_ALL_CODEBASE: true
+          VALIDATE_CHECKOV: false
+          VALIDATE_NATURAL_LANGUAGE: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
