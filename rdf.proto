@@ -178,24 +178,34 @@ enum PhysicalStreamType {
 // Therefore, implementations can take the modulo 10 of the stream type to determine
 // the base type of the stream and use this information to select the appropriate
 // processing logic.
+//
+// RDF-STaX version: 1.1.0
+// https://w3id.org/stax/1.1.0
 enum LogicalStreamType {
   // Unspecified stream type – invalid
   LOGICAL_STREAM_TYPE_UNSPECIFIED = 0;
   // Flat RDF triple stream
+  // https://w3id.org/stax/ontology#flatTripleStream
   LOGICAL_STREAM_TYPE_FLAT_TRIPLES = 1;
   // Flat RDF quad stream
+  // https://w3id.org/stax/ontology#flatQuadStream
   LOGICAL_STREAM_TYPE_FLAT_QUADS = 2;
   // RDF graph stream
+  // https://w3id.org/stax/ontology#graphStream
   LOGICAL_STREAM_TYPE_GRAPHS = 3;
   // RDF dataset stream
+  // https://w3id.org/stax/ontology#datasetStream
   LOGICAL_STREAM_TYPE_DATASETS = 4;
 
   // RDF subject graph stream (subtype of RDF graph stream)
+  // https://w3id.org/stax/ontology#subjectGraphStream
   LOGICAL_STREAM_TYPE_SUBJECT_GRAPHS = 13;
 
   // RDF named graph stream (subtype of RDF dataset stream)
+  // https://w3id.org/stax/ontology#namedGraphStream
   LOGICAL_STREAM_TYPE_NAMED_GRAPHS = 14;
   // RDF timestamped named graph stream (subtype of RDF dataset stream)
+  // https://w3id.org/stax/ontology#timestampedNamedGraphStream
   LOGICAL_STREAM_TYPE_TIMESTAMPED_NAMED_GRAPHS = 114;
 }
 
