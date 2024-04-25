@@ -153,6 +153,7 @@ message RdfStreamOptions {
   // Maximum size of the datatype lookup table
   uint32 max_datatype_table_size = 11;
   // Logical (RDF-STaX-based) stream type
+  // In contrast to the physical type, this field is entirely optional.
   LogicalStreamType logical_type = 14;
   // Protocol version (required)
   // For Jelly 1.0.x value must be 1.
@@ -161,6 +162,8 @@ message RdfStreamOptions {
 }
 
 // Physical stream type
+// This determines how the data is encoded in the stream, not the logical
+// structure of the data. See LogicalStreamType for the latter.
 enum PhysicalStreamType {
   // Unspecified stream type – invalid
   PHYSICAL_STREAM_TYPE_UNSPECIFIED = 0;
