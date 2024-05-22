@@ -30,74 +30,117 @@ message RdfLiteral {
   }
 }
 
-// Empty message indicating a repeated term from the previous statement.
-message RdfRepeat {
-}
-
-// RDF terms
-message RdfTerm {
-  // Exactly one of these fields must be set.
-  oneof term {
-    // IRI
-    RdfIri        iri = 1;
-    // Blank node
-    string        bnode = 2;
-    // Literal
-    RdfLiteral    literal = 3;
-    // RDF-star quoted triple
-    RdfTriple     triple_term = 4;
-    // Repeated term from the previous statement.
-    // Only valid in statements, not quoted triples.
-    RdfRepeat     repeat = 10;
-  }
-}
-
 // Empty message indicating the default RDF graph.
 message RdfDefaultGraph {
 }
 
-// RDF graph nodes
-message RdfGraph {
-  // Exactly one of these fields must be set.
-  oneof graph {
+// RDF triple
+// TODO: mark which fields are invalid in standard
+//  RDF 1.1 (non-generalized) streams
+message RdfTriple {
+  // Triple subject
+  oneof subject {
     // IRI
-    RdfIri           iri = 1;
+    RdfIri        s_iri = 1;
     // Blank node
-    string           bnode = 2;
-    // Literal – only valid for generalized RDF streams
-    RdfLiteral       literal = 3;
-    // Default graph
-    RdfDefaultGraph  default_graph = 4;
-    // Repeated term – only valid in a QUADS stream
-    RdfRepeat        repeat = 10;
+    string        s_bnode = 2;
+    // Literal
+    RdfLiteral    s_literal = 3;
+    // RDF-star quoted triple
+    RdfTriple     s_triple_term = 4;
+  }
+
+  // Triple predicate
+  oneof predicate {
+    // IRI
+    RdfIri        p_iri = 5;
+    // Blank node
+    string        p_bnode = 6;
+    // Literal
+    RdfLiteral    p_literal = 7;
+    // RDF-star quoted triple
+    RdfTriple     p_triple_term = 8;
+  }
+
+  // Triple object
+  oneof object {
+    // IRI
+    RdfIri        o_iri = 9;
+    // Blank node
+    string        o_bnode = 10;
+    // Literal
+    RdfLiteral    o_literal = 11;
+    // RDF-star quoted triple
+    RdfTriple     o_triple_term = 12;
   }
 }
 
-// RDF triple
-message RdfTriple {
-  // Triple subject
-  RdfTerm s = 1;
-  // Triple predicate
-  RdfTerm p = 2;
-  // Triple object
-  RdfTerm o = 3;
-}
-
 // RDF quad
+// TODO: mark which fields are invalid in standard
+//  RDF 1.1 (non-generalized) streams
+// Fields 1–12 are repeated from RdfTriple for performance reasons.
 message RdfQuad {
   // Quad subject
-  RdfTerm  s = 1;
+  oneof subject {
+    // IRI
+    RdfIri        s_iri = 1;
+    // Blank node
+    string        s_bnode = 2;
+    // Literal
+    RdfLiteral    s_literal = 3;
+    // RDF-star quoted triple
+    RdfTriple     s_triple_term = 4;
+  }
+
   // Quad predicate
-  RdfTerm  p = 2;
+  oneof predicate {
+    // IRI
+    RdfIri        p_iri = 5;
+    // Blank node
+    string        p_bnode = 6;
+    // Literal
+    RdfLiteral    p_literal = 7;
+    // RDF-star quoted triple
+    RdfTriple     p_triple_term = 8;
+  }
+
   // Quad object
-  RdfTerm  o = 3;
-  // Quad graph node
-  RdfGraph g = 4;
+  oneof object {
+    // IRI
+    RdfIri        o_iri = 9;
+    // Blank node
+    string        o_bnode = 10;
+    // Literal
+    RdfLiteral    o_literal = 11;
+    // RDF-star quoted triple
+    RdfTriple     o_triple_term = 12;
+  }
+
+  // Quad graph
+  oneof graph {
+    // IRI
+    RdfIri           g_iri = 13;
+    // Blank node
+    string           g_bnode = 14;
+    // Default graph
+    RdfDefaultGraph  g_default_graph = 15;
+    // Literal – only valid for generalized RDF streams
+    RdfLiteral       g_literal = 16;
+  }
 }
 
 // Start of a graph in a GRAPHS stream
 message RdfGraphStart {
-  RdfGraph graph = 1;
+  oneof graph {
+    // IRI
+    RdfIri           g_iri = 1;
+    // Blank node
+    string           g_bnode = 2;
+    // Default graph
+    RdfDefaultGraph  g_default_graph = 3;
+    // Literal – only valid for generalized RDF streams
+    RdfLiteral       g_literal = 4;
+  }
 }
 
 // End of a graph in a GRAPHS stream
