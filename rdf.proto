@@ -19,20 +19,15 @@ message RdfLiteral {
   // The lexical form of the literal.
   string lex = 1;
 
-  // Literal kind – exactly one of these fields must be set.
+  // Literal kind – at most one of these field may be set.
+  // If none is set, then it's a simple literal.
   oneof literalKind {
-    // Simple literal with datatype xsd:string.
-    RdfLiteralSimple simple = 2;
     // Language-tagged string.
     string langtag = 3;
     // Typed literal. The datatype is a reference to an entry in the
     // datatype lookup.
     uint32 datatype = 4;
   }
-}
-
-// Empty message indicating a simple literal
-message RdfLiteralSimple {
 }
 
 // Empty message indicating a repeated term from the previous statement.
