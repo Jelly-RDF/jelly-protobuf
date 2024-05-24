@@ -5,28 +5,45 @@ package eu.ostrzyciel.jelly.core.proto.v1;
 // Protocol version: 1.0.0
 
 // RDF IRIs
-// Either prefix_id or name_id can be zero if the prefix or the suffix
-// are not used.
+// The IRIs are reconstructed by the consumer using the prefix and name
+// lookup tables.
 message RdfIri {
   // 1-based, refers to an entry in the prefix lookup.
+  //
+  // 0 signifies "use the same prefix_id as in the previous IRI".
+  // For this to work, IRIs must be processed strictly in order: firstly by
+  // stream row, then by term (subject, predicate, object, graph). This also
+  // applies recursively to RDF-star quoted triples.
+  //
+  // If 0 appears in the first IRI of the stream (and in any subsequent IRI),
+  // this should be interpreted as an empty ("") prefix. This is for example
+  // used when the prefix lookup table is disabled.
   uint32 prefix_id = 1;
+
   // 1-based, refers to an entry in the name lookup.
+  //
+  // 0 signifies "use the previous name_id + 1". This requires the same order
+  // guarantees as prefixes.
+  //
+  // If 0 appears in the first IRI of the stream, it should be interpreted as
+  // name_id = 1.
   uint32 name_id = 2;
 }
 
 // RDF literals
 message RdfLiteral {
-  // The lexical form of the literal.
+  // The lexical form of the literal (required).
   string lex = 1;
 
   // Literal kind – at most one of these field may be set.
   // If none is set, then it's a simple literal.
   oneof literalKind {
     // Language-tagged string.
-    string langtag = 3;
+    string langtag = 2;
     // Typed literal. The datatype is a reference to an entry in the
-    // datatype lookup.
-    uint32 datatype = 4;
+    // datatype lookup. This value is 1-based and the value of 0
+    // is invalid (in contrast to prefix_id and name_id in RdfIri).
+    uint32 datatype = 3;
   }
 }
 
@@ -35,8 +52,14 @@ message RdfDefaultGraph {
 }
 
 // RDF triple
-// TODO: mark which fields are invalid in standard
-//  RDF 1.1 (non-generalized) streams
+//
+// For each term (subject, predicate, object), the fields are repeated for
+// performance reasons. This is to avoid the need for boxing each term in a
+// separate message.
+//
+// Note: this message allows for representing generalized RDF triples (for
+// example, with literals as predicates). Whether this is used in the stream
+// is determined by the stream options (see RdfStreamOptions).
 message RdfTriple {
   // Triple subject
   oneof subject {
@@ -45,6 +68,7 @@ message RdfTriple {
     // Blank node
     string        s_bnode = 2;
     // Literal
+    // Only valid in a generalized RDF stream.
     RdfLiteral    s_literal = 3;
     // RDF-star quoted triple
     RdfTriple     s_triple_term = 4;
@@ -55,8 +79,10 @@ message RdfTriple {
     // IRI
     RdfIri        p_iri = 5;
     // Blank node
+    // Only valid in a generalized RDF stream.
     string        p_bnode = 6;
     // Literal
+    // Only valid in a generalized RDF stream.
     RdfLiteral    p_literal = 7;
     // RDF-star quoted triple
     RdfTriple     p_triple_term = 8;
@@ -76,9 +102,12 @@ message RdfTriple {
 }
 
 // RDF quad
-// TODO: mark which fields are invalid in standard
-//  RDF 1.1 (non-generalized) streams
+//
 // Fields 1–12 are repeated from RdfTriple for performance reasons.
+//
+// Similarly to RdfTriple, this message allows for representing generalized
+// RDF quads (for example, with literals as predicates). Whether this is used
+// in the stream is determined by the stream options (see RdfStreamOptions).
 message RdfQuad {
   // Quad subject
   oneof subject {
@@ -87,6 +116,7 @@ message RdfQuad {
     // Blank node
     string        s_bnode = 2;
     // Literal
+    // Only valid in a generalized RDF stream.
     RdfLiteral    s_literal = 3;
     // RDF-star quoted triple
     RdfTriple     s_triple_term = 4;
@@ -97,8 +127,10 @@ message RdfQuad {
     // IRI
     RdfIri        p_iri = 5;
     // Blank node
+    // Only valid in a generalized RDF stream.
     string        p_bnode = 6;
     // Literal
+    // Only valid in a generalized RDF stream.
     RdfLiteral    p_literal = 7;
     // RDF-star quoted triple
     RdfTriple     p_triple_term = 8;
@@ -150,6 +182,9 @@ message RdfGraphEnd {
 // Entry in the name lookup table
 message RdfNameEntry {
   // 1-based identifier
+  // If id=0, it should be interpreted as previous_id + 1.
+  // If id=0 appears in the first RdfNameEntry of the stream, it should be
+  // interpreted as 1.
   uint32 id = 1;
   // Value of the name (UTF-8 encoded)
   string value = 2;
@@ -158,6 +193,9 @@ message RdfNameEntry {
 // Entry in the prefix lookup table
 message RdfPrefixEntry {
   // 1-based identifier
+  // If id=0, it should be interpreted as previous_id + 1.
+  // If id=0 appears in the first RdfPrefixEntry of the stream, it should be
+  // interpreted as 1.
   uint32 id = 1;
   // Value of the prefix (UTF-8 encoded)
   string value = 2;
@@ -166,6 +204,9 @@ message RdfPrefixEntry {
 // Entry in the datatype lookup table
 message RdfDatatypeEntry {
   // 1-based identifier
+  // If id=0, it should be interpreted as previous_id + 1.
+  // If id=0 appears in the first RdfDatatypeEntry of the stream, it should be
+  // interpreted as 1.
   uint32 id = 1;
   // Value of the datatype (UTF-8 encoded)
   string value = 2;
@@ -180,10 +221,8 @@ message RdfStreamOptions {
   PhysicalStreamType physical_type = 2;
   // Whether the stream may contain generalized triples, quads, or datasets
   bool generalized_statements = 3;
-  // Whether RdfRepeat will be used
-  bool use_repeat = 4;
   // Whether the stream may contain RDF-star statements
-  bool rdf_star = 5;
+  bool rdf_star = 4;
   // Maximum size of the name lookup table
   uint32 max_name_table_size = 9;
   // Maximum size of the prefix lookup table
@@ -263,17 +302,17 @@ message RdfStreamRow {
     // Stream options. Must occur at the start of the stream.
     RdfStreamOptions options = 1;
     // RDF triple statement.
-    // Valid in TRIPLES and GRAPHS streams.
+    // Valid in streams of physical type TRIPLES or GRAPHS.
     RdfTriple triple = 2;
     // RDF quad statement.
-    // Only valid in a QUADS stream.
+    // Only valid in streams of physical type QUADS.
     RdfQuad quad = 3;
     // Graph boundary: ends the currently transmitted graph and starts a new one
-    // Only valid in a GRAPHS stream.
+    // Only valid in streams of physical type GRAPHS.
     RdfGraphStart graph_start = 4;
     // Explicit end of a graph.
     // Signals the consumer that the transmitted graph is complete.
-    // Only valid in a GRAPHS stream.
+    // Only valid in streams of physical type GRAPHS.
     RdfGraphEnd graph_end = 5;
     // Entry in the name lookup table.
     RdfNameEntry name = 9;
@@ -284,7 +323,7 @@ message RdfStreamRow {
   }
 }
 
-// RDF stream frame
+// RDF stream frame – base message for RDF streams.
 message RdfStreamFrame {
   // Stream rows
   repeated RdfStreamRow rows = 1;
