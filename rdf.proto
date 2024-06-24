@@ -60,6 +60,11 @@ message RdfDefaultGraph {
 // Note: this message allows for representing generalized RDF triples (for
 // example, with literals as predicates). Whether this is used in the stream
 // is determined by the stream options (see RdfStreamOptions).
+//
+// If no field in a given oneof is set, the term is interpreted as a repeated
+// term – the same as the term in the same position in the previous triple.
+// In the first triple of the stream, all terms must be set.
+// All terms must also be set in quoted triples (RDF-star).
 message RdfTriple {
   // Triple subject
   oneof subject {
@@ -108,6 +113,10 @@ message RdfTriple {
 // Similarly to RdfTriple, this message allows for representing generalized
 // RDF quads (for example, with literals as predicates). Whether this is used
 // in the stream is determined by the stream options (see RdfStreamOptions).
+//
+// If no field in a given oneof is set, the term is interpreted as a repeated
+// term – the same as the term in the same position in the previous quad.
+// In the first quad of the stream, all terms must be set.
 message RdfQuad {
   // Quad subject
   oneof subject {
@@ -162,6 +171,9 @@ message RdfQuad {
 }
 
 // Start of a graph in a GRAPHS stream
+//
+// In contrast to RdfQuad, setting the graph oneof to some value
+// is always required. No repeated terms are allowed.
 message RdfGraphStart {
   oneof graph {
     // IRI
