@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  pre-release:
+  release:
     name: "Pre-release"
     runs-on: "ubuntu-latest"
     steps:
@@ -24,3 +24,15 @@ jobs:
           name: "Development build"
           artifacts: '*.proto'
           generateReleaseNotes: true
+
+  trigger-doc-update:
+    needs: release
+    name: "Trigger documentation update"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Trigger repository_dispatch"
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.PAT_DOC_REPO_HOOKS }}
+          repository: RDF-STaX/rdf-stax.github.io
+          event-type: publish-docs-dev
