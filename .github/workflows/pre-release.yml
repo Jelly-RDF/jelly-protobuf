@@ -34,5 +34,5 @@ jobs:
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.PAT_DOC_REPO_HOOKS }}
-          repository: RDF-STaX/rdf-stax.github.io
+          repository: Jelly-RDF/jelly-rdf.github.io
           event-type: publish-docs-dev
