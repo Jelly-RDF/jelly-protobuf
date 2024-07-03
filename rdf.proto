@@ -277,8 +277,12 @@ enum PhysicalStreamType {
 // type to determine the base type of the stream and use this information 
 // to select the appropriate processing logic.
 //
-// RDF-STaX version: 1.1.0
-// https://w3id.org/stax/1.1.0
+// RDF-STaX version: 1.1.2
+// https://w3id.org/stax/1.1.2
+//
+// ^ The above URL is used to automatically determine the version of RDF-STaX
+// in the Jelly protocol specification. Please keep it up-to-date and in the
+// same format.
 enum LogicalStreamType {
   // Unspecified stream type – invalid
   LOGICAL_STREAM_TYPE_UNSPECIFIED = 0;
