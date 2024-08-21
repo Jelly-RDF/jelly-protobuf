@@ -246,7 +246,7 @@ message RdfStreamOptions {
   LogicalStreamType logical_type = 14;
   // Protocol version (required)
   // For Jelly 1.0.x value must be 1.
-  // For custom extensions, the value must be 1000 or higher.
+  // For custom extensions, the value must be 10000 or higher.
   uint32 version = 15;
 }
 
