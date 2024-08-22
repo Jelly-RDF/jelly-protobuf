@@ -11,8 +11,6 @@ Protocol Buffers and gRPC specifications for the Jelly protocol.
 
 ## Usage
 
-The protocol is not stable yet and may change before the initial (1.0.0) release. Expect a first stable release in Q4 2023.
-
 The `rdf.proto` and `grpc.proto` files define the Jelly RDF serialization and the gRPC pub/sub service, respectively. They use the [proto 3](https://protobuf.dev/programming-guides/proto3/) language and can be used with protoc or any other compatible tool. See the [Protocol Buffers documentation](https://protobuf.dev/) for more details.
 
 ## Versioning
