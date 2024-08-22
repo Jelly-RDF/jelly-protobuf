@@ -5,9 +5,9 @@ Protocol Buffers and gRPC specifications for the Jelly protocol.
 - `rdf.proto` – the RDF Protocol Buffers serialization only. Use this if you don't plan on using Jelly's gRPC protocol.
 - `grpc.proto` – Jelly's gRPC protocol service specifications.
 
-**[See the protocol specification on the website](https://jelly-rdf.github.io/latest/specification/)**
+**[See the protocol specification on the website](https://w3id.org/jelly/latest/specification/)**
 
-**[More information about Jelly](https://jelly-rdf.github.io/latest/)**
+**[More information about Jelly](https://w3id.org/jelly/latest/)**
 
 ## Usage
 
