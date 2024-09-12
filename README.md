@@ -19,13 +19,15 @@ See the [contribution guide on the Jelly website](https://w3id.org/jelly/dev/con
 
 ## Versioning
 
-This protocol follows the [Semantic Versioning 2.0 scheme](https://semver.org/). The current major version is 1, and after it stabilizes, backward compatibility with it will be kept in future 1.x.y versions.
+This protocol follows the [Semantic Versioning 2.0 scheme](https://semver.org/). The current major version is 1, and backward compatibility with it will be kept in future 1.x.y versions.
+
+The version of the protocol is embedded into all Jelly files/messages. See the [protocol specification](https://w3id.org/jelly/dev/specification/serialization/#versioning) for more details.
 
 ### Releases
 
-The `dev` release tag corresponds to the main branch in the repository and is updated automatically.
+The `dev` release tag corresponds to the main branch in the repository and is updated automatically after every push to this branch.
 
-Tagged (versioned) releases are created manually. To create a new tagged release (example for version 1.2.3):
+Tagged (versioned) releases are created manually. **Before making a tagged release, be sure to update all mentions of the protocol version in `.proto` files.** To create a new tagged release (example for version 1.2.3):
 
 ```shell
 git checkout main

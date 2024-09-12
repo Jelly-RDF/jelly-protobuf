@@ -1,7 +1,8 @@
 syntax = "proto3";
 package eu.ostrzyciel.jelly.core.proto.v1;
 
-// gRPC service specifications for RDF streaming.
+// Jelly gRPC streaming protocol.
+// Specification document: https://w3id.org/jelly/1.0.0/specification/streaming
 // Protocol version: 1.0.0
 
 import "rdf.proto";
