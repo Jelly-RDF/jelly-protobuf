@@ -1,3 +1,5 @@
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Fjelly-rdf.github.io%2Fdev%2F)](https://w3id.org/jelly/dev/) [![Discord](https://img.shields.io/discord/1333391881404420179?label=Discord%20chat)](https://discord.gg/A8sN5XwVa5)
+
 # jelly-protobuf
 
 Protocol Buffers and gRPC specifications for the Jelly RDF serialization format and gRPC streaming protocol.
@@ -16,6 +18,8 @@ The `rdf.proto` and `grpc.proto` files define the Jelly RDF serialization and th
 ## Contributing
 
 See the [contribution guide on the Jelly website](https://w3id.org/jelly/dev/contributing/).
+
+You can also join the [Jelly Discord chat](https://discord.gg/A8sN5XwVa5) for questions and discussions.
 
 ## Versioning
 
