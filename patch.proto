@@ -46,10 +46,10 @@ message RdfPatchOptions {
   uint32 version = 15;
 }
 
-enum RdfPatchStreamType {
-    PATCH_STREAM_TYPE_UNSPECIFIED = 0;
-    PATCH_STREAM_TYPE_TRIPLES = 1;
-    PATCH_STREAM_TYPE_QUADS = 2;
+enum RdfPatchPhysicalType {
+  PATCH_PHYSICAL_TYPE_UNSPECIFIED = 0;
+  PATCH_PHYSICAL_TYPE_TRIPLES = 1;
+  PATCH_PHYSICAL_TYPE_QUADS = 2;
 }
 
 message RdfPatchRow {
