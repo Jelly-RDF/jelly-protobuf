@@ -1,0 +1,79 @@
+syntax = "proto3";
+package eu.ostrzyciel.jelly.core.proto.v1;
+
+// RDF Patch implementation based on Jelly
+// RDF Patch spec: https://afs.github.io/rdf-delta/rdf-patch.html
+// Jelly-Patch spec: https://w3id.org/jelly/1.1.0/specification/patch
+
+import "rdf.proto";
+
+message RdfPatchTransactionStart {}
+
+message RdfPatchTransactionCommit {}
+
+message RdfPatchTransactionAbort {}
+
+message RdfPatchHeader {
+  string key = 1;
+  oneof value {
+    // IRI
+    RdfIri        h_iri = 1;
+    // Blank node
+    string        h_bnode = 2;
+    // Literal
+    RdfLiteral    h_literal = 3;
+    // RDF-star quoted triple
+    RdfTriple     h_triple_term = 4;
+  }
+}
+
+message RdfPatchOptions {
+  // Type of the stream (required)
+  RdfPatchStreamType physical_type = 1;
+  // Whether the stream may contain generalized triples, quads, or datasets
+  bool generalized_statements = 2;
+  // Whether the stream may contain RDF-star statements
+  bool rdf_star = 3;
+  // Maximum size of the name lookup table
+  uint32 max_name_table_size = 9;
+  // Maximum size of the prefix lookup table
+  uint32 max_prefix_table_size = 10;
+  // Maximum size of the datatype lookup table
+  uint32 max_datatype_table_size = 11;
+  // Protocol version (required)
+  // For Jelly 1.1.x value must be 2.
+  // For custom extensions, the value must be 10000 or higher.
+  uint32 version = 15;
+}
+
+enum RdfPatchStreamType {
+    PATCH_STREAM_TYPE_UNSPECIFIED = 0;
+    PATCH_STREAM_TYPE_TRIPLES = 1;
+    PATCH_STREAM_TYPE_QUADS = 2;
+}
+
+message RdfPatchRow {
+  oneof row {
+    RdfPatchOptions options = 1;
+    RdfTriple triple_add = 2;
+    RdfTriple triple_delete = 3;
+    RdfQuad quad_add = 4;
+    RdfQuad quad_delete = 5;
+    RdfNamespaceDeclaration namespace_add = 6;
+    RdfNamespaceDeclaration namespace_delete = 7;
+    RdfPatchTransactionStart transaction_start = 8;
+    RdfPatchTransactionCommit transaction_commit = 9;
+    RdfPatchTransactionAbort transaction_abort = 10;
+    // Entry in the name lookup table.
+    RdfNameEntry name = 12;
+    // Entry in the prefix lookup table.
+    RdfPrefixEntry prefix = 13;
+    // Entry in the datatype lookup table.
+    RdfDatatypeEntry datatype = 14;
+    RdfPatchHeader header = 15;
+  }
+}
+
+message RdfPatchFrame {
+  repeated RdfPatchRow rows = 1;
+}
