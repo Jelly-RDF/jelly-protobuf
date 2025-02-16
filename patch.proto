@@ -17,13 +17,13 @@ message RdfPatchHeader {
   string key = 1;
   oneof value {
     // IRI
-    RdfIri        h_iri = 1;
+    RdfIri        h_iri = 2;
     // Blank node
-    string        h_bnode = 2;
+    string        h_bnode = 3;
     // Literal
-    RdfLiteral    h_literal = 3;
+    RdfLiteral    h_literal = 4;
     // RDF-star quoted triple
-    RdfTriple     h_triple_term = 4;
+    RdfTriple     h_triple_term = 5;
   }
 }
 
