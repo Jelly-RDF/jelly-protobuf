@@ -29,7 +29,7 @@ message RdfPatchHeader {
 
 message RdfPatchOptions {
   // Type of the stream (required)
-  RdfPatchStreamType physical_type = 1;
+  PatchPhysicalType physical_type = 1;
   // Whether the stream may contain generalized triples, quads, or datasets
   bool generalized_statements = 2;
   // Whether the stream may contain RDF-star statements
@@ -46,7 +46,7 @@ message RdfPatchOptions {
   uint32 version = 15;
 }
 
-enum RdfPatchPhysicalType {
+enum PatchPhysicalType {
   PATCH_PHYSICAL_TYPE_UNSPECIFIED = 0;
   PATCH_PHYSICAL_TYPE_TRIPLES = 1;
   PATCH_PHYSICAL_TYPE_QUADS = 2;
