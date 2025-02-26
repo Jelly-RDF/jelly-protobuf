@@ -1,4 +1,4 @@
-[![Website](https://img.shields.io/website?url=https%3A%2F%2Fjelly-rdf.github.io%2Fdev%2F)](https://w3id.org/jelly/dev/) [![Discord](https://img.shields.io/discord/1333391881404420179?label=Discord%20chat)](https://discord.gg/A8sN5XwVa5)
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Fjelly-rdf.github.io%2Fdev%2F)](https://w3id.org/jelly/dev/) [![pre-release](https://github.com/Jelly-RDF/jelly-protobuf/actions/workflows/pre-release.yml/badge.svg)](https://github.com/Jelly-RDF/jelly-protobuf/actions/workflows/pre-release.yml) ![GitHub License](https://img.shields.io/github/license/Jelly-RDF/jelly-protobuf) [![Discord](https://img.shields.io/discord/1333391881404420179?label=Discord%20chat)](https://discord.gg/A8sN5XwVa5)
 
 # jelly-protobuf
 
@@ -16,6 +16,8 @@ Protocol Buffers and gRPC specifications for the Jelly RDF serialization format 
 The `rdf.proto` and `grpc.proto` files define the Jelly RDF serialization and the gRPC pub/sub service, respectively. They use the [proto 3](https://protobuf.dev/programming-guides/proto3/) language and can be used with protoc or any other compatible tool. See the [Protocol Buffers documentation](https://protobuf.dev/) for more details.
 
 ## Contributing
+
+Protocol development is happening on the **[issue tracker](https://github.com/Jelly-RDF/jelly-protobuf/issues)**.
 
 See the [contribution guide on the Jelly website](https://w3id.org/jelly/dev/contributing/).
 
