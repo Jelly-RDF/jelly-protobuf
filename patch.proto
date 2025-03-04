@@ -13,7 +13,10 @@ message RdfPatchTransactionCommit {}
 
 message RdfPatchTransactionAbort {}
 
+// Metadata header for RDF Patch.
+// Header rows must occur at the start of the patch frame.
 message RdfPatchHeader {
+  // Header key
   string key = 1;
   oneof value {
     // IRI
@@ -27,13 +30,18 @@ message RdfPatchHeader {
   }
 }
 
+message RdfPatchPunctuation {}
+
+// RDF Patch stream options
 message RdfPatchOptions {
+  // Type of statements in the stream (required)
+  PatchStatementType statement_type = 1;
   // Type of the stream (required)
-  PatchPhysicalType physical_type = 1;
+  PatchStreamType stream_type = 2;
   // Whether the stream may contain generalized triples, quads, or datasets
-  bool generalized_statements = 2;
+  bool generalized_statements = 3;
   // Whether the stream may contain RDF-star statements
-  bool rdf_star = 3;
+  bool rdf_star = 4;
   // Maximum size of the name lookup table
   uint32 max_name_table_size = 9;
   // Maximum size of the prefix lookup table
@@ -46,34 +54,79 @@ message RdfPatchOptions {
   uint32 version = 15;
 }
 
-enum PatchPhysicalType {
-  PATCH_PHYSICAL_TYPE_UNSPECIFIED = 0;
-  PATCH_PHYSICAL_TYPE_TRIPLES = 1;
-  PATCH_PHYSICAL_TYPE_QUADS = 2;
+// Type of statements in the stream.
+// This determines whether the stream contains triples or quads.
+// The stream may contain either triples or quads, but not both.
+enum PatchStatementType {
+  // Unspecified stream type – invalid
+  PATCH_STATEMENT_TYPE_UNSPECIFIED = 0;
+  // RDF triples
+  PATCH_STATEMENT_TYPE_TRIPLES = 1;
+  // RDF quads
+  PATCH_STATEMENT_TYPE_QUADS = 2;
 }
 
+// Type of the stream.
+// This determines whether each RdfPatchFrame is a complete patch by itself,
+// or part of a larger patch.
+enum PatchStreamType {
+  // Unspecified stream type – invalid
+  PATCH_STREAM_TYPE_UNSPECIFIED = 0;
+  // Each RdfPatchFrame is a complete patch.
+  // In this case, transactions cannot span multiple frames.
+  // Headers may be present in any frame.
+  PATCH_STREAM_TYPE_FRAME = 1;
+  // Entire stream is a single patch.
+  // Transactions may span multiple frames.
+  // Headers must be present only in the first frame.
+  PATCH_STREAM_TYPE_FLAT = 2;
+  // Stream contains multiple patches separated by punctuation marks.
+  // Patches and transactions may span multiple frames.
+  // Each frame must contain at most one patch.
+  PATCH_STREAM_TYPE_PUNCTUATED = 3;
+}
+
+// A row in an RDF Patch stream
 message RdfPatchRow {
   oneof row {
-    RdfPatchOptions options = 1;
-    RdfTriple triple_add = 2;
-    RdfTriple triple_delete = 3;
-    RdfQuad quad_add = 4;
-    RdfQuad quad_delete = 5;
-    RdfNamespaceDeclaration namespace_add = 6;
-    RdfNamespaceDeclaration namespace_delete = 7;
-    RdfPatchTransactionStart transaction_start = 8;
-    RdfPatchTransactionCommit transaction_commit = 9;
-    RdfPatchTransactionAbort transaction_abort = 10;
+    // Stream options. Must be the first row in the stream.
+    // Field number is 16, to easier distinguish Jelly-Patch from Jelly-RDF,
+    // and also because we are running out of field numbers in 1–15 range.
+    RdfPatchOptions options = 16;
+    // Add a triple statement (A)
+    RdfTriple triple_add = 1;
+    // Delete a triple statement (D)
+    RdfTriple triple_delete = 2;
+    // Add a quad statement (A)
+    RdfQuad quad_add = 3;
+    // Delete a quad statement (D)
+    RdfQuad quad_delete = 4;
+    // Add a namespace/prefix declaration (PA)
+    RdfNamespaceDeclaration namespace_add = 5;
+    // Delete a namespace/prefix declaration (PD)
+    RdfNamespaceDeclaration namespace_delete = 6;
+    // Transaction start (TX)
+    RdfPatchTransactionStart transaction_start = 7;
+    // Transaction commit (TC)
+    RdfPatchTransactionCommit transaction_commit = 8;
+    // Transaction abort (TA)
+    RdfPatchTransactionAbort transaction_abort = 9;
     // Entry in the name lookup table.
-    RdfNameEntry name = 12;
+    RdfNameEntry name = 11;
     // Entry in the prefix lookup table.
-    RdfPrefixEntry prefix = 13;
+    RdfPrefixEntry prefix = 12;
     // Entry in the datatype lookup table.
-    RdfDatatypeEntry datatype = 14;
-    RdfPatchHeader header = 15;
+    RdfDatatypeEntry datatype = 13;
+    // Header entry (H)
+    RdfPatchHeader header = 14;
+    // Punctuation mark, only used in stream type PUNCTUATED
+    // Indicates the end of a patch.
+    RdfPatchPunctuation punctuation = 15;
   }
 }
 
+// A batch of RDF patch rows.
 message RdfPatchFrame {
+  // Patch rows
   repeated RdfPatchRow rows = 1;
 }
