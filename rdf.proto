@@ -3,8 +3,8 @@ package eu.ostrzyciel.jelly.core.proto.v1;
 
 // Jelly RDF serialization with Protocol Buffers.
 // Specification document: 
-// https://w3id.org/jelly/1.2.0/specification/serialization
-// Protocol version: 1.2.0
+// https://w3id.org/jelly/1.1.1/specification/serialization
+// Protocol version: 1.1.1
 
 // RDF IRIs
 // The IRIs are reconstructed by the consumer using the prefix and name
@@ -273,7 +273,6 @@ message RdfStreamOptions {
   // Protocol version (required)
   // For Jelly 1.0.x value must be 1.
   // For Jelly 1.1.x value must be 2.
-  // For Jelly 1.2.x value must be 3.
   // For custom extensions, the value must be 10000 or higher.
   uint32 version = 15;
 }
