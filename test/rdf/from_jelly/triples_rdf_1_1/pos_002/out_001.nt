@@ -1,0 +1,7 @@
+<http://example.org/subject> <http://example.org/predicate> <http://example.org/object> .
+<http://example.org/subject> <http://example.org/predicate> "object" .
+<http://example.org/subject> <http://example.org/predicate> "object"@en .
+_:b1 <http://example.org/predicate2> <http://example.org/object> .
+<http://example.org/subject> <http://example.org/predicate2> _:b1 .
+_:b1 <http://example.org/predicate2> "object" .
+_:b1 <http://example.org/predicate2> "1.0"^^<http://www.w3.org/2001/XMLSchema#double> .
