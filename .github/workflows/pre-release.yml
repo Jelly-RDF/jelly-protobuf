@@ -22,7 +22,7 @@ jobs:
           makeLatest: false
           tag: dev
           name: "Development build"
-          artifacts: '*.proto'
+          artifacts: 'proto/*.proto'
           generateReleaseNotes: true
 
   trigger-doc-update:
