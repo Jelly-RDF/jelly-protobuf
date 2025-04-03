@@ -18,10 +18,14 @@ jobs:
           fetch-depth: 0
 
       - name: Lint codebase
-        uses: super-linter/super-linter@v6
+        uses: super-linter/super-linter@v7
         env:
           # This repo is small enough for a full check
           VALIDATE_ALL_CODEBASE: true
           VALIDATE_CHECKOV: false
           VALIDATE_NATURAL_LANGUAGE: false
+          FIX_JSON: true
+          FIX_MARKDOWN: true
+          FIX_PROTOBUF: true
+          FIX_YAML_PRETTIER: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
