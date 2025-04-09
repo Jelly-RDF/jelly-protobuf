@@ -26,6 +26,7 @@ jobs:
           VALIDATE_NATURAL_LANGUAGE: false
           FIX_JSON: true
           FIX_MARKDOWN: true
+          FIX_MARKDOWN_PRETTIER: true
           FIX_PROTOBUF: true
           FIX_YAML_PRETTIER: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
