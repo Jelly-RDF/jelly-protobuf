@@ -262,10 +262,13 @@ message RdfStreamOptions {
   // Whether the stream may contain RDF-star statements
   bool rdf_star = 4;
   // Maximum size of the name lookup table
+  // (required, must be >= 8)
   uint32 max_name_table_size = 9;
   // Maximum size of the prefix lookup table
+  // (required if the prefix lookup is used)
   uint32 max_prefix_table_size = 10;
-  // Maximum size of the datatype lookup table
+  // Maximum size of the datatype lookup table 
+  // (required if datatype literals are used)
   uint32 max_datatype_table_size = 11;
   // Logical (RDF-STaX-based) stream type
   // In contrast to the physical type, this field is entirely optional.
