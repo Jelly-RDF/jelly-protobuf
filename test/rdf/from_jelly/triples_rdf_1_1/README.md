@@ -16,7 +16,7 @@ TODO: include info in the manifest on why and how should the consumer fail
 - `neg_002` – single frame (delimited), overly large prefix table (320_000).
 - `neg_003` – single frame (delimited), overly large datatype table (320_000).
 - `neg_004` – single frame (delimited), unsupported version (3).
-- `neg_005` – single frame (delimited), RdfPrefixEntry rows exist when Prefix table disabled.
-- `neg_006` – single frame (delimited), add prefix entries outside max prefix table size (content based on `pos_004`). 
-- `neg_007` – single frame (delimited), reference prefix entries outside max prefix table size (content based on `pos_004`). 
-- `neg_008` – single frame (delimited), add name entry outside max name table size (prefix table disabled, content based on `pos_005`).
+- `neg_005` – single frame (delimited), RdfPrefixEntry rows exist when prefix table is disabled.
+- `neg_006` – single frame (delimited), prefix entries being added with IDs outside max prefix table size (content based on `pos_004`). 
+- `neg_007` – single frame (delimited), prefix entries referenced with IDs outside max prefix table size (content based on `pos_004`). 
+- `neg_008` – single frame (delimited), name entry being added with ID outside max name table size (prefix table disabled, content based on `pos_005`).
