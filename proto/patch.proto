@@ -9,11 +9,14 @@ package eu.ostrzyciel.jelly.core.proto.v1.patch;
 
 import "rdf.proto";
 
-message RdfPatchTransactionStart {}
+message RdfPatchTransactionStart {
+}
 
-message RdfPatchTransactionCommit {}
+message RdfPatchTransactionCommit {
+}
 
-message RdfPatchTransactionAbort {}
+message RdfPatchTransactionAbort {
+}
 
 // Metadata header for RDF Patch.
 // Header rows must occur at the start of the patch frame.
@@ -32,7 +35,8 @@ message RdfPatchHeader {
   }
 }
 
-message RdfPatchPunctuation {}
+message RdfPatchPunctuation {
+}
 
 // RDF Patch stream options
 message RdfPatchOptions {
