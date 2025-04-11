@@ -1,6 +1,8 @@
 syntax = "proto3";
 package eu.ostrzyciel.jelly.core.proto.v1.patch;
 
+// EXPERIMENTAL FEATURE -- the API and format may change.
+
 // RDF Patch implementation based on Jelly
 // RDF Patch spec: https://afs.github.io/rdf-delta/rdf-patch.html
 // Jelly-Patch spec: https://w3id.org/jelly/1.1.0/specification/patch
@@ -55,8 +57,7 @@ message RdfPatchOptions {
 }
 
 // Type of statements in the stream.
-// This determines whether the stream contains triples or quads.
-// The stream may contain either triples or quads, but not both.
+// This determines whether the statements are interpreted as triples or quads.
 enum PatchStatementType {
   // Unspecified stream type – invalid
   PATCH_STATEMENT_TYPE_UNSPECIFIED = 0;
@@ -74,11 +75,9 @@ enum PatchStreamType {
   PATCH_STREAM_TYPE_UNSPECIFIED = 0;
   // Each RdfPatchFrame is a complete patch.
   // In this case, transactions cannot span multiple frames.
-  // Headers may be present in any frame.
   PATCH_STREAM_TYPE_FRAME = 1;
   // Entire stream is a single patch.
   // Transactions may span multiple frames.
-  // Headers must be present only in the first frame.
   PATCH_STREAM_TYPE_FLAT = 2;
   // Stream contains multiple patches separated by punctuation marks.
   // Patches and transactions may span multiple frames.
@@ -90,27 +89,21 @@ enum PatchStreamType {
 message RdfPatchRow {
   oneof row {
     // Stream options. Must be the first row in the stream.
-    // Field number is 16, to easier distinguish Jelly-Patch from Jelly-RDF,
-    // and also because we are running out of field numbers in 1–15 range.
-    RdfPatchOptions options = 16;
-    // Add a triple statement (A)
-    RdfTriple triple_add = 1;
-    // Delete a triple statement (D)
-    RdfTriple triple_delete = 2;
-    // Add a quad statement (A)
-    RdfQuad quad_add = 3;
-    // Delete a quad statement (D)
-    RdfQuad quad_delete = 4;
+    RdfPatchOptions options = 1;
+    // Add a triple/quad statement (A)
+    RdfQuad statement_add = 2;
+    // Delete a triple/quad statement (D)
+    RdfQuad statement_delete = 3;
     // Add a namespace/prefix declaration (PA)
-    RdfNamespaceDeclaration namespace_add = 5;
+    RdfNamespaceDeclaration namespace_add = 4;
     // Delete a namespace/prefix declaration (PD)
-    RdfNamespaceDeclaration namespace_delete = 6;
+    RdfNamespaceDeclaration namespace_delete = 5;
     // Transaction start (TX)
-    RdfPatchTransactionStart transaction_start = 7;
+    RdfPatchTransactionStart transaction_start = 6;
     // Transaction commit (TC)
-    RdfPatchTransactionCommit transaction_commit = 8;
+    RdfPatchTransactionCommit transaction_commit = 7;
     // Transaction abort (TA)
-    RdfPatchTransactionAbort transaction_abort = 9;
+    RdfPatchTransactionAbort transaction_abort = 8;
     // Entry in the name lookup table.
     RdfNameEntry name = 11;
     // Entry in the prefix lookup table.
