@@ -1,0 +1,129 @@
+syntax = "proto3";
+package eu.ostrzyciel.jelly.core.proto.v1.patch;
+
+// EXPERIMENTAL FEATURE -- the API and format may change.
+
+// RDF Patch implementation based on Jelly
+// RDF Patch spec: https://afs.github.io/rdf-delta/rdf-patch.html
+// Jelly-Patch spec: https://w3id.org/jelly/1.1.0/specification/patch
+
+import "rdf.proto";
+
+message RdfPatchTransactionStart {
+}
+
+message RdfPatchTransactionCommit {
+}
+
+message RdfPatchTransactionAbort {
+}
+
+// Metadata header for RDF Patch.
+// Header rows must occur at the start of the patch frame.
+message RdfPatchHeader {
+  // Header key
+  string key = 1;
+  oneof value {
+    // IRI
+    RdfIri        h_iri = 2;
+    // Blank node
+    string        h_bnode = 3;
+    // Literal
+    RdfLiteral    h_literal = 4;
+    // RDF-star quoted triple
+    RdfTriple     h_triple_term = 5;
+  }
+}
+
+message RdfPatchPunctuation {
+}
+
+// RDF Patch stream options
+message RdfPatchOptions {
+  // Type of statements in the stream (required)
+  PatchStatementType statement_type = 1;
+  // Type of the stream (required)
+  PatchStreamType stream_type = 2;
+  // Whether the stream may contain generalized triples, quads, or datasets
+  bool generalized_statements = 3;
+  // Whether the stream may contain RDF-star statements
+  bool rdf_star = 4;
+  // Maximum size of the name lookup table
+  uint32 max_name_table_size = 9;
+  // Maximum size of the prefix lookup table
+  uint32 max_prefix_table_size = 10;
+  // Maximum size of the datatype lookup table
+  uint32 max_datatype_table_size = 11;
+  // Protocol version (required)
+  // For Jelly 1.1.x value must be 2.
+  // For custom extensions, the value must be 10000 or higher.
+  uint32 version = 15;
+}
+
+// Type of statements in the stream.
+// This determines whether the statements are interpreted as triples or quads.
+enum PatchStatementType {
+  // Unspecified stream type – invalid
+  PATCH_STATEMENT_TYPE_UNSPECIFIED = 0;
+  // RDF triples
+  PATCH_STATEMENT_TYPE_TRIPLES = 1;
+  // RDF quads
+  PATCH_STATEMENT_TYPE_QUADS = 2;
+}
+
+// Type of the stream.
+// This determines whether each RdfPatchFrame is a complete patch by itself,
+// or part of a larger patch.
+enum PatchStreamType {
+  // Unspecified stream type – invalid
+  PATCH_STREAM_TYPE_UNSPECIFIED = 0;
+  // Each RdfPatchFrame is a complete patch.
+  // In this case, transactions cannot span multiple frames.
+  PATCH_STREAM_TYPE_FRAME = 1;
+  // Entire stream is a single patch.
+  // Transactions may span multiple frames.
+  PATCH_STREAM_TYPE_FLAT = 2;
+  // Stream contains multiple patches separated by punctuation marks.
+  // Patches and transactions may span multiple frames.
+  // Each frame must contain at most one patch.
+  PATCH_STREAM_TYPE_PUNCTUATED = 3;
+}
+
+// A row in an RDF Patch stream
+message RdfPatchRow {
+  oneof row {
+    // Stream options. Must be the first row in the stream.
+    RdfPatchOptions options = 1;
+    // Add a triple/quad statement (A)
+    RdfQuad statement_add = 2;
+    // Delete a triple/quad statement (D)
+    RdfQuad statement_delete = 3;
+    // Add a namespace/prefix declaration (PA)
+    RdfNamespaceDeclaration namespace_add = 4;
+    // Delete a namespace/prefix declaration (PD)
+    RdfNamespaceDeclaration namespace_delete = 5;
+    // Transaction start (TX)
+    RdfPatchTransactionStart transaction_start = 6;
+    // Transaction commit (TC)
+    RdfPatchTransactionCommit transaction_commit = 7;
+    // Transaction abort (TA)
+    RdfPatchTransactionAbort transaction_abort = 8;
+    // Entry in the name lookup table.
+    RdfNameEntry name = 11;
+    // Entry in the prefix lookup table.
+    RdfPrefixEntry prefix = 12;
+    // Entry in the datatype lookup table.
+    RdfDatatypeEntry datatype = 13;
+    // Header entry (H)
+    RdfPatchHeader header = 14;
+    // Punctuation mark, only used in stream type PUNCTUATED
+    // Indicates the end of a patch.
+    RdfPatchPunctuation punctuation = 15;
+  }
+}
+
+// A batch of RDF patch rows.
+message RdfPatchFrame {
+  // Patch rows
+  repeated RdfPatchRow rows = 1;
+}
