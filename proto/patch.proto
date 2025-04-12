@@ -19,11 +19,13 @@ message RdfPatchTransactionAbort {
 }
 
 message RdfPatchNamespace {
-  // Namespace prefix
-  string prefix = 1;
-  // Namespace IRI -- optional in the "prefix delete" (PD) operation,
+  // Short name of the namespace (e.g., "ex")
+  // Do NOT include the colon.
+  string name = 1;
+  // IRI of the namespace (e.g., "http://example.org/").
+  // Optional in the "prefix delete" (PD) operation,
   // but required in the "prefix add" (PA) operation.
-  RdfIri namespace_iri = 2;
+  RdfIri value = 2;
   // Optional: graph name for the namespace declaration.
   // This is used to achieve full 1:1 replication in systems that associate
   // namespaces with specific graphs (e.g., Apache Jena).
