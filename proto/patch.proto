@@ -18,6 +18,21 @@ message RdfPatchTransactionCommit {
 message RdfPatchTransactionAbort {
 }
 
+message RdfPatchNamespace {
+  // Short name of the namespace (e.g., "ex")
+  // Do NOT include the colon.
+  string name = 1;
+  // IRI of the namespace (e.g., "http://example.org/").
+  // Optional in the "prefix delete" (PD) operation,
+  // but required in the "prefix add" (PA) operation.
+  RdfIri value = 2;
+  // Optional: graph name for the namespace declaration.
+  // This is used to achieve full 1:1 replication in systems that associate
+  // namespaces with specific graphs (e.g., Apache Jena).
+  // If not specified, the default graph is assumed.
+  RdfIri graph = 3;
+}
+
 // Metadata header for RDF Patch.
 // Header rows must occur at the start of the patch frame.
 message RdfPatchHeader {
@@ -99,9 +114,9 @@ message RdfPatchRow {
     // Delete a triple/quad statement (D)
     RdfQuad statement_delete = 3;
     // Add a namespace/prefix declaration (PA)
-    RdfNamespaceDeclaration namespace_add = 4;
+    RdfPatchNamespace namespace_add = 4;
     // Delete a namespace/prefix declaration (PD)
-    RdfNamespaceDeclaration namespace_delete = 5;
+    RdfPatchNamespace namespace_delete = 5;
     // Transaction start (TX)
     RdfPatchTransactionStart transaction_start = 6;
     // Transaction commit (TC)
