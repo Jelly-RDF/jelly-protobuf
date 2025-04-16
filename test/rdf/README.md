@@ -17,5 +17,8 @@ This directory contains the tests for the [Jelly RDF serialization format specif
     - `quads_rdf_star_generalized` – RDF-star with generalized statements.
 
 - `to_jelly` – converting N-Triples/N-Quads into Jelly files.
-  - *TODO... will need to specify the options for the Jelly serializer. Also, there is freedom in how to compress the Jelly files.*
-  - *Should this use an oracle to check the correctness of the Jelly files?*
+  - expected stream options for producer are provided for each test case in the stream_options.jelly file
+  - tests use jelly-cli rdf validate (oracle) together with original file to encode and expected stream options
+
+  - TRIPLES stream type:
+    - `triples_rdf_1_1` – RDF 1.1 standard conformant.
