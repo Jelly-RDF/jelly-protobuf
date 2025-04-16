@@ -1,0 +1,3 @@
+<http://example.org/resource/A> <http://example.org/property/p> <http://example.org/resource/B> .
+<http://example.org/resource/B> <http://example.org/property/p> <http://example.org/resource/C> .
+<http://example.org/resource/C> <http://example.org/property/p> <http://example.org/resource/A> .
