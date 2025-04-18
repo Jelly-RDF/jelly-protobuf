@@ -1,0 +1,5 @@
+<http://example.org/resource/r1> <http://example.org/property/hasValue> "7.00"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://example.org/resource/r2> <http://example.org/property/hasValue> "7"^^<http://www.w3.org/2001/XMLSchema#float> .
+
+<http://example.org/resource/r3> <http://example.org/property/hasValue> "10"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://example.org/resource/r4> <http://example.org/property/hasValue> "10"^^<http://www.w3.org/2001/XMLSchema#integer> .

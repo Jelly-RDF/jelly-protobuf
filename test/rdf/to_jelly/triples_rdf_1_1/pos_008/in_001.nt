@@ -1,0 +1,4 @@
+<http://example.org/resource/r1> <http://example.org/property/property_ext_latin> "ÀÆÐØßæöÿķᴂ" .
+<http://example.org/resource/r2> <http://example.org/property/property_greek> "ϡΨΠάτυ" .
+<http://example.org/resource/r3> <http://example.org/property/property_cyrillic> "ЎЇЮћЁжщ" .
+<http://example.org/resource/r4> <http://example.org/property/property_symbols> "€…™©¥½ˆ✗❗⟺⨤😄" .
