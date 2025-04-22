@@ -9,7 +9,7 @@ TODO: replace this with manifests
 - `pos_005` - a triple with a blank node in subject. Stream options are the same as `pos_001`
 - `pos_006` - a triple with a blank node in object. Stream options are the same as `pos_001`
 - `pos_007` - a triple with an integer with a string datatype. Stream options are the same as `pos_001`
-- `pos_008` - a set of triples with extended Latin, Greek, Cyrillic, and more fancy symbols (covering 2, 3, and 4 bytes encoding). Stream options are the same as `pos_001`
+- `pos_008` - a set of triples with extended Latin, Greek, Cyrillic, and other Unicode codepoints (covering 2, 3, and 4 bytes encoding). Stream options are the same as `pos_001`
 - `pos_009` - a set of triples to test literal term equality (same values but different terms, no changes should be done to lexical forms or datatypes). Stream options are the same as `pos_001`
 - `pos_010` - explicitly set logical type to LOGICAL_STREAM_TYPE_FLAT_TRIPLES. Stream options generalized-statements=false, rdf-star=false, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0, opt.logical-type=FLAT_TRIPLES.
 - `pos_011` - use three .nt files as three frames for serialization, triples contain terms referenced across frames. Stream options are the same as `pos_003`. Input files should be in order specified by the index in the file name, with each file being a separate stream frame.
