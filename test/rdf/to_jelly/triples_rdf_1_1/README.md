@@ -20,7 +20,7 @@ TODO: replace this with manifests
 ## Negative cases
 
 TODO: include info in the manifest on why and how should the producer fail
-- `neg_001` – a set of three triples with terms violating RDF 1.1 component allowed terms. Stream options are: generalized-statements=false, rdf-star=false, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0.
+- `neg_001` – a set of three triples with terms violating RDF 1.1 component allowed terms. Stream options are: generalized-statements=false, rdf-star=false, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0. NOTE: this test requires a generalized RDF parser.
 - `neg_002` - datatype lookup is disabled, but input data has typed literals. Stream options are the same as `neg_001`
 - `neg_003` - name lookup maximum size set to 7 (less than the minimal requirement). Stream options are: generalized-statements=false, rdf-star=false, max-name-table-size=7, max-prefix-table-size=0, max-datatype-table-size=0.
 - `neg_004` - explicitly set physical stream type to PHYSICAL_STREAM_TYPE_QUADS but use a set of triples as input (`pos_010`). The rest of stream options are: generalized-statements=false, rdf-star=false, max-name-table-size=7, max-prefix-table-size=0, max-datatype-table-size=4.
