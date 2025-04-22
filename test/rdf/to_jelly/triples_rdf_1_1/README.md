@@ -13,7 +13,7 @@ TODO: replace this with manifests
 - `pos_009` - a set of triples to test literal term equality (same values but different terms, no changes should be done to lexical forms or datatypes). Stream options are the same as `pos_001`
 - `pos_010` - explicitly set logical type to LOGICAL_STREAM_TYPE_FLAT_TRIPLES. Stream options generalized-statements=false, rdf-star=false, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0, opt.logical-type=FLAT_TRIPLES.
 - `pos_011` - use three .nt files as three frames for serialization, triples contain terms referenced across frames. Stream options are the same as `pos_003`. Input files should be in order specified by the index in the file name, with each file being a separate stream frame.
-- `pos_012` - set of triples with repeating IRIs, BNs and Literals (including/excluding repeating datatype) (in s, p, and o with accordance to RDF 1.1). 
+- `pos_012` - set of triples with repeating IRIs, blank nodes and literals (including/excluding repeating datatype) (in s, p, and o with accordance to RDF 1.1). 
 - `pos_013` - set of fully (!) repeating triples (same s, p, o). Stream options are the same as `pos_003`
 
 
