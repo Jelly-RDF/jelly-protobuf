@@ -1,0 +1,14 @@
+<http://example.org/subject> <http://example.org/predicate> <http://example.org/object> .
+<http://example.org/subject2> <http://example.org/predicate> "object" .
+<http://example.org/subject3> <http://example.org/predicate> "object"@en .
+_:B6f362f2dbe2f0cd3f9cf955de68000fc <http://example.org/predicate2> <http://example.org/object> .
+<http://example.org/subject> <http://example.org/predicate2> _:B6f362f2dbe2f0cd3f9cf955de68000fc .
+_:B6f362f2dbe2f0cd3f9cf955de68000fc <http://example.org/predicate2> "object" .
+_:B6f362f2dbe2f0cd3f9cf955de68000fc <http://example.org/predicate2> "1.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://example.org/subject4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/subject5> <http://xmlns.com/foaf/0.1/name> "Name1" .
+<http://example.org/subject6> <http://schema.org/description> "Entity description"@en .
+<http://example.org/subject7> <http://purl.org/dc/elements/1.1/creator> "Name2" .
+<http://example.org/subject8> <http://www.w3.org/2000/01/rdf-schema#label> "object2"@en .
+<http://example.org/subject9> <http://www.w3.org/2004/02/skos/core#altLabel> "alt object2"@en .
+<http://example.org/subject10> <http://purl.org/dc/terms/created> "1970-01-01"^^<http://www.w3.org/2001/XMLSchema#date> .

@@ -1,0 +1,2 @@
+<http://example.org/resource/r2> <http://example.org/property/p1> <http://example.org/resource/r3> .
+_:B1ac95232c41a37b4ae9cad97cd487277 <http://example.org/property/p2> "18000"^^<http://www.w3.org/2001/XMLSchema#integer> .
