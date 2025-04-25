@@ -9,7 +9,7 @@ TODO: replace this with manifests
 - `pos_005` – single frame (delimited), a few basic triples. Prefix table disabled, name table size 16 and updated to re-use name ids.
 - `pos_006` – single frame (delimited), a few basic triples (same content as `pos_005`). Prefix table disabled. Stream options are repeated 3 times in the stream (no differences)
 - `pos_007` - single frame (delimited) with repeated terms, including multiple subsequent usages of the same term. Prefix table disabled.
-- `pos_008` - multiple frames, repeated terms (whole triple) occur as the first row in the second frame. Prefix table disabled. NOTE: multiple frames tests assume reading frames strictly in order. Each frame has a separte .nt file to compare to.
+- `pos_008` - multiple frames, repeated terms (whole triple) occur as the first row in the second frame. Prefix table disabled. NOTE: multiple frames tests assume reading frames strictly in order. Each frame has a separate .nt file to compare to.
 - `pos_009` - multiple frames, datatypes and names defined in one frame and referenced in the subsequent frames, also requiring name table updates across frames. Prefix table disabled.
 
 ## Negative cases
