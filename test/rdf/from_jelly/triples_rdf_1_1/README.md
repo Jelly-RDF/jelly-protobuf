@@ -28,3 +28,4 @@ TODO: include info in the manifest on why and how should the consumer fail
 - `neg_010` – single frame (delimited), physical stream type is set to PHYSICAL_STREAM_TYPE_TRIPLES, but a quad row is in the stream (prefix table disabled, datatype table enabled (size 4), content based on `pos_001`).
 - `neg_011` – single frame (delimited), multiple stream options rows are in stream, max name table size changes from 8 to 10 to 20 (prefix table disabled, datatype table enabled (size 4), content based on `pos_005`).
 - `neg_012` - single frame (delimited) repeated terms appear in the first term occurence, content based in `pos_007`.
+- `neg_013` - single frame (delimited). Literal has datatype index set to 0. Datatype table enabled (size 4). 
