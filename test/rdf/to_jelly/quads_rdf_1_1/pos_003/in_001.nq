@@ -1,0 +1,8 @@
+<http://example.org/resource/A> <http://example.org/property/p> <http://example.org/resource/B> .
+<http://example.org/resource/A> <http://example.org/property/p> <http://example.org/resource/B> .
+
+_:bn2 <http://example.org/property/p> "Literal" <http://example.org/graph/G>.
+_:bn2 <http://example.org/property/p> "Literal" <http://example.org/graph/G>.
+
+<http://example.org/resource/A> <http://example.org/property/p> _:bn3 _:bn1.
+<http://example.org/resource/A> <http://example.org/property/p> _:bn3 _:bn1.
