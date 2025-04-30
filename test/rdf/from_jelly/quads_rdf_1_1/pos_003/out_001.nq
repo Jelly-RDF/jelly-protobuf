@@ -1,0 +1,6 @@
+<http://example.org/resource/A> <http://example.org/property/p> <http://example.org/resource/B> .
+<http://example.org/resource/A> <http://example.org/property/p> <http://example.org/resource/B> .
+_:B181e0840ddc5b9ee06454b3592171061 <http://example.org/property/p> "Literal" <http://example.org/graph/G> .
+_:B181e0840ddc5b9ee06454b3592171061 <http://example.org/property/p> "Literal" <http://example.org/graph/G> .
+<http://example.org/resource/A> <http://example.org/property/p> _:Bddc05ed3c970babb68d352a09a00fa79 _:Bec8d40d6f551fcffcaec393c0a917438 .
+<http://example.org/resource/A> <http://example.org/property/p> _:Bddc05ed3c970babb68d352a09a00fa79 _:Bec8d40d6f551fcffcaec393c0a917438 .

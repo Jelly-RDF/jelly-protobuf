@@ -1,0 +1,4 @@
+<http://example.org/resource/A> <http://example.org/property/p1> <http://example.org/resource/B> .
+_:B58efd6cac79204f5c5fd29ab0955f698 <http://example.org/property/p2> "100"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.org/graph/G> .
+<http://example.org/resource/A> <http://example.org/property/p3> _:B271576e447f792fcbfb8772fab08a1eb _:B47f8c7c5e8266da7c0bd5b82e7df45f3 .
+<http://example.org/resource/A> <http://example.org/property/p3> _:B271576e447f792fcbfb8772fab08a1eb _:B47f8c7c5e8266da7c0bd5b82e7df45f3 .
