@@ -11,5 +11,5 @@ TODO: replace this with manifests
 ## Negative cases
 
 TODO: include info in the manifest on why and how should the producer fail
-- `neg_001` – a set of quads with RDF 1.1 non-conformant terms for s, p, o, g. Stream options from `pos_001`.
+
 
