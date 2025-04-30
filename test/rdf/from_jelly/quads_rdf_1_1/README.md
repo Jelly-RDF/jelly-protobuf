@@ -10,4 +10,4 @@ TODO: replace this with manifests
 
 -`neg_001` - single frame, a "triple" row is in the stream.
 -`neg_002` - single frame, a "graph_start" row is in the stream.
--`neg_003` - single frame, graph label is a literal when generalized_statements=false.
+-`neg_003` - single frame, a "graph_end" row is in the stream.
