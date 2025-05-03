@@ -47,3 +47,7 @@ The rest (packaging and release creation) will be handled automatically by the C
 ## License
 
 The contents of this repository are licensed under the [Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0).
+
+----
+
+The development of the Jelly protocol, its implementations, and supporting tooling was co-funded by the European Union. **[More details](https://w3id.org/jelly/dev/licensing/projects)**.
