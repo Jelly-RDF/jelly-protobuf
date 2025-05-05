@@ -1,0 +1,44 @@
+PREFIX jellyt: <https://w3id.org/jelly/dev/tests/vocab#>
+PREFIX mf:     <http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+
+BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
+
+# See this for inspiration: https://www.w3.org/2013/TurtleTests/manifest.ttl
+
+<manifest> a mf:Manifest ;
+    rdfs:label "Jelly-RDF test cases: from RDF to Jelly" ;
+    mf:entries (
+        # RDF 1.1
+        <triples_rdf_1_1/neg_001>
+        # TODO: add the rest here
+
+        <triples_rdf_1_1/pos_001>
+
+        # TODO: add the rest here
+    ) .
+
+<triples_rdf_1_1/neg_001> a jellyt:TestNegative, jellyt:TestRdfToJelly ;
+    # TODO: why should it fail?
+    mf:name "A set of three triples with terms violating RDF 1.1 component allowed terms" ;
+    rdfs:comment "A set of three triples with terms violating RDF 1.1 component allowed terms. Stream options are: generalized-statements=false, rdf-star=false, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0. NOTE: this test requires a generalized RDF parser." ;
+    rdft:approval rdft:Proposed ; # all are "Proposed" for now
+    mf:requires jellyt:requirementPhysicalTypeTriples ;
+    mf:action (
+        <triples_rdf_1_1/neg_001/stream_options.jelly>
+        <triples_rdf_1_1/neg_001/in_001.nt>
+    ) .
+
+
+<triples_rdf_1_1/pos_001> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of three triples with only IRIs as terms" ;
+    rdfs:comment "A set of three triples with only IRIs as terms. Stream options are: generalized-statements=false, rdf-star=false, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples ;
+    mf:action (
+        <triples_rdf_1_1/pos_001/stream_options.jelly>
+        <triples_rdf_1_1/pos_001/in_001.nt>
+    ) ;
+    mf:result <triples_rdf_1_1/pos_001/out.jelly> .
+
+# TODO: the rest

@@ -1,0 +1,135 @@
+# Vocabulary for Jelly test cases.
+# Based on the RDF Manifest vocabulary for test cases: https://www.w3.org/2001/sw/DataAccess/tests/test-manifest
+# ...and the RDF 1.1 Test Vocabulary: https://www.w3.org/ns/rdftest
+# Inspired by JSON-LD 1.1 Test Vocabulary: https://w3c.github.io/json-ld-api/tests/vocab.html
+
+PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+PREFIX dc:     <http://purl.org/dc/elements/1.1/>
+
+PREFIX mf:     <http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#>
+PREFIX rdft:   <http://www.w3.org/ns/rdftest#>
+
+PREFIX jellyt: <https://w3id.org/jelly/dev/tests/vocab#>
+
+# Vocabulary definition
+
+jellyt: rdfs:label "Jelly test case vocabulary" ;
+    dc:title "Jelly test case vocabulary" ;
+    rdfs:comment "Manifest vocabulary for Jelly test cases." ;
+    dc:description "Vocabulary for Jelly test cases." ;
+    dc:creator "Piotr Sowiński" ;
+    dc:identifier jellyt: .
+
+# Classes -- base
+
+jellyt:Test a rdfs:Class ;
+    rdfs:label "Superclass for all Jelly tests" ;
+    rdfs:comment """A test case involving Jelly. Depending on the subclass, the inputs/outputs are
+    specified in different forms, but always using mf:action (input) and mf:result (output) properties.
+    mf:requires is used to specify the requirements for the test case.
+    """ ;
+    rdfs:subClassOf rdft:Test .
+
+jellyt:TestPositive a rdfs:Class ;
+    rdfs:label "Positive test" ;
+    rdfs:comment """A test case that is expected to succeed. The test case is successful when the
+    implementation returns the expected result specified in mf:result.
+
+    This class MUST be combined with another subclass of jellyt:Test, e.g. jellyt:TestRdfToJelly.
+    """ ;
+    rdfs:subClassOf jellyt:Test .
+
+jellyt:TestNegative a rdfs:Class ;
+    rdfs:label "Negative test" ;
+    rdfs:comment """A test case that is expected to fail. The test case is successful when the
+    implementation returns an error. Currently, the test cases do not specify the expected error
+    code, but this will be added in the future.
+
+    This class MUST be combined with another subclass of jellyt:Test, e.g. jellyt:TestRdfToJelly.
+    """ ;
+    rdfs:subClassOf jellyt:Test .
+
+# Classes -- Jelly-RDF test cases
+
+jellyt:TestRdf a rdfs:Class ;
+    rdfs:label "Jelly-RDF test" ;
+    rdfs:comment """A test case for the Jelly-RDF serialization format.
+
+    Generally, the test cases use the delimited form of Jelly-RDF. If non-delimited files are used,
+    the test is marked with the jellyt:featureNonDelimited feature (mf:notable property).
+    """ ;
+    rdfs:subClassOf jellyt:Test .
+
+jellyt:TestRdfToJelly a rdfs:Class ;
+    rdfs:label "From RDF to Jelly-RDF test" ;
+    rdfs:comment """A test for converting RDF to Jelly-RDF. The goal of the test is to convert the RDF
+    input specified in mf:action to a Jelly-RDF file.
+
+    The input (mf:action) MUST be an rdf:List. The first element of the list is a Jelly-RDF file
+    containing the stream options to be used by the producer. The subsequent elements are the
+    RDF files to be converted to Jelly-RDF. The input files are either in N-Triples or N-Quads
+    format.
+
+    If the test is positive, the output (mf:result) MUST be an RDF IRI pointing to a .jelly file 
+    with the expected Jelly-RDF file. If the test is negative, mf:result is not set.
+
+    This class MUST be combined with either jellyt:TestPositive or jellyt:TestNegative.
+    When combined with jellyt:TestPositive, the test succeeds when the resulting Jelly-RDF file
+    has the expected stream options, is syntactically valid, and is equivalent to the expected
+    Jelly-RDF file specified in mf:result, when compared using the ordered RDF dataset 
+    isomorphism algorithm. This can be done with the jelly-cli tool:
+
+    jelly-cli rdf validate --compare-to-rdf-file=<output> --compare-ordered=true --compare-frame-indices=<frame-index-to-compare> --options-file=<options-file> <implementation-output>
+    """ ;
+    rdfs:subClassOf jellyt:Test .
+
+jellyt:TestRdfFromJelly a rdfs:Class ;
+    rdfs:label "From Jelly-RDF to RDF test" ;
+    rdfs:comment """A test for converting Jelly-RDF to RDF. The goal of the test is to convert the
+    Jelly-RDF input specified in mf:action to an RDF file or a series of RDF files.
+
+    The input (mf:action) MUST be an RDF IRI pointing to a .jelly file.
+
+    If the test is positive, the output (mf:result) MUST be an rdf:List of RDF IRIs with the
+    expected output files. The output files are either in N-Triples or N-Quads format.
+
+    This class MUST be combined with either jellyt:TestPositive or jellyt:TestNegative.
+    When combined with jellyt:TestPositive, the test succeeds when the resulting RDF file
+    is syntactically valid and is equivalent to the expected RDF file specified in mf:result,
+    when compared using the ordered RDF dataset isomorphism algorithm.
+    """ ;
+    rdfs:subClassOf jellyt:Test .
+
+# Instances -- requirements
+
+jellyt:requirementPhysicalTypeTriples a mf:Requirement ;
+    rdfs:label "Requirement: physical type TRIPLES" ;
+    rdfs:comment "The test requires supporting the TRIPLES physical type." .
+
+jellyt:requirementPhysicalTypeQuads a mf:Requirement ;
+    rdfs:label "Requirement: physical type QUADS" ;
+    rdfs:comment "The test requires supporting the QUADS physical type." .
+
+jellyt:requirementPhysicalTypeGraphs a mf:Requirement ;
+    rdfs:label "Requirement: physical type GRAPHS" ;
+    rdfs:comment "The test requires supporting the GRAPHS physical type." .
+
+jellyt:requirementRdfStar a mf:Requirement ;
+    rdfs:label "Requirement: RDF-star support" ;
+    rdfs:comment "The test requires supporting RDF-star." .
+
+jellyt:requirementGeneralizedRdf a mf:Requirement ;
+    rdfs:label "Requirement: generalized RDF support" ;
+    rdfs:comment """The test requires supporting generalized RDF.
+    
+    Note that for these tests, the input is a generalized RDF file, which is not supported by
+    most RDF implementations.
+    """ .
+
+# Instances -- notable features
+
+jellyt:featureNonDelimited a mf:Notable ;
+    rdfs:label "Notable feature: non-delimited" ;
+    rdfs:comment "The test uses non-delimited Jelly-RDF files." .

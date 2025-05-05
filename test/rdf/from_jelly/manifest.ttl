@@ -1,0 +1,38 @@
+PREFIX jellyt: <https://w3id.org/jelly/dev/tests/vocab#>
+PREFIX mf:     <http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+
+BASE           <https://w3id.org/jelly/dev/tests/rdf/from_jelly/>
+
+# See this for inspiration: https://www.w3.org/2013/TurtleTests/manifest.ttl
+
+<manifest> a mf:Manifest ;
+    rdfs:label "Jelly-RDF test cases: from Jelly to RDF" ;
+    mf:entries (
+        # RDF 1.1
+        <quads_rdf_1_1/neg_001>
+        # TODO: add the rest here
+
+        <quads_rdf_1_1/pos_001>
+
+        # TODO: add the rest here
+    ) .
+
+<quads_rdf_1_1/neg_001> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
+    # TODO: why should it fail?
+    mf:name "Single row, a 'triple' row is in the stream" ;
+    rdft:approval rdft:Proposed ; # all are "Proposed" for now
+    mf:requires jellyt:requirementPhysicalTypeQuads ;
+    mf:action <quads_rdf_1_1/neg_001/in.jelly> .
+
+
+<quads_rdf_1_1/pos_001> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame, a few basic triples in the default graph. Prefix table enabled" ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads ;
+    mf:action <quads_rdf_1_1/pos_001/in.jelly> ;
+    mf:result (
+        <quads_rdf_1_1/pos_001/out_001.nq>
+    ) .
+
+# TODO: the rest
