@@ -26,16 +26,16 @@ message RdfPatchNamespace {
   // Optional in the "prefix delete" (PD) operation,
   // but required in the "prefix add" (PA) operation.
   RdfIri value = 2;
-  // Graph name for the namespace declaration (optional).
+  // Graph name for the namespace declaration.
+  //
+  // This is required for the statement type QUADS, and disallowed for
+  // the statement type TRIPLES.
   //
   // This is used to achieve full 1:1 replication in systems that associate
   // namespaces with specific graphs (e.g., Apache Jena).
   //
-  // If not specified, and this oneof was previously set in the stream,
-  // the last graph name will be used (repeated term compression).
-  //
-  // If not specified, and this oneof was NOT previously set in the stream,
-  // the default graph will be assumed.
+  // Repeated term compression IS supported for this field.
+  // The repeated terms are shared between the namespace and statement rows.
   oneof graph {
     // IRI
     RdfIri           g_iri = 3;
