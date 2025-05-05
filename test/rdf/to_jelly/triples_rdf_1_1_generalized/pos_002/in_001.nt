@@ -1,0 +1,14 @@
+<http://example.org/resource/r1> <http://example.org/property/p> <http://example.org/resource/r2> .
+"2000"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.org/property/p> <http://example.org/resource/r2> .
+<http://example.org/resource/r2> <http://example.org/property/p> "2000"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/resource/r1> _:bn1 <http://example.org/resource/r3> .
+_:bn1 <http://example.org/property/p1> _:bn2 .
+_:bn1 <http://example.org/property/p1> "Literal" .
+"Literal" <http://example.org/property/p> _:bn2 .
+"Literal" <http://example.org/property/p> _:bn2 .
+"Resource 1" <http://example.org/property/p> <http://example.org/resource/r3> .
+<http://example.org/resource/r1> "Resource 1" <http://example.org/resource/r3> .
+<http://example.org/resource/r2> <http://example.org/property/p> "Some Label"@en .
+<http://example.org/resource/r2> _:bn2 "Some Label"@en .
+<http://example.org/resource/r1> "0.1"^^<http://www.w3.org/2001/XMLSchema#float> <http://example.org/resource/r3> .
+<http://example.org/resource/r1> "0.1"^^<http://www.w3.org/2001/XMLSchema#float> <http://example.org/resource/r3> .

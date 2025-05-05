@@ -1,0 +1,7 @@
+<http://example.org/resource/r1> _:B86d6df4ad4de38c2762e1ba13158f564 <http://example.org/resource/r3> .
+_:B86d6df4ad4de38c2762e1ba13158f564 <http://example.org/property/p1> _:Bf91daf14c05018d93572cd7bf2232e5d .
+_:B86d6df4ad4de38c2762e1ba13158f564 <http://example.org/property/p1> "2002-08-22T03:12:11+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+"Literal" <http://example.org/property/p> _:Bf91daf14c05018d93572cd7bf2232e5d .
+"Resource 1" <http://example.org/property/p> <http://example.org/resource/r4> .
+<http://example.org/resource/r1> "Resource 1" <http://example.org/resource/r4> .
+<http://example.org/resource/r5> <http://example.org/property/p> "Some Label"@en .

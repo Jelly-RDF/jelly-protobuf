@@ -1,0 +1,9 @@
+<http://example.org/resource_add/r1> _:B2cd6021ffe9bfe89d3c07048a321aeb3 <http://example.org/resource_part/r3> .
+_:B2cd6021ffe9bfe89d3c07048a321aeb3 <http://example.org/property/p1> _:B55302810ac19c2fbce1ac2b05cef0145 .
+_:B2cd6021ffe9bfe89d3c07048a321aeb3 <http://example.org/property/p1> "2002-08-22T03:12:11+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+"Literal" <http://example.org/property/p> _:B55302810ac19c2fbce1ac2b05cef0145 .
+"Resource 1" <http://example.org/property/p> <http://example.org/resource_part/r4> .
+<http://example.org/resource/r1> "Resource 1" <http://example.org/resource_part/r4> .
+<http://example.org/resource/r5> <http://example.org/property/p> "Some Label"@en .
+<http://example.org/resource/r5> _:Ba6a6e2894f835430af5b8751ffa8e322 "Some Label"@en .
+<http://example.org/resource_add/r1> "0.1"^^<http://www.w3.org/2001/XMLSchema#float> <http://example.org/resource/r3> .

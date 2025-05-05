@@ -1,0 +1,5 @@
+<http://example.org/resource/r5> <http://example.org/property/p2> "0.09"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.001"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://example.org/resource/r5> <http://example.org/property/p2> "0.09"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.001"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://example.org/resource/r1> <http://example.org/property/p> <http://example.org/resource_part/r2> .
+"900"^^<http://www.w3.org/2001/XMLSchema#integer> _:B107f7e2a7bd6fb3114c3e748bbf30265 <http://example.org/resource/r22> <http://example.org/graph/G1> .
+"Resource 1" <http://example.org/property_ext/p> <http://example.org/resource/r3> <http://example.org/graph_new/G2> .

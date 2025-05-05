@@ -1,0 +1,9 @@
+"Resource 1" <http://example.org/property/p> <http://example.org/resource_other/r4> .
+<http://example.org/resource/r1> "Resource 1" <http://example.org/resource_other/r4> .
+
+<http://example.org/resource/r5> <http://example.org/property/p> "Some Label"@en .
+<http://example.org/resource/r5> _:bn4 "Some Ohter Label"@en .
+
+
+<http://example.org/resource_add/r1> "0.1"^^<http://www.w3.org/2001/XMLSchema#float> <http://example.org/resource_part/r3> .
+<http://example.org/resource_add/r1> <http://example.org/property_more/p10> <http://example.org/resource_part/r3> .

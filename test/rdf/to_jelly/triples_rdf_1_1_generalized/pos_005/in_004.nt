@@ -1,0 +1,2 @@
+"2000"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.org/property_ext/p> <http://example.org/resource/r2> .
+<http://example.org/resource/r1> <http://example.org/property/p> <http://example.org/resource_other/r4> .

@@ -1,3 +1,1 @@
-<http://example.org/resource/r1> _:b1 <http://example.org/resource/r2> .
-"Resource 1" <http://example.org/property/p> <http://example.org/resource/r3> .
-<http://example.org/resource/r3> "Property Label" <http://example.org/resource/r1> .
+<http://example.org/resource/r1> <http://example.org/property/hasValue> "862"^^<http://www.w3.org/2001/XMLSchema#integer> .

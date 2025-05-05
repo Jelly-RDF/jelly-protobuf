@@ -1,0 +1,5 @@
+<http://example.org/resource/r5> _:bn4 "Some Label"@en .
+
+
+<http://example.org/resource/r1> "0.1"^^<http://www.w3.org/2001/XMLSchema#float> <http://example.org/resource/r3> .
+<http://example.org/resource/r1> "1000"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.org/resource/r3> .

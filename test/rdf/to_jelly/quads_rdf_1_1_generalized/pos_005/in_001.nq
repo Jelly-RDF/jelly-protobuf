@@ -1,0 +1,4 @@
+<http://example.org/resource/r1> <http://example.org/property/p>  <http://example.org/resource_part/r2> .
+_:bn2 <http://example.org/property/p> "2012-12-21T12:21:12+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+
+"900"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.org/property_ext/p> <http://example.org/resource_part/r2> <http://example.org/graph/G1> .

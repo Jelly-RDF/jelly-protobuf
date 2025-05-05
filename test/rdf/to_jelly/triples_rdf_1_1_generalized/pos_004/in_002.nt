@@ -1,0 +1,14 @@
+<http://example.org/resource_add/r1> _:bn3 <http://example.org/resource_part/r3> .
+
+_:bn3 <http://example.org/property/p1> _:bn2 .
+_:bn3 <http://example.org/property/p1> "2002-08-22T03:12:11+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+"Literal" <http://example.org/property/p> _:bn2 .
+
+"Resource 1" <http://example.org/property/p> <http://example.org/resource_part/r4> .
+<http://example.org/resource/r1> "Resource 1" <http://example.org/resource_part/r4> .
+
+<http://example.org/resource/r5> <http://example.org/property/p> "Some Label"@en .
+<http://example.org/resource/r5> _:bn4 "Some Label"@en .
+
+
+<http://example.org/resource_add/r1> "0.1"^^<http://www.w3.org/2001/XMLSchema#float> <http://example.org/resource/r3> .
