@@ -18,7 +18,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
         # TODO: add the rest here
     ) .
 
-<triples_rdf_1_1/neg_001> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
+<triples_rdf_1_1/neg_001> a jellyt:TestNegative, jellyt:TestRdfToJelly ;
     # TODO: why should it fail?
     mf:name "A set of three triples with terms violating RDF 1.1 component allowed terms" ;
     rdfs:comment "A set of three triples with terms violating RDF 1.1 component allowed terms. Stream options are: generalized-statements=false, rdf-star=false, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0. NOTE: this test requires a generalized RDF parser." ;
