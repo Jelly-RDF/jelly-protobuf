@@ -1,0 +1,10 @@
+<http://example.org/resource/r1> <http://example.org/property/p> <http://example.org/resource/r2> .
+_:Bcd87168410745fc38ed06f89e8d1c826 <http://example.org/property/p> "Literal" .
+"2000"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.org/property/p> <http://example.org/resource/r2> <http://example.org/graph/G1> .
+"Resource 1" <http://example.org/property/p> <http://example.org/resource/r3> <http://example.org/graph/G2> .
+<http://example.org/resource/r1> _:B3d087a1af2191f72056cce05eeb3d45e <http://example.org/resource/r3> _:B446c7b6261aeeac52acb111e21e1484d .
+<http://example.org/resource/r1> "Property Label"@en <http://example.org/resource/r3> _:B02246cb8465586e156fef1d36e444167 .
+<http://example.org/resource/r1> "0.1"^^<http://www.w3.org/2001/XMLSchema#float> <http://example.org/resource/r3> _:B1f54454d7754de0fd64061429a289396 .
+<http://example.org/resource/r2> <http://example.org/property/p> _:B3d087a1af2191f72056cce05eeb3d45e "Graph Name" .
+<http://example.org/resource/r2> <http://example.org/property/p> "Some Label"@en "Graph Name"@en-US .
+<http://example.org/resource/r2> <http://example.org/property/p> "0.09"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.001"^^<http://www.w3.org/2001/XMLSchema#float> .

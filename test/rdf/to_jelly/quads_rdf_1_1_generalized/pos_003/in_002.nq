@@ -1,0 +1,8 @@
+<http://example.org/resource/r1> _:bn3 <http://example.org/resource/r2> _:bn7 .
+<http://example.org/resource/r1> "0.1"^^<http://www.w3.org/2001/XMLSchema#float> <http://example.org/resource/r3> _:bn7 .
+
+"Resource 1" <http://example.org/property/p> <http://example.org/resource/r2> <http://example.org/graph/G2> .
+
+<http://example.org/resource/r2> <http://example.org/property/p>  "Some Label"@en "Graph Name"@en-US .
+<http://example.org/resource/r2> <http://example.org/property/p>  "Some Label"@en "Graph Name"@en-US .
+<http://example.org/resource/r3> <http://example.org/property/p>  "0.09"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.001"^^<http://www.w3.org/2001/XMLSchema#float> .

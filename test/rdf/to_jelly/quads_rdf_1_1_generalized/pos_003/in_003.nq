@@ -1,0 +1,4 @@
+<http://example.org/resource/r3> <http://example.org/property/p>  "0.09"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.001"^^<http://www.w3.org/2001/XMLSchema#float> .
+
+<http://example.org/resource/r1> <http://example.org/property/p>  <http://example.org/resource/r2> .
+"2000"^^<http://www.w3.org/2001/XMLSchema#integer> _:bn3 <http://example.org/resource/r2> <http://example.org/graph/G1> .
