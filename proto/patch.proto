@@ -26,18 +26,36 @@ message RdfPatchNamespace {
   // Optional in the "prefix delete" (PD) operation,
   // but required in the "prefix add" (PA) operation.
   RdfIri value = 2;
-  // Optional: graph name for the namespace declaration.
+  // Graph name for the namespace declaration.
+  //
+  // This is required for the statement type QUADS, and disallowed for
+  // the statement type TRIPLES.
+  //
   // This is used to achieve full 1:1 replication in systems that associate
   // namespaces with specific graphs (e.g., Apache Jena).
-  // If not specified, the default graph is assumed.
-  RdfIri graph = 3;
+  //
+  // Repeated term compression IS supported for this field.
+  // The repeated terms are shared between the namespace and statement rows.
+  oneof graph {
+    // IRI
+    RdfIri           g_iri = 3;
+    // Blank node
+    string           g_bnode = 4;
+    // Default graph
+    RdfDefaultGraph  g_default_graph = 5;
+    // Literal – only valid for generalized RDF streams
+    RdfLiteral       g_literal = 6;
+  }
 }
 
 // Metadata header for RDF Patch.
 // Header rows must occur at the start of the patch frame.
 message RdfPatchHeader {
-  // Header key
+  // Header key (required)
   string key = 1;
+  // Header value (required)
+  // Repeated term compression is not supported for header values.
+  // This oneof must always be set to a valid RDF term.
   oneof value {
     // IRI
     RdfIri        h_iri = 2;
@@ -64,13 +82,16 @@ message RdfPatchOptions {
   // Whether the stream may contain RDF-star statements
   bool rdf_star = 4;
   // Maximum size of the name lookup table
+  // (required, must be >= 8)
   uint32 max_name_table_size = 9;
   // Maximum size of the prefix lookup table
+  // (required if the prefix lookup is used)
   uint32 max_prefix_table_size = 10;
   // Maximum size of the datatype lookup table
+  // (required if datatype literals are used)
   uint32 max_datatype_table_size = 11;
   // Protocol version (required)
-  // For Jelly 1.1.x value must be 2.
+  // For Jelly-Patch 1.0.x (based on Jelly-RDF 1.1.x), the value must be 1.
   // For custom extensions, the value must be 10000 or higher.
   uint32 version = 15;
 }
