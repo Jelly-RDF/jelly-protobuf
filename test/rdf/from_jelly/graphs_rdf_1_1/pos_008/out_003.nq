@@ -1,0 +1,6 @@
+_:B6e63c5ae9d05f47b21b42e8723fbca96 <http://example.org/property/p1> "More Labels" _:B3725ce895cbdfaf76f4eaa07188e7ab2 .
+<http://example.org/resource/B> <http://example.org/property_adv/p_a> <http://example.org/resource/E> _:B3725ce895cbdfaf76f4eaa07188e7ab2 .
+<http://example.org/resource_ext/C> <http://example.org/property/p1> "1"^^<http://www.w3.org/2001/XMLSchema#integer> _:B3725ce895cbdfaf76f4eaa07188e7ab2 .
+_:B6e63c5ae9d05f47b21b42e8723fbca96 <http://example.org/property/p1> "Label with more precise langtag"@en-AU <http://example.org/graph/G1> .
+<http://example.org/resource/B> <http://example.org/property_adv/p_a> _:B6e63c5ae9d05f47b21b42e8723fbca96 <http://example.org/graph/G1> .
+<http://example.org/resource/A> <http://example.org/property/p> <http://example.org/resource_ext/C> <http://example.org/graph/G1> .

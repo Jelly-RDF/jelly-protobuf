@@ -1,0 +1,13 @@
+<http://example.org/resource/A> <http://example.org/property/p2> _:bn3 _:bn1.
+
+<http://example.org/resource/F> <http://example.org/property/p2> _:bn2 _:bn1.
+
+<http://example.org/resource/C> <http://example.org/property/p1> <http://example.org/resource/A> .
+
+<http://example.org/resource/C> <http://example.org/property/p1> <http://example.org/resource/A> <http://example.org/graph/G1> .
+
+<http://example.org/resource/C> <http://example.org/property/p1> <http://example.org/resource/A> <http://example.org/graph/G1> .
+
+<http://example.org/resource/C> <http://example.org/property/p1> <http://example.org/resource/A> <http://example.org/graph/G1> .
+
+<http://example.org/resource/F> <http://example.org/property/p2> "0.1"^^<http://www.w3.org/2001/XMLSchema#decimal> <http://example.org/graph/G1>.

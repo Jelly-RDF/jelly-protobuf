@@ -1,0 +1,5 @@
+<http://example.org/resource/A> <http://example.org/property/p> "2010-11-09T10:17:34+03:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+_:B6e63c5ae9d05f47b21b42e8723fbca96 <http://example.org/property/p> "100.000"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/resource_ext/D> <http://example.org/property_adv/p_a> _:B6e63c5ae9d05f47b21b42e8723fbca96 .
+<http://example.org/resource/B> <http://example.org/property/p> "Label with langtag"@en .
+<http://example.org/resource/A> <http://example.org/property/p> <http://example.org/resource/D> _:B3725ce895cbdfaf76f4eaa07188e7ab2 .
