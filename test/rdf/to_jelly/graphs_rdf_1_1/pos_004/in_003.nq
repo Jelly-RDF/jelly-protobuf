@@ -1,0 +1,7 @@
+<http://example.org/resource/F> <http://example.org/property/p2> "0.1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+
+<http://example.org/resource/A> <http://example.org/property/p> <http://example.org/resource/B> .
+
+<http://example.org/resource/E> <http://example.org/property/p1> <http://example.org/resource/F> .
+
+<http://example.org/resource/A> <http://example.org/property/p> _:bn3 <http://example.org/graph/G>.

@@ -1,0 +1,9 @@
+<http://example.org/resource/A> <http://example.org/property/p> <http://example.org/resource/B> .
+<http://example.org/resource/A> <http://example.org/property/p> <http://example.org/resource/B> .
+<http://example.org/resource/A> <http://example.org/property/p> <http://example.org/resource/B> .
+_:B80ff88c3a09ce1ac27f70ab4a00e6b80 <http://example.org/property/p> "Literal" <http://example.org/graph/G> .
+_:B80ff88c3a09ce1ac27f70ab4a00e6b80 <http://example.org/property/p> "Literal" <http://example.org/graph/G> .
+_:B80ff88c3a09ce1ac27f70ab4a00e6b80 <http://example.org/property/p> "Literal" <http://example.org/graph/G> .
+<http://example.org/resource/A> <http://example.org/property/p> _:B23e69d35c8426d1604ad5e1cf5b1414c _:Ba43fda2100708f398f35f91b34d93e1c .
+<http://example.org/resource/A> <http://example.org/property/p> _:B23e69d35c8426d1604ad5e1cf5b1414c _:Ba43fda2100708f398f35f91b34d93e1c .
+<http://example.org/resource/A> <http://example.org/property/p> _:B23e69d35c8426d1604ad5e1cf5b1414c _:Ba43fda2100708f398f35f91b34d93e1c .
