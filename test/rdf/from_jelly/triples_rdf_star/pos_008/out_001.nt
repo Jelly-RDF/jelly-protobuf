@@ -1,0 +1,8 @@
+<http://example.org/person/A> <http://example.org/action/said> << _:B89fd442fbfd44885f1599d6d9ebc7e04 <http://example.org/action/heard> "Rumor" >> .
+_:B89fd442fbfd44885f1599d6d9ebc7e04 <http://example.org/action/said> << _:Be576b60de6a47b06bd44f608927805d3 <http://example.org/action/heard> <http://example.org/person/B> >> .
+<http://example.org/person/A> <http://example.org/action/said> << <http://example.org/person/B> <http://example.org/action/age> "33"^^<http://www.w3.org/2001/XMLSchema#integer> >> .
+<http://example.org/person/A> <http://example.org/action/said> << <http://example.org/person/B> <http://example.org/action/saw> _:Ba4570cca44f3b6bb98eef3dbf2f5f4bc >> .
+<< <http://example.org/person/A> <http://example.org/property/whoIs> <http://example.org/occupation/spy> >> <http://example.org/action/told> <http://example.org/person/B> .
+<< _:B5885efc070760cc4c50a7a2bf8c84433 <http://example.org/property/worksAt> "Company" >> <http://example.org/action/told> <http://example.org/person/A> .
+<< _:B5885efc070760cc4c50a7a2bf8c84433 <http://example.org/property/knows> _:B89fd442fbfd44885f1599d6d9ebc7e04 >> <http://example.org/property/knows> _:Ba4570cca44f3b6bb98eef3dbf2f5f4bc .
+<< _:B5885efc070760cc4c50a7a2bf8c84433 <http://example.org/property/wasPresent> "2025-08-10"^^<http://www.w3.org/2001/XMLSchema#date> >> <http://example.org/property/at> <http://example.org/event/E> .
