@@ -1,0 +1,4 @@
+<http://example.org/resource/D> <http://example.org/property/p1> <http://example.org/resource/C> <http://example.org/graph/G> .
+_:bn2 <http://example.org/property/pp> "0.99"^^<http://www.w3.org/2001/XMLSchema#float> <http://example.org/graph/G> .
+<http://example.org/resource/A> <http://example.org/property/p1> "300"^^<http://www.w3.org/2001/XMLSchema#integer>  <http://example.org/graph/G> .
+<http://example.org/resource/B> <http://example.org/property/p1> "300"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.org/graph/G> .

@@ -1,0 +1,3 @@
+_:Bc1bd66f77523fb48d2d50d05ac3a184f <http://example.org/property/p1> "Label" <http://example.org/graph/G> .
+<http://example.org/resource/B> <http://example.org/property/p> _:Bc1bd66f77523fb48d2d50d05ac3a184f <http://example.org/graph/G> .
+<http://example.org/resource/A> <http://example.org/property/p> <http://example.org/resource/B> <http://example.org/graph/G> .

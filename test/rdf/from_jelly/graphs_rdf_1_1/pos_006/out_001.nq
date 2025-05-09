@@ -1,0 +1,4 @@
+<http://example.org/resource/A> <http://example.org/property/p> <http://example.org/resource/B> .
+_:B09abb36e6f97ad7849e9f7ac446c15ea <http://example.org/property/p> "Label" .
+<http://example.org/resource/B> <http://example.org/property/p> _:B09abb36e6f97ad7849e9f7ac446c15ea .
+<http://example.org/resource/B> <http://example.org/property/p> "Label with langtag"@en .

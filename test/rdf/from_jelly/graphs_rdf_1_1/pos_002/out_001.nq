@@ -1,0 +1,5 @@
+<http://example.org/resource/A> <http://example.org/property/p> <http://example.org/resource/B> .
+_:B012afa223826fc5d33ee4fd53f242b5f <http://example.org/property/p> "Literal" <http://example.org/graph/G> .
+<http://example.org/resource/A> <http://example.org/property/p> "Literal with langtag"@en _:B1d62ff1b500081020712b2dcf86739a8 .
+<http://example.org/resource/B> <http://example.org/property/p> "100"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.org/graph/G> .
+<http://example.org/resource/C> <http://example.org/property/p> _:Ba8df7cfff8a7a55093e3811fc4b9a75e <http://example.org/graph/G> .
