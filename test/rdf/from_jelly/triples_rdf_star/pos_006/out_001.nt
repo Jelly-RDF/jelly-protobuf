@@ -1,0 +1,1 @@
+<http://example.org/person/A> <http://example.org/action/mentioned> << <http://example.org/person/A> <http://example.org/action/remebered> << <http://example.org/person/A> <http://example.org/action/recorded> << <http://example.org/person/A> <http://example.org/action/giving> <http://example.org/object/presentation> >> >> >> .

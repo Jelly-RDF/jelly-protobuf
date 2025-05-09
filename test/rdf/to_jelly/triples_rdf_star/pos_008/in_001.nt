@@ -1,0 +1,8 @@
+<http://example.org/person/A> <http://example.org/action/said> << _:bn1 <http://example.org/action/heard> "Rumor" >> .
+_:bn1 <http://example.org/action/said> << _:bn2 <http://example.org/action/heard> <http://example.org/person/B> >> .
+<http://example.org/person/A> <http://example.org/action/said> << <http://example.org/person/B> <http://example.org/action/age> "33"^^<http://www.w3.org/2001/XMLSchema#integer> >> .
+<http://example.org/person/A> <http://example.org/action/said> << <http://example.org/person/B> <http://example.org/action/saw> _:bn3 >> .
+<< <http://example.org/person/A> <http://example.org/property/whoIs> <http://example.org/occupation/spy> >> <http://example.org/action/told> <http://example.org/person/B> .
+<< _:bn4 <http://example.org/property/worksAt> "Company" >> <http://example.org/action/told> <http://example.org/person/A> .
+<< _:bn4 <http://example.org/property/knows> _:bn1 >> <http://example.org/property/knows> _:bn3 .
+<< _:bn4 <http://example.org/property/wasPresent> "2025-08-10"^^<http://www.w3.org/2001/XMLSchema#date> >> <http://example.org/property/at> <http://example.org/event/E> .
