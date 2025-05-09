@@ -1,0 +1,4 @@
+<http://example.org/resource/A> <http://example.org/property/p> <http://example.org/resource/B> <http://example.org/graph/G> .
+_:B09abb36e6f97ad7849e9f7ac446c15ea <http://example.org/property/p1> "Label" <http://example.org/graph/G> .
+<http://example.org/resource/B> <http://example.org/property/p> _:B09abb36e6f97ad7849e9f7ac446c15ea <http://example.org/graph/G> .
+<http://example.org/resource/B> <http://example.org/property/p1> "1"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.org/graph/G> .

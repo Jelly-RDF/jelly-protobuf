@@ -1,0 +1,5 @@
+<http://example.org/resource/C> <http://example.org/property/p> "0.1"^^<http://www.w3.org/2001/XMLSchema#decimal> <http://example.org/graph/G> .
+<http://example.org/resource/A> <http://example.org/property/p2> _:B2872208cefaa98637755ed1a88ed5b09 _:B7207e943289271f72db3d9913411e9c0 .
+<http://example.org/resource_ext/F> <http://example.org/property/p2> _:Bd11b69c6023f1659ba75dcd4e6e89e04 _:B7207e943289271f72db3d9913411e9c0 .
+<http://example.org/resource/B> <http://example.org/property/p> <http://example.org/resource/H> .
+<http://example.org/resource/C> <http://example.org/property_more/p1> <http://example.org/resource/A> .

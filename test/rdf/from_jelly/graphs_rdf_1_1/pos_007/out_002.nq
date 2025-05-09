@@ -1,0 +1,5 @@
+<http://example.org/resource/A> <http://example.org/property/p> <http://example.org/resource/B> <http://example.org/graph/G> .
+_:Bc1bd66f77523fb48d2d50d05ac3a184f <http://example.org/property/p1> "0.001"^^<http://www.w3.org/2001/XMLSchema#float> <http://example.org/graph/G> .
+<http://example.org/resource/D> <http://example.org/property/pd> "2012-12-21T12:21:12+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://example.org/graph/G> .
+<http://example.org/resource/B> <http://example.org/property/p1> "300"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.org/graph/G> .
+<http://example.org/resource/B> <http://example.org/property/p1> "1"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.org/graph/G> .
