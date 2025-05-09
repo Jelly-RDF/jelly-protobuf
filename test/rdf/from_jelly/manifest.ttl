@@ -15,6 +15,15 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/from_jelly/>
 
         <quads_rdf_1_1/pos_001>
 
+        <triples_rdf_star/pos_001>
+        <triples_rdf_star/pos_002>
+        <triples_rdf_star/pos_003>
+        <triples_rdf_star/pos_004>
+        <triples_rdf_star/pos_005>
+        <triples_rdf_star/pos_006>
+        <triples_rdf_star/pos_007>
+        <triples_rdf_star/pos_008>
+
         # TODO: add the rest here
     ) .
 
@@ -31,8 +40,65 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/from_jelly/>
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementPhysicalTypeQuads ;
     mf:action <quads_rdf_1_1/pos_001/in.jelly> ;
+    mf:result <quads_rdf_1_1/pos_001/out_001.nq> .
+
+<triples_rdf_star/pos_001> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame, one triple with a quoted triple as a subject. Prefix table disabled. " ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
+    mf:action <triples_rdf_star/pos_001/in.jelly> ;
+    mf:result <triples_rdf_star/pos_001/out_001.ttl> .
+
+<triples_rdf_star/pos_002> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame, three triples showing a quoted triple as a subject/object/both. Prefix table disabled. " ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
+    mf:action <triples_rdf_star/pos_002/in.jelly> ;
+    mf:result <triples_rdf_star/pos_002/out_001.ttl> .
+
+<triples_rdf_star/pos_003> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame, three triples showcasing a quoted triple as a subject/object/both. Prefix table disabled. " ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
+    mf:action <triples_rdf_star/pos_003/in.jelly> ;
+    mf:result <triples_rdf_star/pos_003/out_001.ttl> .
+
+<triples_rdf_star/pos_004> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame, triples with nesting level 3 as subject/object. Prefix table disabled. " ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
+    mf:action <triples_rdf_star/pos_004/in.jelly> ;
+    mf:result <triples_rdf_star/pos_004/out_001.ttl> .
+
+<triples_rdf_star/pos_005> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame, triples with nesting level 10 as subject/object. Prefix table disabled. " ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
+    mf:action <triples_rdf_star/pos_005/in.jelly> ;
+    mf:result <triples_rdf_star/pos_005/out_001.ttl> .
+
+<triples_rdf_star/pos_006> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame, a triple with nesting level 3, subject is repeated in quoted triples. Prefix table disabled. " ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
+    mf:action <triples_rdf_star/pos_006/in.jelly> ;
+    mf:result <triples_rdf_star/pos_006/out_001.ttl> .
+
+<triples_rdf_star/pos_007> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "2 frames, triples have quoted triples in s and/or o. Prefix table enabled. " ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
+    mf:action <triples_rdf_star/pos_007/in.jelly> ;
     mf:result (
-        <quads_rdf_1_1/pos_001/out_001.nq>
+        <triples_rdf_star/pos_007/out_001.ttl> 
+        <triples_rdf_star/pos_007/out_002.ttl> 
     ) .
+
+<triples_rdf_star/pos_008> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame utilizing BNs/IRIs for subject and BNs/IRI/Literals for objects in quoted triples. Prefix table disabled. " ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
+    mf:action <triples_rdf_star/pos_008/in.jelly> ;
+    mf:result <triples_rdf_star/pos_008/out_001.ttl> .
 
 # TODO: the rest

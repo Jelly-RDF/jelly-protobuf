@@ -16,6 +16,14 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
         <triples_rdf_1_1/pos_001>
 
         # TODO: add the rest here
+        <triples_rdf_star/pos_001>
+        <triples_rdf_star/pos_002>
+        <triples_rdf_star/pos_003>
+        <triples_rdf_star/pos_004>
+        <triples_rdf_star/pos_005>
+        <triples_rdf_star/pos_006>
+        <triples_rdf_star/pos_007>
+        <triples_rdf_star/pos_008>
     ) .
 
 <triples_rdf_1_1/neg_001> a jellyt:TestNegative, jellyt:TestRdfToJelly ;
@@ -40,5 +48,95 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
         <triples_rdf_1_1/pos_001/in_001.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_001/out.jelly> .
+
+<triples_rdf_star/pos_001> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "One triple with a quoted triple as a subject" ;
+    rdfs:comment "Only IRIs as terms. Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
+    mf:action (
+        <triples_rdf_star/pos_001/stream_options.jelly>
+        <triples_rdf_star/pos_001/in_001.ttl>
+    ) ;
+    mf:result <triples_rdf_star/pos_001/out.jelly> .
+
+<triples_rdf_star/pos_002> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of triples with quoted s/o and both s and o quoted" ;
+    rdfs:comment "Only IRIs as terms. Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
+    mf:action (
+        <triples_rdf_star/pos_002/stream_options.jelly>
+        <triples_rdf_star/pos_002/in_001.ttl>
+    ) ;
+    mf:result <triples_rdf_star/pos_002/out.jelly> .
+
+<triples_rdf_star/pos_003> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of triples with the same triples being asserted and quoted" ;
+    rdfs:comment "Only IRIs as terms. Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
+    mf:action (
+        <triples_rdf_star/pos_003/stream_options.jelly>
+        <triples_rdf_star/pos_003/in_001.ttl>
+    ) ;
+    mf:result <triples_rdf_star/pos_003/out.jelly> .
+
+<triples_rdf_star/pos_004> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of triples with nested level 3 as subjects or as objects" ;
+    rdfs:comment "Only IRIs as terms. Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
+    mf:action (
+        <triples_rdf_star/pos_004/stream_options.jelly>
+        <triples_rdf_star/pos_004/in_001.ttl>
+    ) ;
+    mf:result <triples_rdf_star/pos_004/out.jelly> .
+
+<triples_rdf_star/pos_005> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of triples with nested level 10 as subjects or as objects" ;
+    rdfs:comment "Only IRIs as terms. Quoted triples have the same predicate. Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=16, max-prefix-table-size=0, max-datatype-table-size=0." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
+    mf:action (
+        <triples_rdf_star/pos_005/stream_options.jelly>
+        <triples_rdf_star/pos_005/in_001.ttl>
+    ) ;
+    mf:result <triples_rdf_star/pos_005/out.jelly> .
+
+<triples_rdf_star/pos_006> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of triples with nested level 3 as objects" ;
+    rdfs:comment "Only IRIs as terms. Quoted triples have the same subject. Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=16, max-prefix-table-size=0, max-datatype-table-size=0." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
+    mf:action (
+        <triples_rdf_star/pos_006/stream_options.jelly>
+        <triples_rdf_star/pos_006/in_001.ttl>
+    ) ;
+    mf:result <triples_rdf_star/pos_006/out.jelly> .
+
+<triples_rdf_star/pos_007> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of triples that spans 2 frames, re-using all lookup tables" ;
+    rdfs:comment "BNs, IRIs, and Literals used. Quoted triples appear in subject/objects. Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=10, max-prefix-table-size=8, max-datatype-table-size=2. 30 rows per frame" ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
+    mf:action (
+        <triples_rdf_star/pos_007/stream_options.jelly>
+        <triples_rdf_star/pos_007/in_001.ttl>
+        <triples_rdf_star/pos_007/in_002.ttl>
+    ) ;
+    mf:result <triples_rdf_star/pos_007/out.jelly> .
+
+<triples_rdf_star/pos_008> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of triples, each has a quoted triple either as a subject or an object and features IRI/BN as subject and IRI/Literal/BN as object" ;
+    rdfs:comment "Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=10, max-prefix-table-size=8, max-datatype-table-size=2. 30 rows per frame" ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
+    mf:action (
+        <triples_rdf_star/pos_008/stream_options.jelly>
+        <triples_rdf_star/pos_008/in_001.ttl>
+    ) ;
+    mf:result <triples_rdf_star/pos_008/out.jelly> .
+
 
 # TODO: the rest
