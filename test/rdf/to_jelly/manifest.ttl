@@ -57,6 +57,28 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     ) ;
     mf:result <triples_rdf_1_1/pos_001/out.jelly> .
 
+<triples_rdf_1_1/pos_014> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A triple with BNs utilizing various allowed characters and symbols (e.g., combining characters and extenders)." ;
+    rdfs:comment "Stream options are: generalized-statements=false, rdf-star=false, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples ;
+    mf:action (
+        <triples_rdf_1_1/pos_014/stream_options.jelly>
+        <triples_rdf_1_1/pos_014/in_001.nt>
+    ) ;
+    mf:result <triples_rdf_1_1/pos_014/out.jelly> .
+
+<triples_rdf_1_1/pos_015> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A triple with IRIs utilizing various allowed characters and symbols (e.g., different alphabets, emoji, percented encoding)." ;
+    rdfs:comment "Stream options are: generalized-statements=false, rdf-star=false, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples ;
+    mf:action (
+        <triples_rdf_1_1/pos_015/stream_options.jelly>
+        <triples_rdf_1_1/pos_015/in_001.nt>
+    ) ;
+    mf:result <triples_rdf_1_1/pos_015/out.jelly> .
+
 <triples_rdf_star/pos_001> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
     mf:name "One triple with a quoted triple as a subject" ;
     rdfs:comment "Only IRIs as terms. Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0." ;
