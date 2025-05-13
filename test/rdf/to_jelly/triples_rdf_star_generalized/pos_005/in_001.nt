@@ -1,0 +1,6 @@
+<http://example.org/resource/r1> <http://example.org/property/acquiredBy> _:bnCommon .
+<< << << <http://example.org/resource/r1> <http://example.org/property/acquiredBy> _:bnCommon >> <http://example.org/property/reportedBy> _:bnCommon >> <http://example.org/property/declaredBy> _:bnCommon >> <http://example.org/property/isPartOf> _:bnCommon .
+"Company A"@en << "Company A"@en << "Company A"@en << "Company A"@en "hasLinkTo" _:bn_org1 >> _:bn_org1 >> _:bn_org1 >> _:bn_org1 .
+"Company A"@en "hasLinkTo" _:bn_org1 .
+_:bn_org "hasLinkTo" << _:bn_org1 "hasLinkTo" << _:bn_org2 "hasLinkTo" << _:bn_org3 "hasLinkTo" "3"^^<http://www.w3.org/2001/XMLSchema#integer> >> >> >> .
+_:bn_org3 "hasLinkTo" _:bn_org1 .

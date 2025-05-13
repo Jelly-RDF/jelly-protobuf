@@ -45,6 +45,16 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/from_jelly/>
         <quads_rdf_star/pos_006>
         <quads_rdf_star/pos_007>
 
+        <triples_rdf_star_generalized/neg_001>
+        <triples_rdf_star_generalized/neg_002>
+        <triples_rdf_star_generalized/neg_003>
+        <triples_rdf_star_generalized/pos_001>
+        <triples_rdf_star_generalized/pos_002>
+        <triples_rdf_star_generalized/pos_003>
+        <triples_rdf_star_generalized/pos_004>
+        <triples_rdf_star_generalized/pos_005>
+        <triples_rdf_star_generalized/pos_006>
+
         # TODO: add the rest here
     ) .
 
@@ -225,4 +235,78 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/from_jelly/>
         <quads_rdf_star/pos_007/out_003.nq> 
     ) .
 
+<triples_rdf_star_generalized/neg_001> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame, o_triple_term is missing an o_literal on the third nesting level. Repeated terms are prohibited in quoted triples. Error from from-jelly: deserialization error. Term value is not set inside a quoted triple." ;
+    rdft:approval rdft:Proposed ; 
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <triples_rdf_star_generalized/neg_001/in.jelly> .
+
+<triples_rdf_star_generalized/neg_002> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame, s_triple_term is empty {}. Repeated terms are prohibited in quoted triples. Error from from-jelly: deserialization error. Term value is not set inside a quoted triple." ;
+    rdft:approval rdft:Proposed ; 
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <triples_rdf_star_generalized/neg_002/in.jelly> .
+
+<triples_rdf_star_generalized/neg_003> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame, p_triple_term is missing a s_literal used in quoted triples befoere and after and in the basic triple before quoted. Repeated terms are prohibited in quoted triples. Error from from-jelly: deserialization error. Term value is not set inside a quoted triple." ;
+    rdft:approval rdft:Proposed ; 
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <triples_rdf_star_generalized/neg_003/in.jelly> .
+
+<triples_rdf_star_generalized/pos_001> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame. A variety of generalized RDF-star statements. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ; 
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <triples_rdf_star_generalized/pos_001/in.jelly> ;
+    mf:result (
+        <triples_rdf_star_generalized/pos_001/out_001.nt> 
+    ) .
+
+<triples_rdf_star_generalized/pos_002> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame. A variety of generalized RDF-star statements along with triples assertions. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ; 
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <triples_rdf_star_generalized/pos_002/in.jelly> ;
+    mf:result (
+        <triples_rdf_star_generalized/pos_002/out_001.nt> 
+    ) .
+
+<triples_rdf_star_generalized/pos_003> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame. A set of generalized RDF-star triples with quoted triples appearing in different places inside one RDF-star statement. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ; 
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <triples_rdf_star_generalized/pos_003/in.jelly> ;
+    mf:result (
+        <triples_rdf_star_generalized/pos_003/out_001.nt> 
+    ) .
+
+<triples_rdf_star_generalized/pos_004> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame. A set of generalized RDF-star triples with nesting up to 6 levels, with quoted triples repeatedly appearing in s/p/o. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ; 
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <triples_rdf_star_generalized/pos_004/in.jelly> ;
+    mf:result (
+        <triples_rdf_star_generalized/pos_004/out_001.nt> 
+    ) .
+
+<triples_rdf_star_generalized/pos_005> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame. A set of generalized RDF-star triples with repeating terms inside/outside of quoted triples. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ; 
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <triples_rdf_star_generalized/pos_005/in.jelly> ;
+    mf:result (
+        <triples_rdf_star_generalized/pos_005/out_001.nt> 
+    ) .
+
+<triples_rdf_star_generalized/pos_006> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Three (3) frames. A set of generalized RDF-star triples with repeating terms inside/outside of quoted triples, re-using all lookup tables. Prefix table enabled." ;
+    rdft:approval rdft:Proposed ; 
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <triples_rdf_star_generalized/pos_006/in.jelly> ;
+    mf:result (
+        <triples_rdf_star_generalized/pos_006/out_001.nt> 
+        <triples_rdf_star_generalized/pos_006/out_002.nt> 
+        <triples_rdf_star_generalized/pos_006/out_003.nt> 
+    ) .
+    
 # TODO: the rest

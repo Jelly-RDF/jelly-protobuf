@@ -1,0 +1,9 @@
+<http://example.org/resource/r1> <http://example.org/property/belongsTo> <http://example.org/organization/o1> .
+<< <http://example.org/resource/r1> <http://example.org/property/belongsTo> <http://example.org/organization/o1> >> <http://example.org/property/notedBy> <http://example.org/ministry/m1> .
+<< _:Bc10835517532e98cb23156d48a620b69 _:Ba7d5f6e2255063cf0d8df6162bc6e4b2 _:B7a2e7be4a57f1d319164d9ab2e09000e >> _:Ba9bfcf6f68650e3eda78cd06e4a56bcd _:Bb568e15ecba9130d0d46d6ee167fe1d8 .
+<< "Resource" "locatedAt" "Place" >> "reportedBy" "Unknown Source" .
+<http://example.org/organization/o1> <http://example.org/action/talkedAbout> <http://example.org/project/p1> .
+<http://example.org/resource/r1> << _:Bcf9f38f7483642e9e3a53d6f931bafe4 "Describes" _:B55b1940954c10f8ea0a3ca78b47f442c >> <http://example.org/organization/o2> .
+_:B9c90ea292159d06cb43848a72dc506dc << _:Ba8ea6fde07f4b73e43f9ea2cfe13830c _:B157bf598109cc12d090ee8b2ea27c441 _:B55b1940954c10f8ea0a3ca78b47f442c >> _:Bb568e15ecba9130d0d46d6ee167fe1d8 .
+_:B9c90ea292159d06cb43848a72dc506dc << _:Ba8ea6fde07f4b73e43f9ea2cfe13830c _:B157bf598109cc12d090ee8b2ea27c441 _:B55b1940954c10f8ea0a3ca78b47f442c >> _:Bb568e15ecba9130d0d46d6ee167fe1d8 .
+_:B55b1940954c10f8ea0a3ca78b47f442c <http://example.org/property/isBiDirectional> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .

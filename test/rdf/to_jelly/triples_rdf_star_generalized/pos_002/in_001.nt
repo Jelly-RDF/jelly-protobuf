@@ -1,0 +1,22 @@
+<http://example.org/resource/r1> <http://example.org/property/belongsTo> <http://example.org/organization/o1> .
+<< <http://example.org/resource/r1> <http://example.org/property/belongsTo> <http://example.org/organization/o1> >> <http://example.org/property/notedBy> <http://example.org/ministry/m1> .
+<< _:bn_s_tt _:bn_p_tt _:bn_o_tt >> _:bn_property _:bn_obj .
+<< "Resource" "locatedAt" "Place" >> "reportedBy" "Unknown Source" .
+
+<http://example.org/resource/r1> << _:bn_pr "Describes" _:bn_connection >> <http://example.org/organization/o2> .
+_:bn_subj << _:bn_s _:bn_p  _:bn_connection >> _:bn_obj .
+"1000"^^<http://www.w3.org/2001/XMLSchema#integer> << _:bn_s _:bn_p _:bn_connection >> "2021-11-12"^^<http://www.w3.org/2001/XMLSchema#date> .
+
+<http://example.org/property/hasImpact> <http://example.org/property/allocatedTo> <http://example.org/organization/o> .
+<http://example.org/source/s1> <http://example.org/property/hasDescription> << "Source"@en "Reported By"@en "Person"@en >> .
+"Source"@en "Reported By"@en "Person"@en .
+_:bn_subj _:bn_pred << << <http://example.org/source/s1> <http://example.org/property/acquiredBy> _:bn_anon >> <http://example.org/property/reportedBy> "Person"@en >> .
+"Anonymous source"@en-AU "Shared" << <http://example.org/organization/o1> << "hasProperty" <http://example.org/property/initiatedBy> <http://example.org/ministry/m1> >> _:bn_o_tt >> .
+
+<< <http://example.org/ministry/m1> <http://example.org/property/launchedProject> "ProjectName"@en >> << <http://example.org/property/hasImpact> <http://example.org/property/allocatedTo> <http://example.org/organization/o> >> "That's what she said" .
+<< <http://example.org/ministry/m1> <http://example.org/property/hasResources> _:bn_res >> <http://example.org/property/means> << "2020-10-22"^^<http://www.w3.org/2001/XMLSchema#date> "1.1"^^<http://www.w3.org/2001/XMLSchema#decimal> "100"^^<http://www.w3.org/2001/XMLSchema#float> >> .
+"2020-10-22"^^<http://www.w3.org/2001/XMLSchema#date> "1.1"^^<http://www.w3.org/2001/XMLSchema#decimal> "100"^^<http://www.w3.org/2001/XMLSchema#float> .
+"Report" << <http://example.org/property/wasSubmitted> <http://example.org/property/via> _:bn_tr >> << <http://example.org/ministry/m1> <http://example.org/property/receivedFor> << <http://example.org/organization/o1> <http://example.org/organization/provided> <http://example.org/source/quaterly_stat> >> >> .
+
+<< <http://example.org/organization/o1> <http://example.org/property/talkedAbout> << <http://example.org/project/p1> <http://example.org/property/to> _:bn_anon_org >> >> << _:bn_anon_org <http://example.org/property/reachedOut> << "2020-09-02"^^<http://www.w3.org/2001/XMLSchema#date>  <http://example.org/property/asPartOf> _:bn_event >> >> << "Collaboration" _:bn_colab_property << <http://example.org/organization/o1> "RepresentedBy"@en _:bn_anon_employee >> >> .
+<http://example.org/project/p1> <http://example.org/property/to> _:bn_anon_org .

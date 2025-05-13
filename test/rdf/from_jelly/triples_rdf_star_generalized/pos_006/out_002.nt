@@ -1,0 +1,11 @@
+_:B55b1940954c10f8ea0a3ca78b47f442c <http://example.org/property/isRequired> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+"1000"^^<http://www.w3.org/2001/XMLSchema#integer> << _:Ba8ea6fde07f4b73e43f9ea2cfe13830c _:B157bf598109cc12d090ee8b2ea27c441 _:B55b1940954c10f8ea0a3ca78b47f442c >> "2021-11-12"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://example.org/ministry/m1> <http://example.org/property/hasImpact> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+<http://example.org/property/hasImpact> <http://example.org/property/allocatedTo> <http://example.org/organization/o> .
+<http://example.org/source/s1> <http://example.org/property/hasDescription> << "Source"@en "Reported By"@en "Person"@en >> .
+<http://example.org/source/s2> <http://example.org/property/hasDescription> << "Source"@en "Reported By"@en "Person"@en >> .
+"Source"@en "Reported By"@en "Person"@en .
+_:B9c90ea292159d06cb43848a72dc506dc _:Bf3d856b65af9cae46c91ce08a6cbfff7 << << <http://example.org/source/s1> <http://example.org/property/acquiredBy> _:B98b14fd9f44a699685952782af09b9ae >> <http://example.org/property/reportedBy> "Person"@en >> .
+"Anonymous source"@en-AU "Shared" << <http://example.org/organization/o1> << "hasProperty" <http://example.org/property/initiatedBy> <http://example.org/ministry/m1> >> _:B7a2e7be4a57f1d319164d9ab2e09000e >> .
+"Anonymous source"@en-AU "Shared" << <http://example.org/organization/o2> << "hasProperty" <http://example.org/property/closedBy> <http://example.org/ministry/m1> >> _:B42298e22d37b87a52a6d1edda73a070a >> .
+<http://example.org/resource/r1> <http://example.org/property/belongsTo> <http://example.org/organization/o1> .
