@@ -1,0 +1,5 @@
+<http://example.org/employee/e1> <http://example.org/property/employedAt> <http://example.org/company/c1> <http://example.org/graph/employees> .
+<http://example.org/employee/e2> <http://example.org/property/employedAt> <http://example.org/company/c2> <http://example.org/graph/employees> .
+<http://example.org/employee/e3> <http://example.org/property/endedEmploymentOn> "2025-01-02"^^<http://www.w3.org/2001/XMLSchema#date> <http://example.org/graph/employees> .
+<http://example.org/graph/employees> <http://example.org/property/currentVersion> "2.2"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://example.org/graph/employees> <http://example.org/property/lastUpdated> "2025-02-01T08:51:11.002+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .

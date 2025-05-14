@@ -1,0 +1,4 @@
+<http://example.org/location/l1> <http://example.org/property/hasPopulation> "100000"^^<http://www.w3.org/2001/XMLSchema#integer> _:Bc46f4576baafd82f5896a8cefaf9acf6 .
+<http://example.org/company/c1> <http://example.org/property/locatedAt> <http://example.org/location/l1> <http://example.org/graph/registry> .
+<http://example.org/company/c2> <http://example.org/property/locatedAt> _:Ba9b33ec04a65fb9784f91475e72b3a74 <http://example.org/graph/registry> .
+_:B7525ef6c7e04d59dc70c7ff7b88e79d3 <http://example.org/property/updates> _:B222e66a37e60fb82a717645b791645bc .
