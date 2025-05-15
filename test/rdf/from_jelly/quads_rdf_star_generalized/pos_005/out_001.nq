@@ -1,0 +1,20 @@
+_:B1530c5f9c7421b4635ce855ec728a9e3 "reported" << _:Bcadecd9f07db383734ea95e14a9478e7 "reported" << "some agency" "reported" << _:B9951e1cb90477923ad2d8ac778fd7304 "reported" "info" >> >> >> .
+<http://example.org/resource/r1> <http://example.org/property/acquiredBy> _:Be1649820ab3e66495dfd57b5b0eee299 .
+<< << << <http://example.org/resource/r1> <http://example.org/property/acquiredBy> _:Be1649820ab3e66495dfd57b5b0eee299 >> <http://example.org/property/reportedBy> _:Be1649820ab3e66495dfd57b5b0eee299 >> <http://example.org/property/declaredBy> _:Be1649820ab3e66495dfd57b5b0eee299 >> <http://example.org/property/isPartOf> _:Be1649820ab3e66495dfd57b5b0eee299 .
+"Company A"@en << "Company A"@en << "Company A"@en << "Company A"@en "hasLinkTo" _:B3d0a50d5391730826219000297fe8abd >> _:B3d0a50d5391730826219000297fe8abd >> _:B3d0a50d5391730826219000297fe8abd >> _:B3d0a50d5391730826219000297fe8abd .
+"Company A"@en "hasLinkTo" _:B3d0a50d5391730826219000297fe8abd .
+_:B9f1c81ceace398125fcb30ad5af74601 "hasLinkTo" << _:B3d0a50d5391730826219000297fe8abd "hasLinkTo" << _:B2665b8c8851cb61b095d6111bfa83b71 "hasLinkTo" << _:Bf02fe24d02fd1b8684707ac740508028 "hasLinkTo" "3"^^<http://www.w3.org/2001/XMLSchema#float> >> >> >> .
+_:Bf02fe24d02fd1b8684707ac740508028 "hasLinkTo" _:B3d0a50d5391730826219000297fe8abd .
+<http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> .
+<< << << <http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> .
+<< _:Ba3519083864399d86467cdd2aaeee64e << _:Ba3519083864399d86467cdd2aaeee64e _:B8918abeea88805fe23ae87ba5901485e _:B54afc30eec16c180dab5f9a1fcf9e5ad >> _:B54afc30eec16c180dab5f9a1fcf9e5ad >> _:B8918abeea88805fe23ae87ba5901485e _:Bc08bb9d947808fd6ac85a96999414eb5 .
+_:Ba3519083864399d86467cdd2aaeee64e _:B8918abeea88805fe23ae87ba5901485e _:B54afc30eec16c180dab5f9a1fcf9e5ad .
+_:Ba3519083864399d86467cdd2aaeee64e _:B8918abeea88805fe23ae87ba5901485e _:B54afc30eec16c180dab5f9a1fcf9e5ad _:Bc08bb9d947808fd6ac85a96999414eb5 .
+<< _:Ba3519083864399d86467cdd2aaeee64e << _:Ba3519083864399d86467cdd2aaeee64e _:B8918abeea88805fe23ae87ba5901485e _:B54afc30eec16c180dab5f9a1fcf9e5ad >> _:B54afc30eec16c180dab5f9a1fcf9e5ad >> _:B8918abeea88805fe23ae87ba5901485e "anonymous" _:Bc08bb9d947808fd6ac85a96999414eb5 .
+<http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> "programs" .
+<< << << <http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> "programs" .
+<< << <http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> "programs" .
+_:B353231450d76470ef5cd1bcd43c0ec98 "applyTo" <http://example.org/program/p1> <http://example.org/program/p1> .
+_:B353231450d76470ef5cd1bcd43c0ec98 "applyTo" << "programs" "sponsoredBy" <http://example.org/ministry/m1> >> <http://example.org/program/p1> .
+"evaluation" _:Be76e5b7168f8995154a44faff5c1912d << _:B353231450d76470ef5cd1bcd43c0ec98 "applyTo" <http://example.org/program/p1> >> <http://example.org/program/p1> .
+<http://example.org/ministry/m1> _:Be76e5b7168f8995154a44faff5c1912d "evaluation" .

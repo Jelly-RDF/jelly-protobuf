@@ -53,6 +53,16 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/from_jelly/>
         <quads_rdf_star/pos_006>
         <quads_rdf_star/pos_007>
 
+        <quads_rdf_star_generalized/neg_001>
+        <quads_rdf_star_generalized/neg_002>
+        <quads_rdf_star_generalized/neg_003>
+        <quads_rdf_star_generalized/pos_001>
+        <quads_rdf_star_generalized/pos_002>
+        <quads_rdf_star_generalized/pos_003>
+        <quads_rdf_star_generalized/pos_004>
+        <quads_rdf_star_generalized/pos_005>
+        <quads_rdf_star_generalized/pos_006>
+
         # TODO: add the rest here
     ) .
 
@@ -310,6 +320,73 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/from_jelly/>
         <quads_rdf_star/pos_007/out_001.nq> 
         <quads_rdf_star/pos_007/out_002.nq> 
         <quads_rdf_star/pos_007/out_003.nq> 
+    ) .
+
+<quads_rdf_star_generalized/neg_001> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame, s_triple_term is missing a p_literal on the first nesting level, p_literal on the deeper levels repeats. Repeated terms are prohibited in quoted triples. Error from from-jelly: deserialization error. Term value is not set inside a quoted triple." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <quads_rdf_star_generalized/neg_001/in.jelly> ;
+    mf:result <quads_rdf_star_generalized/neg_001/out_001.nq> .
+
+<quads_rdf_star_generalized/neg_002> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame, a quad row only has an empty s_triple_term, quad before has 3 proper s_triple_terms. Repeated terms are prohibited in quoted triples. Error from from-jelly: deserialization error. Term value is not set inside a quoted triple." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <quads_rdf_star_generalized/neg_002/in.jelly> ;
+    mf:result <quads_rdf_star_generalized/neg_002/out_001.nq> .
+
+<quads_rdf_star_generalized/neg_003> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame, o_triple_term is missing p_literal on the second nesting level, the same p_literal is used before and after in nested triples and in the quad row before. Repeated terms are prohibited in quoted triples. Error from from-jelly: deserialization error. Term value is not set inside a quoted triple." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <quads_rdf_star_generalized/neg_003/in.jelly> ;
+    mf:result <quads_rdf_star_generalized/neg_003/out_001.nq> .
+
+<quads_rdf_star_generalized/pos_001> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame. A variety of generalized RDF-star quads with graph labels being BN/IRI/Literal/Default graph. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <quads_rdf_star_generalized/pos_001/in.jelly> ;
+    mf:result <quads_rdf_star_generalized/pos_001/out_001.nq> .
+
+<quads_rdf_star_generalized/pos_002> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame. A variety of generalized RDF-star quads with graph labels being one of BN/IRI/Literal/Default graph mixed with quads assertions repeating statements from quoted triples. Assertions appearing before or after quotation. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <quads_rdf_star_generalized/pos_002/in.jelly> ;
+    mf:result <quads_rdf_star_generalized/pos_002/out_001.nq> .
+
+<quads_rdf_star_generalized/pos_003> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame. A set of generalized RDF-star quads with graph labels being one of BN/IRI/Literal/Default graph. Quoted triples appear in different places inside one quad, with nesting up to 3 levels. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <quads_rdf_star_generalized/pos_003/in.jelly> ;
+    mf:result <quads_rdf_star_generalized/pos_003/out_001.nq> .
+
+<quads_rdf_star_generalized/pos_004> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame. A set of generalized RDF-star quads with nesting up to 6 levels. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <quads_rdf_star_generalized/pos_004/in.jelly> ;
+    mf:result <quads_rdf_star_generalized/pos_004/out_001.nq> .
+
+<quads_rdf_star_generalized/pos_005> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame. A set of generalized RDF-star quads with graph labels being one of BN/IRI/Literal/Default graph. Assertions of similar statements appear along quoted triples, utilizing the same s/p/o/g terms. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <quads_rdf_star_generalized/pos_005/in.jelly> ;
+    mf:result <quads_rdf_star_generalized/pos_005/out_001.nq> .
+
+<quads_rdf_star_generalized/pos_006> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Three (3) frames. A variety of generalized RDF-star quads with graph labels being one of BN/IRI/Literal/Default graph. Assertions of similar statements appear along quoted triples, utilizing the same s/p/o/g terms. Prefix table enabled." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action <quads_rdf_star_generalized/pos_006/in.jelly> ;
+    mf:result ( 
+        <quads_rdf_star_generalized/pos_006/out_001.nq> 
+        <quads_rdf_star_generalized/pos_006/out_002.nq> 
+        <quads_rdf_star_generalized/pos_006/out_003.nq> 
     ) .
 
 # TODO: the rest

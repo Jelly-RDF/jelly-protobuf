@@ -1,0 +1,21 @@
+<< <http://example.org/program/p2> _:bn_has_budget "20500000"^^<http://www.w3.org/2001/XMLSchema#decimal> >> << <http://example.org/program/p2> "isNewEdition" "true"^^<http://www.w3.org/2001/XMLSchema#boolean> >> << <http://example.org/program/p1> "why" _:bn_reason >> <http://example.org/graph/program> .
+<http://example.org/program/all> "areSubjectTo" <http://example.org/action/evaluation> <http://example.org/graph/program> .
+_:bn_anon_eval << <http://example.org/program/all> "areSubjectTo" <http://example.org/action/evaluation> >> << <http://example.org/action/evaluation> <http://example.org/action/performedOn> <http://example.org/program/p1> >> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+<< "evaluation" "has"@en "evaluators"@en-US >> "1"^^<http://www.w3.org/2001/XMLSchema#integer> "100"^^<http://www.w3.org/2001/XMLSchema#decimal> "1.1"^^<http://www.w3.org/2001/XMLSchema#float> .
+"2020-02-20"^^<http://www.w3.org/2001/XMLSchema#date> << "start day" _:bn_of <http://example.org/action/evaluation> >> "evaluation" "Evaluations"@de .
+"evaluation 1" "resultedIn" << << <http://example.org/company/c1> <http://example.org/property/hasHeadQuatersAt> "Place"@en >> _:bn_reported_by _:anonymous_person >> "Evaluations"@en-GB .
+<http://example.org/ministry/m1> <http://example.org/property/employs> "evaluators" .
+"evaluators" << <http://example.org/ministry/m1> <http://example.org/property/employs> "evaluators" >> << "evaluator" <http://example.org/property/hasStatus> "employee" >> "Evaluations" .
+"program 1" "aimsTo" "motivate business" _:bn_conditions .
+<http://example.org/company/c1> <http://example.org/property/isMonitored> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+<< "business" <http://example.org/property/appliesFor> "funding" >> << "funding" "isGiven" "true"^^<http://www.w3.org/2001/XMLSchema#boolean> >> _:bn_regulations "regulations" .
+<< <http://example.org/company/c1> "appliedFor" <http://example.org/program/p1>  >> "includesFunding" _:bn_funding <http://example.org/program/p1> .
+<< <http://example.org/application/a1> _:bn_was_received_on "2020-01-28"^^<http://www.w3.org/2001/XMLSchema#date> >> <http://example.org/property/hasStatus> <http://example.org/status/inProgress> "applications"@en .
+_:bn_limit << "limits" _:apply_to <http://example.org/action/evaluation> >> <http://example.org/application/a1> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<< _:bn_priorities "featuredIn" _:bn_doc >> "1"^^<http://www.w3.org/2001/XMLSchema#integer> << "program" "has" _:bn_doc >>  .
+"business" <http://example.org/property/reports> << << "data" <http://example.org/property/hasFormat> "xls" >> <http://example.org/property/recorded> << "regulations" "following" _:bn_format >> >> "regulations" .
+_:bn_format << "true"^^<http://www.w3.org/2001/XMLSchema#boolean> "appliesTo" <http://example.org/property/reports> >> << _:bn_format <http://example.org/property/isPartOf> "program" >> <http://example.org/ministry/m1> .
+<http://example.org/action/evaluation> << _:bn_criteria "appliesTo" _:bn_application >> << _:bn_application <http://example.org/property/hasContentFor> _:bn_criteria >> <http://example.org/action/evaluation> .
+<< << << _:bn_criteria <http://example.org/property/specifiedBy> "evaluators" >> "includes" _:bn_topic >> << _:bn_criteria "appliesTo" _:bn_application >> << <http://example.org/company/c1> <http://example.org/property/listsTopic> _:bn_topic >> >> << << "evaluation" "includes" _:bn_criteria >> << "evaluation" "impacts" <http://example.org/property/hasStatus> >> << "application status" "being" <http://example.org/property/hasStatus> >> >> << << <http://example.org/application/a1> <http://example.org/property/hasStatus> "In Progress" >> << "In Progress" "means" << "evaluation" <http://example.org/property/hasStatus> <http://example.org/status/inProgress> >> >> << "Duration" "62"^^<http://www.w3.org/2001/XMLSchema#integer> _:bn_duration >> >> .
+_:bn_prev_agency "reported" << _:bn_prev_prev_agency "reported" << "some agency" "reported" << _:agency "reported" "info" >> >> >> .
+<http://example.org/resource/r1> <http://example.org/property/acquiredBy> _:bnCommon .
