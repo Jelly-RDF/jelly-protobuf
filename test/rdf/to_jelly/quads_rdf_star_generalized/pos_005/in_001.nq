@@ -1,0 +1,20 @@
+_:bn_prev_agency "reported" << _:bn_prev_prev_agency "reported" << "some agency" "reported" << _:agency "reported" "info" >> >> >> .
+<http://example.org/resource/r1> <http://example.org/property/acquiredBy> _:bnCommon .
+<< << << <http://example.org/resource/r1> <http://example.org/property/acquiredBy> _:bnCommon >> <http://example.org/property/reportedBy> _:bnCommon >> <http://example.org/property/declaredBy> _:bnCommon >> <http://example.org/property/isPartOf> _:bnCommon .
+"Company A"@en << "Company A"@en << "Company A"@en << "Company A"@en "hasLinkTo" _:bn_org1 >> _:bn_org1 >> _:bn_org1 >> _:bn_org1 .
+"Company A"@en "hasLinkTo" _:bn_org1 .
+_:bn_org "hasLinkTo" << _:bn_org1 "hasLinkTo" << _:bn_org2 "hasLinkTo" << _:bn_org3 "hasLinkTo" "3"^^<http://www.w3.org/2001/XMLSchema#float> >> >> >> .
+_:bn_org3 "hasLinkTo" _:bn_org1 .
+<http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> .
+<< << << <http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> .
+<< _:anonymous_person << _:anonymous_person _:anonymous_link _:anonymous_person1 >>  _:anonymous_person1 >> _:anonymous_link _:anon_graph.
+_:anonymous_person _:anonymous_link _:anonymous_person1 .
+_:anonymous_person _:anonymous_link _:anonymous_person1 _:anon_graph .
+<< _:anonymous_person << _:anonymous_person _:anonymous_link _:anonymous_person1 >>  _:anonymous_person1 >> _:anonymous_link "anonymous" _:anon_graph .
+<http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> "programs" .
+<< << << <http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> "programs" .
+<< << <http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> "programs" .
+_:criteria "applyTo" <http://example.org/program/p1> <http://example.org/program/p1> .
+_:criteria "applyTo" << "programs" "sponsoredBy" <http://example.org/ministry/m1> >> <http://example.org/program/p1> .
+"evaluation" _:specifies << _:criteria "applyTo" <http://example.org/program/p1> >> <http://example.org/program/p1> .
+<http://example.org/ministry/m1> _:specifies "evaluation" .

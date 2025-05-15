@@ -1,0 +1,3 @@
+<http://example.org/object/root2> <http://example.org/property/isLocatedAt> <http://example.org/place/p1> .
+<http://example.org/place/p2> <http://example.org/property/contains> <http://example.org/object/o2> .
+<http://example.org/place/p1> <http://example.org/property/isCloseTo> <http://example.org/place/p2> .

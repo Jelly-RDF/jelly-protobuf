@@ -12,11 +12,16 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
         # RDF 1.1
         <triples_rdf_1_1/neg_001>
 
-        <triples_rdf_1_1/pos_014>
-        <triples_rdf_1_1/pos_015>
-        # TODO: add the rest here
 
         <triples_rdf_1_1/pos_001>
+        <triples_rdf_1_1/pos_014>
+        <triples_rdf_1_1/pos_015>
+        <triples_rdf_1_1/pos_016>
+        # TODO: add the rest here
+
+        <quads_rdf_1_1/pos_006>
+
+        <graphs_rdf_1_1/pos_009>
 
         # TODO: add the rest here
         <triples_rdf_star/pos_001>
@@ -35,6 +40,13 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
         <quads_rdf_star/pos_005>
         <quads_rdf_star/pos_006>
         <quads_rdf_star/pos_007>
+
+        <quads_rdf_star_generalized/pos_001>
+        <quads_rdf_star_generalized/pos_002>
+        <quads_rdf_star_generalized/pos_003>
+        <quads_rdf_star_generalized/pos_004>
+        <quads_rdf_star_generalized/pos_005>
+        <quads_rdf_star_generalized/pos_006>
 
         <triples_rdf_star_generalized/pos_001>
         <triples_rdf_star_generalized/pos_002>
@@ -89,6 +101,42 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
         <triples_rdf_1_1/pos_015/in_001.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_015/out.jelly> .
+
+<triples_rdf_1_1/pos_016> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of triples spanning 2 frames. Stream options request the base logical type = LOGICAL_STREAM_TYPE_GRAPHS." ;
+    rdfs:comment "Stream options are: generalized-statements=false, rdf-star=false, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples ;
+    mf:action (
+        <triples_rdf_1_1/pos_016/stream_options.jelly>
+        <triples_rdf_1_1/pos_016/in_001.nt>
+        <triples_rdf_1_1/pos_016/in_002.nt>
+    ) ;
+    mf:result <triples_rdf_1_1/pos_016/out.jelly> .
+
+<quads_rdf_1_1/pos_006> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of quads spanning 2 frames. Each frame has 3 graphs. Stream options request the base logical type = LOGICAL_STREAM_TYPE_DATASETS." ;
+    rdfs:comment "Stream options are: generalized-statements=false, rdf-star=false, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=4." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads ;
+    mf:action (
+        <quads_rdf_1_1/pos_006/stream_options.jelly>
+        <quads_rdf_1_1/pos_006/in_001.nq>
+        <quads_rdf_1_1/pos_006/in_002.nq>
+    ) ;
+    mf:result <quads_rdf_1_1/pos_006/out.jelly> .
+
+<graphs_rdf_1_1/pos_009> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of quads spanning 2 frames. Each frame has 2+ graphs. Stream options request the base logical type = LOGICAL_STREAM_TYPE_DATASETS." ;
+    rdfs:comment "Stream options are: generalized-statements=false, rdf-star=false, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=4." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeGraphs ;
+    mf:action (
+        <graphs_rdf_1_1/pos_009/stream_options.jelly>
+        <graphs_rdf_1_1/pos_009/in_001.nq>
+        <graphs_rdf_1_1/pos_009/in_002.nq>
+    ) ;
+    mf:result <graphs_rdf_1_1/pos_009/out.jelly> .
 
 <triples_rdf_star/pos_001> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
     mf:name "One triple with a quoted triple as a subject" ;
@@ -257,6 +305,74 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
         <quads_rdf_star/pos_007/in_003.nq>
     ) ;
     mf:result <quads_rdf_star/pos_007/out.jelly> .
+
+<quads_rdf_star_generalized/pos_001> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A variety of generalized RDF-star quads with graph labels being BN/IRI/Literal/Default graph, featuring quoted triples of different shapes in different places." ;
+    rdfs:comment "Stream options are: generalized-statements=true, rdf-star=true, max-name-table-size=16, max-prefix-table-size=0, max-datatype-table-size=4." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action (
+        <quads_rdf_star_generalized/pos_001/stream_options.jelly>
+        <quads_rdf_star_generalized/pos_001/in_001.nq>
+    ) ;
+    mf:result <quads_rdf_star_generalized/pos_001/out.jelly> .
+
+<quads_rdf_star_generalized/pos_002> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A variety of generalized RDF-star quads with graph labels being BN/IRI/Literal/Default graph, featuring quoted triples of different shapes in different places. A set of assertions of the same statements in the same/different graph is added before/after quads with corresponding quoted triples." ;
+    rdfs:comment "Stream options are: generalized-statements=true, rdf-star=true, max-name-table-size=16, max-prefix-table-size=0, max-datatype-table-size=4." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action (
+        <quads_rdf_star_generalized/pos_002/stream_options.jelly>
+        <quads_rdf_star_generalized/pos_002/in_001.nq>
+    ) ;
+    mf:result <quads_rdf_star_generalized/pos_002/out.jelly> .
+
+<quads_rdf_star_generalized/pos_003> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A variety of generalized RDF-star quads, featuring quoted triples of different shapes in different places inside one quad, with overall max nesting level 3." ;
+    rdfs:comment "Stream options are: generalized-statements=true, rdf-star=true, max-name-table-size=16, max-prefix-table-size=0, max-datatype-table-size=4." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action (
+        <quads_rdf_star_generalized/pos_003/stream_options.jelly>
+        <quads_rdf_star_generalized/pos_003/in_001.nq>
+    ) ;
+    mf:result <quads_rdf_star_generalized/pos_003/out.jelly> .
+
+<quads_rdf_star_generalized/pos_004> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A variety of generalized RDF-star quads, featuring quoted triples in s/p/o with max nesting level 6." ;
+    rdfs:comment "Stream options are: generalized-statements=true, rdf-star=true, max-name-table-size=16, max-prefix-table-size=0, max-datatype-table-size=4." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action (
+        <quads_rdf_star_generalized/pos_004/stream_options.jelly>
+        <quads_rdf_star_generalized/pos_004/in_001.nq>
+    ) ;
+    mf:result <quads_rdf_star_generalized/pos_004/out.jelly> .
+
+<quads_rdf_star_generalized/pos_005> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A variety of generalized RDF-star quads, featuring quoted triples and assertions of the same statements nearby. Features the same s/p/o/g terms in subsequent quads and inside/outside quoted triples." ;
+    rdfs:comment "Stream options are: generalized-statements=true, rdf-star=true, max-name-table-size=16, max-prefix-table-size=0, max-datatype-table-size=4." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action (
+        <quads_rdf_star_generalized/pos_005/stream_options.jelly>
+        <quads_rdf_star_generalized/pos_005/in_001.nq>
+    ) ;
+    mf:result <quads_rdf_star_generalized/pos_005/out.jelly> .
+
+<quads_rdf_star_generalized/pos_006> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "Combined input from pos_002 and pos_005, used across three (3) frames. A variety of generalized RDF-star quads, featuring quoted triples and assertions of the same statements nearby. Features the same s/p/o/g terms in subsequent quads and inside/outside quoted triples." ;
+    rdfs:comment "Stream options are: generalized-statements=true, rdf-star=true, max-name-table-size=20, max-prefix-table-size=6, max-datatype-table-size=4, rows-per-frame=50." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action (
+        <quads_rdf_star_generalized/pos_006/stream_options.jelly>
+        <quads_rdf_star_generalized/pos_006/in_001.nq>
+        <quads_rdf_star_generalized/pos_006/in_002.nq>
+        <quads_rdf_star_generalized/pos_006/in_003.nq>
+    ) ;
+    mf:result <quads_rdf_star_generalized/pos_006/out.jelly> .
 
 <triples_rdf_star_generalized/pos_001> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
     mf:name "A set of generalized RDF-star statements, featuring variety of quoted generalized triples as s/p/o or combinations of such (nested up to 2 levels)." ;

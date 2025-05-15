@@ -1,0 +1,7 @@
+<http://example.org/location/l1> <http://example.org/property/hasName> "Location Name"@en _:B9f5fff4b4a29531afe56c6eddcb0587f .
+<http://example.org/location/l1> <http://example.org/property/hasPopulation> "100000"^^<http://www.w3.org/2001/XMLSchema#integer> _:B9f5fff4b4a29531afe56c6eddcb0587f .
+<http://example.org/location/l1> <http://example.org/property/hostsHeadQuatersOf> "100000"^^<http://www.w3.org/2001/XMLSchema#integer> _:B9f5fff4b4a29531afe56c6eddcb0587f .
+<http://example.org/company/c1> <http://example.org/property/locatedAt> <http://example.org/location/l1> <http://example.org/graph/registry> .
+<http://example.org/company/c2> <http://example.org/property/locatedAt> _:B5bb883574cad9e0088d28ed5b990b046 <http://example.org/graph/registry> .
+_:Bfa35d5c2a2240f63aa8185378be38b0d <http://example.org/property/updates> _:B0eb2ad297a5abb745b97e16d8886111b .
+_:Bfa35d5c2a2240f63aa8185378be38b0d <http://example.org/property/hasAccessTo> _:B0eb2ad297a5abb745b97e16d8886111b .
