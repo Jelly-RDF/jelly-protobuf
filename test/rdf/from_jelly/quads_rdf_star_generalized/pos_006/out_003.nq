@@ -1,0 +1,18 @@
+<< << << <http://example.org/resource/r1> <http://example.org/property/acquiredBy> _:B731a54f28cba72b1d4df7913db15365c >> <http://example.org/property/reportedBy> _:B731a54f28cba72b1d4df7913db15365c >> <http://example.org/property/declaredBy> _:B731a54f28cba72b1d4df7913db15365c >> <http://example.org/property/isPartOf> _:B731a54f28cba72b1d4df7913db15365c .
+"Company A"@en << "Company A"@en << "Company A"@en << "Company A"@en "hasLinkTo" _:B0aabf7257c795607ec95c8dc39475803 >> _:B0aabf7257c795607ec95c8dc39475803 >> _:B0aabf7257c795607ec95c8dc39475803 >> _:B0aabf7257c795607ec95c8dc39475803 .
+"Company A"@en "hasLinkTo" _:B0aabf7257c795607ec95c8dc39475803 .
+_:B1ed5735b427fc701ee7a8e3076b61696 "hasLinkTo" << _:B0aabf7257c795607ec95c8dc39475803 "hasLinkTo" << _:B84353ffd45f3f5f9af6261038950b50b "hasLinkTo" << _:Be1f0271c4c048d6da4327b6f95d31779 "hasLinkTo" "3"^^<http://www.w3.org/2001/XMLSchema#float> >> >> >> .
+_:Be1f0271c4c048d6da4327b6f95d31779 "hasLinkTo" _:B0aabf7257c795607ec95c8dc39475803 .
+<http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> .
+<< << << <http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> .
+<< _:B01523e49310a6a65963a25fa88aaef80 << _:B01523e49310a6a65963a25fa88aaef80 _:Bc43e75f27ec32e8791fef7ede712fda3 _:B4a7184bed58eaebfbce6ddb197082376 >> _:B4a7184bed58eaebfbce6ddb197082376 >> _:Bc43e75f27ec32e8791fef7ede712fda3 _:B35724127af9c973adf86047f93860541 .
+_:B01523e49310a6a65963a25fa88aaef80 _:Bc43e75f27ec32e8791fef7ede712fda3 _:B4a7184bed58eaebfbce6ddb197082376 .
+_:B01523e49310a6a65963a25fa88aaef80 _:Bc43e75f27ec32e8791fef7ede712fda3 _:B4a7184bed58eaebfbce6ddb197082376 _:B35724127af9c973adf86047f93860541 .
+<< _:B01523e49310a6a65963a25fa88aaef80 << _:B01523e49310a6a65963a25fa88aaef80 _:Bc43e75f27ec32e8791fef7ede712fda3 _:B4a7184bed58eaebfbce6ddb197082376 >> _:B4a7184bed58eaebfbce6ddb197082376 >> _:Bc43e75f27ec32e8791fef7ede712fda3 "anonymous" _:B35724127af9c973adf86047f93860541 .
+<http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> "programs" .
+<< << << <http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> "programs" .
+<< << <http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> "programs" .
+_:B8bc24b0263484c73dbf4eaaa2c4bace5 "applyTo" <http://example.org/program/p1> <http://example.org/program/p1> .
+_:B8bc24b0263484c73dbf4eaaa2c4bace5 "applyTo" << "programs" "sponsoredBy" <http://example.org/ministry/m1> >> <http://example.org/program/p1> .
+"evaluation" _:Bd2cc3816b15311e75ced3788d12b06f8 << _:B8bc24b0263484c73dbf4eaaa2c4bace5 "applyTo" <http://example.org/program/p1> >> <http://example.org/program/p1> .
+<http://example.org/ministry/m1> _:Bd2cc3816b15311e75ced3788d12b06f8 "evaluation" .

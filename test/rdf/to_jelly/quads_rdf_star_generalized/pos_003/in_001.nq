@@ -1,0 +1,4 @@
+<< <http://example.org/program/p1> <http://example.org/property/hasTitle> "Project" >> _:bn_assignedTo << << <http://example.org/department/d1> << "organization" "prioritised" <http://example.org/direction/d1> >> _:bn_org_focus >> _:partOf "executors" >> .
+<< <http://example.org/department/d1> "has"@en << "employees" << "employee" "worksAt" "department" >> _:staff >> >> "provides"@en-AU _:resources _:structure .
+<< _:resources <http://example.org/property/areAvailable> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> >> << _:resources "requestedFor" << << _:project <http://example.org/property/has> "work packages" >> _:requires "executors" >> >> "Project" "Availability" .
+"work packages" "describe" << "tasks" << "work" _:bn_assignedTo << "department" "performs" "tasks" >> >> _:staff >> <http://example.org/program/p1> .
