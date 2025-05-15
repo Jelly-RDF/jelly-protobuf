@@ -1,0 +1,6 @@
+<http://example.org/resource/r1> <http://example.org/property/acquiredBy> _:B64f5710472deab7f9c1651a4dd4e55c7 .
+<< << << <http://example.org/resource/r1> <http://example.org/property/acquiredBy> _:B64f5710472deab7f9c1651a4dd4e55c7 >> <http://example.org/property/reportedBy> _:B64f5710472deab7f9c1651a4dd4e55c7 >> <http://example.org/property/declaredBy> _:B64f5710472deab7f9c1651a4dd4e55c7 >> <http://example.org/property/isPartOf> _:B64f5710472deab7f9c1651a4dd4e55c7 .
+"Company A"@en << "Company A"@en << "Company A"@en << "Company A"@en "hasLinkTo" _:B5a9fdadbd780a9a732bdc55b44553410 >> _:B5a9fdadbd780a9a732bdc55b44553410 >> _:B5a9fdadbd780a9a732bdc55b44553410 >> _:B5a9fdadbd780a9a732bdc55b44553410 .
+"Company A"@en "hasLinkTo" _:B5a9fdadbd780a9a732bdc55b44553410 .
+_:B41b9ce115c11925160bb9eb5fda40ab2 "hasLinkTo" << _:B5a9fdadbd780a9a732bdc55b44553410 "hasLinkTo" << _:B6fd2f63d2ce6193d4b4bdd8f248e2294 "hasLinkTo" << _:B63f52743d0a3c0cd977a79c970fc2b01 "hasLinkTo" "3"^^<http://www.w3.org/2001/XMLSchema#integer> >> >> >> .
+_:B63f52743d0a3c0cd977a79c970fc2b01 "hasLinkTo" _:B5a9fdadbd780a9a732bdc55b44553410 .

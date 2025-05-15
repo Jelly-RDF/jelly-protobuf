@@ -1,0 +1,13 @@
+_:bn_connection <http://example.org/property/isRequired> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+"1000"^^<http://www.w3.org/2001/XMLSchema#integer> << _:bn_s _:bn_p _:bn_connection >> "2021-11-12"^^<http://www.w3.org/2001/XMLSchema#date> .
+
+<http://example.org/ministry/m1> <http://example.org/property/hasImpact> "true"^^<http://www.w3.org/2001/XMLSchema#boolean>.
+<http://example.org/property/hasImpact> <http://example.org/property/allocatedTo> <http://example.org/organization/o> .
+<http://example.org/source/s1> <http://example.org/property/hasDescription> << "Source"@en "Reported By"@en "Person"@en >> .
+<http://example.org/source/s2> <http://example.org/property/hasDescription> << "Source"@en "Reported By"@en "Person"@en >> .
+
+"Source"@en "Reported By"@en "Person"@en .
+_:bn_subj _:bn_pred << << <http://example.org/source/s1> <http://example.org/property/acquiredBy> _:bn_anon >> <http://example.org/property/reportedBy> "Person"@en >> .
+"Anonymous source"@en-AU "Shared" << <http://example.org/organization/o1> << "hasProperty" <http://example.org/property/initiatedBy> <http://example.org/ministry/m1> >> _:bn_o_tt >> .
+"Anonymous source"@en-AU "Shared" << <http://example.org/organization/o2> << "hasProperty" <http://example.org/property/closedBy> <http://example.org/ministry/m1> >> _:bn_o_tt1 >> .
+<http://example.org/resource/r1> <http://example.org/property/belongsTo> <http://example.org/organization/o1> .

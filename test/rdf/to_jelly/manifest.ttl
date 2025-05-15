@@ -47,6 +47,14 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
         <quads_rdf_star_generalized/pos_004>
         <quads_rdf_star_generalized/pos_005>
         <quads_rdf_star_generalized/pos_006>
+
+        <triples_rdf_star_generalized/pos_001>
+        <triples_rdf_star_generalized/pos_002>
+        <triples_rdf_star_generalized/pos_003>
+        <triples_rdf_star_generalized/pos_004>
+        <triples_rdf_star_generalized/pos_005>
+        <triples_rdf_star_generalized/pos_006>
+
     ) .
 
 <triples_rdf_1_1/neg_001> a jellyt:TestNegative, jellyt:TestRdfToJelly ;
@@ -365,5 +373,73 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
         <quads_rdf_star_generalized/pos_006/in_003.nq>
     ) ;
     mf:result <quads_rdf_star_generalized/pos_006/out.jelly> .
+
+<triples_rdf_star_generalized/pos_001> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of generalized RDF-star statements, featuring variety of quoted generalized triples as s/p/o or combinations of such (nested up to 2 levels)." ;
+    rdfs:comment "Stream options are: generalized-statements=true, rdf-star=true, max-name-table-size=16, max-prefix-table-size=0, max-datatype-table-size=4." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action (
+        <triples_rdf_star_generalized/pos_001/stream_options.jelly>
+        <triples_rdf_star_generalized/pos_001/in_001.nt>
+    ) ;
+    mf:result <triples_rdf_star_generalized/pos_001/out.jelly> .
+
+<triples_rdf_star_generalized/pos_002> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of generalized RDF-star statements, featuring variety of quoted generalized triples as s/p/o or combinations of such (nested up to 2 levels). Quoted triples are also asserted before/after the quoted triple." ;
+    rdfs:comment "Stream options are: generalized-statements=true, rdf-star=true, max-name-table-size=16, max-prefix-table-size=0, max-datatype-table-size=4." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action (
+        <triples_rdf_star_generalized/pos_002/stream_options.jelly>
+        <triples_rdf_star_generalized/pos_002/in_001.nt>
+    ) ;
+    mf:result <triples_rdf_star_generalized/pos_002/out.jelly> .
+
+<triples_rdf_star_generalized/pos_003> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of generalized RDF-star statements, with nesting up to 3 levels, with quoted triples appearing in different places inside one RDF-star statement. " ;
+    rdfs:comment "Stream options are: generalized-statements=true, rdf-star=true, max-name-table-size=16, max-prefix-table-size=0, max-datatype-table-size=4." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action (
+        <triples_rdf_star_generalized/pos_003/stream_options.jelly>
+        <triples_rdf_star_generalized/pos_003/in_001.nt>
+    ) ;
+    mf:result <triples_rdf_star_generalized/pos_003/out.jelly> .
+
+<triples_rdf_star_generalized/pos_004> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of generalized RDF-star statements, with nesting up to 6 levels, with quoted triples repeatedly appearing in s/p/o. " ;
+    rdfs:comment "Stream options are: generalized-statements=true, rdf-star=true, max-name-table-size=16, max-prefix-table-size=0, max-datatype-table-size=4." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action (
+        <triples_rdf_star_generalized/pos_004/stream_options.jelly>
+        <triples_rdf_star_generalized/pos_004/in_001.nt>
+    ) ;
+    mf:result <triples_rdf_star_generalized/pos_004/out.jelly> .
+
+<triples_rdf_star_generalized/pos_005> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of generalized RDF-star statements, with repeated s/p/o inside/outside of quoted triples and in asserted triples before/after RDF-star statements. " ;
+    rdfs:comment "Stream options are: generalized-statements=true, rdf-star=true, max-name-table-size=16, max-prefix-table-size=0, max-datatype-table-size=4." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action (
+        <triples_rdf_star_generalized/pos_005/stream_options.jelly>
+        <triples_rdf_star_generalized/pos_005/in_001.nt>
+    ) ;
+    mf:result <triples_rdf_star_generalized/pos_005/out.jelly> .
+
+<triples_rdf_star_generalized/pos_006> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of generalized RDF-star statements across three (3) frames, with repeated s/p/o inside/outside of quoted triples and in asserted triples before/after RDF-star statements, focusing on reusing all lookup tables across frames. " ;
+    rdfs:comment "Stream options are: generalized-statements=true, rdf-star=true, max-name-table-size=16, max-prefix-table-size=6, max-datatype-table-size=3. 25 rows per frame." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
+    mf:action (
+        <triples_rdf_star_generalized/pos_006/stream_options.jelly>
+        <triples_rdf_star_generalized/pos_006/in_001.nt>
+        <triples_rdf_star_generalized/pos_006/in_002.nt>
+        <triples_rdf_star_generalized/pos_006/in_003.nt>
+    ) ;
+    mf:result <triples_rdf_star_generalized/pos_006/out.jelly> .
 
 # TODO: the rest

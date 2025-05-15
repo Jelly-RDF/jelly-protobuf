@@ -1,0 +1,18 @@
+<http://example.org/resource/r1> <http://example.org/property/belongsTo> <http://example.org/organization/o1> .
+<< <http://example.org/resource/r1> <http://example.org/property/belongsTo> <http://example.org/organization/o1> >> <http://example.org/property/notedBy> <http://example.org/ministry/m1> .
+<< _:Bcb9b90e343f4c53699ae50871ff8a64b _:Bf3327c41c8bfe6e5f8fe2d3a74d931a8 _:B3ce314e8d43e885d6b90328798662c5d >> _:B601b30dd7ad0e5ed73c3f412af3d2e83 _:Bdd7ed1bd5903c3f7b82b345053b8d1e0 .
+<< "Resource" "locatedAt" "Place" >> "reportedBy" "Unknown Source" .
+<http://example.org/resource/r1> << _:B60bd2eee9cc02d90d5cd10cb2e448de2 "Describes" _:B2936716a18e8a6e421a6e43874a67be0 >> <http://example.org/organization/o2> .
+_:B52e9dc3f9db7f7111e685875b8a6318c << _:B8be92ab92372452b398a2f32e9c2e23e _:Bb7625e518f3ba1bb9d7ae3632caa7103 _:B2936716a18e8a6e421a6e43874a67be0 >> _:Bdd7ed1bd5903c3f7b82b345053b8d1e0 .
+"1000"^^<http://www.w3.org/2001/XMLSchema#integer> << _:B8be92ab92372452b398a2f32e9c2e23e _:Bb7625e518f3ba1bb9d7ae3632caa7103 _:B2936716a18e8a6e421a6e43874a67be0 >> "2021-11-12"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://example.org/property/hasImpact> <http://example.org/property/allocatedTo> <http://example.org/organization/o> .
+<http://example.org/source/s1> <http://example.org/property/hasDescription> << "Source"@en "Reported By"@en "Person"@en >> .
+"Source"@en "Reported By"@en "Person"@en .
+_:B52e9dc3f9db7f7111e685875b8a6318c _:B165469bcc361f56e075754274ba31ea1 << << <http://example.org/source/s1> <http://example.org/property/acquiredBy> _:B066a7e35edb4ee295450d80ef0ae2cd3 >> <http://example.org/property/reportedBy> "Person"@en >> .
+"Anonymous source"@en-AU "Shared" << <http://example.org/organization/o1> << "hasProperty" <http://example.org/property/initiatedBy> <http://example.org/ministry/m1> >> _:B3ce314e8d43e885d6b90328798662c5d >> .
+<< <http://example.org/ministry/m1> <http://example.org/property/launchedProject> "ProjectName"@en >> << <http://example.org/property/hasImpact> <http://example.org/property/allocatedTo> <http://example.org/organization/o> >> "That's what she said" .
+<< <http://example.org/ministry/m1> <http://example.org/property/hasResources> _:B265a58cf5b0a54814567aa71c46e25c3 >> <http://example.org/property/means> << "2020-10-22"^^<http://www.w3.org/2001/XMLSchema#date> "1.1"^^<http://www.w3.org/2001/XMLSchema#decimal> "100"^^<http://www.w3.org/2001/XMLSchema#float> >> .
+"2020-10-22"^^<http://www.w3.org/2001/XMLSchema#date> "1.1"^^<http://www.w3.org/2001/XMLSchema#decimal> "100"^^<http://www.w3.org/2001/XMLSchema#float> .
+"Report" << <http://example.org/property/wasSubmitted> <http://example.org/property/via> _:B1474530ad73f7b421b74588f479984af >> << <http://example.org/ministry/m1> <http://example.org/property/receivedFor> << <http://example.org/organization/o1> <http://example.org/organization/provided> <http://example.org/source/quaterly_stat> >> >> .
+<< <http://example.org/organization/o1> <http://example.org/property/talkedAbout> << <http://example.org/project/p1> <http://example.org/property/to> _:Bb4458632fd61e3d18ac57d7650e7546b >> >> << _:Bb4458632fd61e3d18ac57d7650e7546b <http://example.org/property/reachedOut> << "2020-09-02"^^<http://www.w3.org/2001/XMLSchema#date> <http://example.org/property/asPartOf> _:B9a89ab0e6e280223293a168420455e1c >> >> << "Collaboration" _:Ba79a6383c7112d869717eeb66d2167f6 << <http://example.org/organization/o1> "RepresentedBy"@en _:B4fe2b0e042041d79c7f254241202e07d >> >> .
+<http://example.org/project/p1> <http://example.org/property/to> _:Bb4458632fd61e3d18ac57d7650e7546b .
