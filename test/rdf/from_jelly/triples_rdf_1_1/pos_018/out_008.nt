@@ -1,0 +1,2 @@
+_:Ba5111b95fa0eb38031f9c7298ab99c77 <http://example.org/property/p3> <http://example.org/resource/r3> .
+<http://example.org/resource/r1> <http://example.org/property/p4> "String"@en .
