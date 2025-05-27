@@ -1,0 +1,6 @@
+<http://example.org/person/p1> <http://example.org/property/age> "25"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/resource/r3> <http://example.org/property/locatedAt> "10.22"^^<http://www.w3.org/2001/XMLSchema#float> <http://example.org/graph/inventory> .
+<< <http://example.org/person/p1> <http://example.org/property/age> "25"^^<http://www.w3.org/2001/XMLSchema#integer> >> <http://example.org/property/worksAt> <http://example.org/organization/o1> .
+<< _:Bfab9cef9fd2ad7150137284c1b86c753 <http://example.org/property/isSimilarTo> _:B7fb16662b253aa1a5d5698e1c6d52671 >> <http://example.org/property/isConnectedTo> << <http://example.org/organization/place/p1> <http://example.org/property/hasPopulation> "250000"^^<http://www.w3.org/2001/XMLSchema#integer> >> _:Bae18b18701a3a769877c1b341ce1c805 .
+<< _:Bfab9cef9fd2ad7150137284c1b86c753 <http://example.org/property/isSimilarTo> _:B7fb16662b253aa1a5d5698e1c6d52671 >> <http://example.org/property/isConnectedTo> << <http://example.org/organization/place/p1> <http://example.org/property/hasPopulation> "250000"^^<http://www.w3.org/2001/XMLSchema#integer> >> .
+<http://example.org/place/p1> <http://example.org/property/hasMetro> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .

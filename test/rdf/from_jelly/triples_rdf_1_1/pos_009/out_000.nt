@@ -1,0 +1,4 @@
+<http://example.org/resource/r1> <http://example.org/property/p1> <http://example.org/resource/r2> .
+<http://example.org/resource/r3> <http://example.org/property/p2> <http://example.org/resource/r4> .
+_:B1ac95232c41a37b4ae9cad97cd487277 <http://example.org/property/p4> "2000"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:B1ac95232c41a37b4ae9cad97cd487277 <http://example.org/property/p3> "0.009"^^<http://www.w3.org/2001/XMLSchema#float> .

@@ -1,0 +1,17 @@
+<http://example.org/company/c1> <http://example.org/property/hasHeadQuatersAt> "Place"@en .
+<< <http://example.org/company/c1> <http://example.org/property/hasHeadQuatersAt> "Place"@en >> _:bn_reported_by _:anonymous_person _:graph_new_reports .
+_:anonymous_person << <http://example.org/object/recommendation> << <http://example.org/property/from> "isTrusted" "true"^^<http://www.w3.org/2001/XMLSchema#boolean> >> <http://example.org/authorized/employees> >> _:unknown_employee _:graph_new_reports .
+_:unknown_employee _:endorsed << _:anonymous_person "consulting" <http://example.org/ministry/m1> >> _:graph_new_reports .
+<< << _:anonymous_person _:bn_shared "Info" >> <http://example.org/property/addedTo> _:graph_new_reports >> <http://example.org/action/extends> << <http://example.org/company/c1> _:bn_connected << _:bn_unknown_corporation "acquiring" _:bn_assets >>  >> _:graph_new_reports .
+_:anonymous_person _:bn_shared "Info" _:graph_new_reports .
+<< <http://example.org/company/c1> <http://example.org/property/isMonitored> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> >> << _:bn_responsibilities "Imposed by"@en-AU << "State" <http://example.org/property/hasAuthority> "give tasks" >> >> <http://example.org/ministry/m1> .
+<http://example.org/ministry/m1> _:leadBy "Minister" <http://example.org/ministry/m1> .
+<http://example.org/ministry/m1> << <http://example.org/property/wasEstablishedOn> _:bn_property "2020-09-02"^^<http://www.w3.org/2001/XMLSchema#date> >> << "Employees count" _:bn_latest "123"^^<http://www.w3.org/2001/XMLSchema#integer> >> .
+<< <http://example.org/ministry/m1> _:leadBy "Minister" >> <http://example.org/action/initiated> << <http://example.org/object/program> _:bn_focused_on <http://example.org/object/hightechbusiness> >> .
+<< "4"^^<http://www.w3.org/2001/XMLSchema#integer> "numberOf" <http://example.org/ministry/advisors> >> <http://example.org/property/partOf> <http://example.org/ministry/m1> .
+_:bn_prev_agency << "isPredecessor" "true"^^<http://www.w3.org/2001/XMLSchema#boolean> _:common >> << "Mission" <http://example.org/property/upheldBy> <http://example.org/ministry/m1> >> .
+<< "ProgramName" <http://example.org/property/wasInitiated> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> >> <http://example.org/property/partOf> _:bn_set_of_program <http://example.org/graph/program> .
+<http://example.org/program/p1> << <http://example.org/property/wasInitiated> "on" "2021-11-12"^^<http://www.w3.org/2001/XMLSchema#date> >> <http://example.org/ministry/m1> <http://example.org/graph/program> .
+<< "data" _:bn_reportedBy <http://example.org/ministry/m1> >> _:bn_outcomes << _:unknown_program_1 <http://example.org/property/finishedOn> "2019-05-19"^^<http://www.w3.org/2001/XMLSchema#date> >> <http://example.org/graph/program> .
+<http://example.org/program/p1> <http://example.org/property/hasTopic> << <http://example.org/object/hightechbusiness> "needs financing"@en _:bn_goals >> <http://example.org/graph/program> .
+<< <http://example.org/program/p1> _:bn_has_budget "10000000"^^<http://www.w3.org/2001/XMLSchema#decimal> >> << "program version" "0.5"^^<http://www.w3.org/2001/XMLSchema#float> "latest" >> << <http://example.org/object/hightechbusiness> <http://example.org/property/isPriority> << <http://example.org/ministry/m1> "asof" "2021-03-09"^^<http://www.w3.org/2001/XMLSchema#date> >> >> <http://example.org/graph/program> .

@@ -1,0 +1,5 @@
+<http://example.org/resource/r1> <http://example.org/property/isSubClass> <http://example.org/resource/r0> .
+<http://example.org/resource/r2> <http://example.org/property/isSubClass> <http://example.org/resource/r1> .
+<http://example.org/resource/r1> <http://example.org/property/isSimilarTo> <http://example.org/resource/r3> .
+<http://example.org/resource/r3> <http://example.org/property/relatedTo> _:B1deed45560688f1cf60d25b4a4e3fd05 .
+<http://example.org/resource/r3> <http://example.org/property/extends> <http://example.org/resource/r4> .

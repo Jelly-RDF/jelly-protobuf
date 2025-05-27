@@ -1,0 +1,3 @@
+<http://example.org/resource/r2> <http://example.org/property/p2> "Label" .
+<http://example.org/resource/r3> <http://example.org/property/p1> <http://example.org/resource/r2> .
+<http://example.org/resource/r4> <http://example.org/property/p2_w_datatype> "2000"^^<http://www.w3.org/2001/XMLSchema#integer> .

@@ -1,0 +1,5 @@
+<http://example.org/company/c2> <http://example.org/property/acquiredBy> <http://example.org/company/c1> <http://example.org/graph/acquisitions> .
+<http://example.org/company/c2> <http://example.org/property/acquisitionStatus> "Completed" <http://example.org/graph/acquisitions> .
+<http://example.org/graph/acquisitions> <http://example.org/property/maintainedBy> <http://example.org/company/c1> .
+<http://example.org/graph/acquisitions> <http://example.org/property/currentVersion> "1.1"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://example.org/resource/r1> <http://example.org/property/acquiredBy> <http://example.org/company/c1> <http://example.org/graph/acquisitions> .

@@ -1,5 +1,4 @@
-<http://example.org/resource/r1> <http://example.org/property/announcedAt>  <http://example.org/location/l1> .
-<http://example.org/resource/r1> <http://example.org/property/announcedOn> "2025-04-12"^^<http://www.w3.org/2001/XMLSchema#date> .
-<http://example.org/resource/r1> <http://example.org/property/acquiredBy> <http://example.org/company/c1> <http://example.org/graph/acquisitions> .
-<http://example.org/resource/r1> <http://example.org/property/acquiredBy> <http://example.org/company/c2> <http://example.org/graph/acquisitions> .
-<http://example.org/location/l1> <http://example.org/property/hasName> "Location Name"@en _:bn_g_locations .
+<http://example.org/location/l1> <http://example.org/property/hasPopulation> "100000"^^<http://www.w3.org/2001/XMLSchema#integer> _:bn_g_locations .
+<http://example.org/company/c1> <http://example.org/property/locatedAt> <http://example.org/location/l1> <http://example.org/graph/registry> .
+<http://example.org/company/c2> <http://example.org/property/locatedAt> _:bn_location <http://example.org/graph/registry> .
+_:bn_maintainer <http://example.org/property/updates> _:bn_registry_l1 .

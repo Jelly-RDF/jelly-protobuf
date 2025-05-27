@@ -1,0 +1,2 @@
+<http://example.org/resource/r1> <http://example.org/property/p1> <http://example.org/resource/r2> .
+<http://example.org/resource/r2> <http://example.org/property/p2> "Label" .

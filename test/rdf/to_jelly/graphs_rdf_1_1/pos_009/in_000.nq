@@ -1,0 +1,5 @@
+<http://example.org/resource/r1> <http://example.org/property/announcedAt>  <http://example.org/location/l1> .
+<http://example.org/resource/r1> <http://example.org/property/announcedOn> "2025-04-12"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://example.org/resource/r1> <http://example.org/property/acquiredBy> <http://example.org/company/c1> <http://example.org/graph/acquisitions> .
+<http://example.org/resource/r1> <http://example.org/property/acquiredBy> <http://example.org/company/c2> <http://example.org/graph/acquisitions> .
+<http://example.org/company/c2> <http://example.org/property/isDaughterCompanyOf> <http://example.org/company/c1> <http://example.org/graph/acquisitions> .

@@ -1,0 +1,3 @@
+_:B6e63c5ae9d05f47b21b42e8723fbca96 <http://example.org/property/p> "Label" <http://example.org/graph/G> .
+<http://example.org/resource/B> <http://example.org/property/p1> _:B6e63c5ae9d05f47b21b42e8723fbca96 <http://example.org/graph/G> .
+<http://example.org/resource/A> <http://example.org/property/p2> "0.111"^^<http://www.w3.org/2001/XMLSchema#float> <http://example.org/graph/G> .
