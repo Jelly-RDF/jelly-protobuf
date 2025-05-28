@@ -1,0 +1,3 @@
+<http://example.org/person/A> <http://example.org/action/said>  << _:bn1 <http://example.org/action/heard>  << << <http://example.org/organization/C> <http://example.org/property/hasExperience> <http://example.org/spec/science> >> <http://example.org/action/started> << << <http://example.org/project/L> <http://example.org/description/hasName> "ProjectName"@en >> <http://example.org/finance/hasBudget> "10000000"^^<http://www.w3.org/2001/XMLSchema#integer> >> >> >> .
+<http://example.org/source/S> <http://example.org/status/hasVersion> "0.1"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://example.org/project/L> <http://example.org/duration/hasStartDate> "2025-08-10"^^<http://www.w3.org/2001/XMLSchema#date> .

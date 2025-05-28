@@ -102,7 +102,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/neg_001/stream_options.jelly>
-        <triples_rdf_1_1/neg_001/in_001.nt>
+        <triples_rdf_1_1/neg_001/in_000.nt>
     ) .
 
 <triples_rdf_1_1/neg_002> a jellyt:TestNegative, jellyt:TestRdfToJelly ;
@@ -112,7 +112,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/neg_002/stream_options.jelly>
-        <triples_rdf_1_1/neg_002/in_001.nt>
+        <triples_rdf_1_1/neg_002/in_000.nt>
     ) .
 
 <triples_rdf_1_1/pos_001> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
@@ -122,7 +122,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/pos_001/stream_options.jelly>
-        <triples_rdf_1_1/pos_001/in_001.nt>
+        <triples_rdf_1_1/pos_001/in_000.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_001/out.jelly> .
 
@@ -133,7 +133,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/pos_002/stream_options.jelly>
-        <triples_rdf_1_1/pos_002/in_001.nt>
+        <triples_rdf_1_1/pos_002/in_000.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_002/out.jelly> .
 
@@ -144,7 +144,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/pos_003/stream_options.jelly>
-        <triples_rdf_1_1/pos_003/in_001.nt>
+        <triples_rdf_1_1/pos_003/in_000.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_003/out.jelly> .
 
@@ -155,7 +155,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/pos_004/stream_options.jelly>
-        <triples_rdf_1_1/pos_004/in_001.nt>
+        <triples_rdf_1_1/pos_004/in_000.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_004/out.jelly> .
 
@@ -166,7 +166,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/pos_005/stream_options.jelly>
-        <triples_rdf_1_1/pos_005/in_001.nt>
+        <triples_rdf_1_1/pos_005/in_000.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_005/out.jelly> .
 
@@ -177,7 +177,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/pos_006/stream_options.jelly>
-        <triples_rdf_1_1/pos_006/in_001.nt>
+        <triples_rdf_1_1/pos_006/in_000.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_006/out.jelly> .
 
@@ -188,7 +188,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/pos_007/stream_options.jelly>
-        <triples_rdf_1_1/pos_007/in_001.nt>
+        <triples_rdf_1_1/pos_007/in_000.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_007/out.jelly> .
 
@@ -199,7 +199,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/pos_008/stream_options.jelly>
-        <triples_rdf_1_1/pos_008/in_001.nt>
+        <triples_rdf_1_1/pos_008/in_000.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_008/out.jelly> .
 
@@ -210,7 +210,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/pos_009/stream_options.jelly>
-        <triples_rdf_1_1/pos_009/in_001.nt>
+        <triples_rdf_1_1/pos_009/in_000.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_009/out.jelly> .
 
@@ -221,7 +221,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/pos_010/stream_options.jelly>
-        <triples_rdf_1_1/pos_010/in_001.nt>
+        <triples_rdf_1_1/pos_010/in_000.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_010/out.jelly> .
 
@@ -232,9 +232,9 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/pos_011/stream_options.jelly>
+        <triples_rdf_1_1/pos_011/in_000.nt>
         <triples_rdf_1_1/pos_011/in_001.nt>
         <triples_rdf_1_1/pos_011/in_002.nt>
-        <triples_rdf_1_1/pos_011/in_003.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_011/out.jelly> .
 
@@ -245,7 +245,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/pos_012/stream_options.jelly>
-        <triples_rdf_1_1/pos_012/in_001.nt>
+        <triples_rdf_1_1/pos_012/in_000.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_012/out.jelly> .
 
@@ -256,7 +256,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/pos_013/stream_options.jelly>
-        <triples_rdf_1_1/pos_013/in_001.nt>
+        <triples_rdf_1_1/pos_013/in_000.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_013/out.jelly> . 
 
@@ -267,7 +267,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/pos_014/stream_options.jelly>
-        <triples_rdf_1_1/pos_014/in_001.nt>
+        <triples_rdf_1_1/pos_014/in_000.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_014/out.jelly> .
 
@@ -278,7 +278,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/pos_015/stream_options.jelly>
-        <triples_rdf_1_1/pos_015/in_001.nt>
+        <triples_rdf_1_1/pos_015/in_000.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_015/out.jelly> .
 
@@ -289,8 +289,8 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action (
         <triples_rdf_1_1/pos_016/stream_options.jelly>
+        <triples_rdf_1_1/pos_016/in_000.nt>
         <triples_rdf_1_1/pos_016/in_001.nt>
-        <triples_rdf_1_1/pos_016/in_002.nt>
     ) ;
     mf:result <triples_rdf_1_1/pos_016/out.jelly> .
 
@@ -301,7 +301,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads ;
     mf:action (
         <quads_rdf_1_1/pos_001/stream_options.jelly>
-        <quads_rdf_1_1/pos_001/in_001.nq>
+        <quads_rdf_1_1/pos_001/in_000.nq>
     ) ;
     mf:result <quads_rdf_1_1/pos_001/out.jelly> .
 
@@ -312,7 +312,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads ;
     mf:action (
         <quads_rdf_1_1/pos_002/stream_options.jelly>
-        <quads_rdf_1_1/pos_002/in_001.nq>
+        <quads_rdf_1_1/pos_002/in_000.nq>
     ) ;
     mf:result <quads_rdf_1_1/pos_002/out.jelly> .
 
@@ -323,7 +323,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads ;
     mf:action (
         <quads_rdf_1_1/pos_003/stream_options.jelly>
-        <quads_rdf_1_1/pos_003/in_001.nq>
+        <quads_rdf_1_1/pos_003/in_000.nq>
     ) ;
     mf:result <quads_rdf_1_1/pos_003/out.jelly> .
 
@@ -334,9 +334,9 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads ;
     mf:action (
         <quads_rdf_1_1/pos_004/stream_options.jelly>
+        <quads_rdf_1_1/pos_004/in_000.nq>
         <quads_rdf_1_1/pos_004/in_001.nq>
         <quads_rdf_1_1/pos_004/in_002.nq>
-        <quads_rdf_1_1/pos_004/in_003.nq>
     ) ;
     mf:result <quads_rdf_1_1/pos_004/out.jelly> .
 
@@ -347,9 +347,9 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads ;
     mf:action (
         <quads_rdf_1_1/pos_005/stream_options.jelly>
+        <quads_rdf_1_1/pos_005/in_000.nq>
         <quads_rdf_1_1/pos_005/in_001.nq>
         <quads_rdf_1_1/pos_005/in_002.nq>
-        <quads_rdf_1_1/pos_005/in_003.nq>
     ) ;
     mf:result <quads_rdf_1_1/pos_005/out.jelly> .
 
@@ -360,8 +360,8 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads ;
     mf:action (
         <quads_rdf_1_1/pos_006/stream_options.jelly>
+        <quads_rdf_1_1/pos_006/in_000.nq>
         <quads_rdf_1_1/pos_006/in_001.nq>
-        <quads_rdf_1_1/pos_006/in_002.nq>
     ) ;
     mf:result <quads_rdf_1_1/pos_006/out.jelly> .
 
@@ -372,7 +372,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeGraphs ;
     mf:action (
         <graphs_rdf_1_1/pos_001/stream_options.jelly>
-        <graphs_rdf_1_1/pos_001/in_001.nq>
+        <graphs_rdf_1_1/pos_001/in_000.nq>
     ) ;
     mf:result <graphs_rdf_1_1/pos_001/out.jelly> .
 
@@ -383,7 +383,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeGraphs ;
     mf:action (
         <graphs_rdf_1_1/pos_002/stream_options.jelly>
-        <graphs_rdf_1_1/pos_002/in_001.nq>
+        <graphs_rdf_1_1/pos_002/in_000.nq>
     ) ;
     mf:result <graphs_rdf_1_1/pos_002/out.jelly> .
 
@@ -394,7 +394,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeGraphs ;
     mf:action (
         <graphs_rdf_1_1/pos_003/stream_options.jelly>
-        <graphs_rdf_1_1/pos_003/in_001.nq>
+        <graphs_rdf_1_1/pos_003/in_000.nq>
     ) ;
     mf:result <graphs_rdf_1_1/pos_003/out.jelly> .
 
@@ -405,9 +405,9 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeGraphs ;
     mf:action (
         <graphs_rdf_1_1/pos_004/stream_options.jelly>
+        <graphs_rdf_1_1/pos_004/in_000.nq>
         <graphs_rdf_1_1/pos_004/in_001.nq>
         <graphs_rdf_1_1/pos_004/in_002.nq>
-        <graphs_rdf_1_1/pos_004/in_003.nq>
     ) ;
     mf:result <graphs_rdf_1_1/pos_004/out.jelly> .
 
@@ -418,9 +418,9 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeGraphs ;
     mf:action (
         <graphs_rdf_1_1/pos_005/stream_options.jelly>
+        <graphs_rdf_1_1/pos_005/in_000.nq>
         <graphs_rdf_1_1/pos_005/in_001.nq>
         <graphs_rdf_1_1/pos_005/in_002.nq>
-        <graphs_rdf_1_1/pos_005/in_003.nq>
     ) ;
     mf:result <graphs_rdf_1_1/pos_005/out.jelly> .
 
@@ -431,9 +431,9 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeGraphs ;
     mf:action (
         <graphs_rdf_1_1/pos_006/stream_options.jelly>
+        <graphs_rdf_1_1/pos_006/in_000.nq>
         <graphs_rdf_1_1/pos_006/in_001.nq>
         <graphs_rdf_1_1/pos_006/in_002.nq>
-        <graphs_rdf_1_1/pos_006/in_003.nq>
     ) ;
     mf:result <graphs_rdf_1_1/pos_006/out.jelly> .
 
@@ -444,9 +444,9 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeGraphs ;
     mf:action (
         <graphs_rdf_1_1/pos_007/stream_options.jelly>
+        <graphs_rdf_1_1/pos_007/in_000.nq>
         <graphs_rdf_1_1/pos_007/in_001.nq>
         <graphs_rdf_1_1/pos_007/in_002.nq>
-        <graphs_rdf_1_1/pos_007/in_003.nq>
     ) ;
     mf:result <graphs_rdf_1_1/pos_007/out.jelly> .
 
@@ -457,9 +457,9 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeGraphs ;
     mf:action (
         <graphs_rdf_1_1/pos_008/stream_options.jelly>
+        <graphs_rdf_1_1/pos_008/in_000.nq>
         <graphs_rdf_1_1/pos_008/in_001.nq>
         <graphs_rdf_1_1/pos_008/in_002.nq>
-        <graphs_rdf_1_1/pos_008/in_003.nq>
     ) ;
     mf:result <graphs_rdf_1_1/pos_008/out.jelly> .
 
@@ -470,8 +470,8 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeGraphs ;
     mf:action (
         <graphs_rdf_1_1/pos_009/stream_options.jelly>
+        <graphs_rdf_1_1/pos_009/in_000.nq>
         <graphs_rdf_1_1/pos_009/in_001.nq>
-        <graphs_rdf_1_1/pos_009/in_002.nq>
     ) ;
     mf:result <graphs_rdf_1_1/pos_009/out.jelly> .
 
@@ -482,7 +482,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <triples_rdf_1_1_generalized/pos_001/stream_options.jelly>
-        <triples_rdf_1_1_generalized/pos_001/in_001.nt>
+        <triples_rdf_1_1_generalized/pos_001/in_000.nt>
     ) ;
     mf:result <triples_rdf_1_1_generalized/pos_001/out.jelly> .
 
@@ -493,7 +493,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <triples_rdf_1_1_generalized/pos_002/stream_options.jelly>
-        <triples_rdf_1_1_generalized/pos_002/in_001.nt>
+        <triples_rdf_1_1_generalized/pos_002/in_000.nt>
     ) ;
     mf:result <triples_rdf_1_1_generalized/pos_002/out.jelly> .
 
@@ -504,9 +504,9 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <triples_rdf_1_1_generalized/pos_003/stream_options.jelly>
+        <triples_rdf_1_1_generalized/pos_003/in_000.nt>
         <triples_rdf_1_1_generalized/pos_003/in_001.nt>
         <triples_rdf_1_1_generalized/pos_003/in_002.nt>
-        <triples_rdf_1_1_generalized/pos_003/in_003.nt>
     ) ;
     mf:result <triples_rdf_1_1_generalized/pos_003/out.jelly> .
 
@@ -517,9 +517,9 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <triples_rdf_1_1_generalized/pos_004/stream_options.jelly>
+        <triples_rdf_1_1_generalized/pos_004/in_000.nt>
         <triples_rdf_1_1_generalized/pos_004/in_001.nt>
         <triples_rdf_1_1_generalized/pos_004/in_002.nt>
-        <triples_rdf_1_1_generalized/pos_004/in_003.nt>
     ) ;
     mf:result <triples_rdf_1_1_generalized/pos_004/out.jelly> .
 
@@ -530,10 +530,10 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <triples_rdf_1_1_generalized/pos_005/stream_options.jelly>
+        <triples_rdf_1_1_generalized/pos_005/in_000.nt>
         <triples_rdf_1_1_generalized/pos_005/in_001.nt>
         <triples_rdf_1_1_generalized/pos_005/in_002.nt>
         <triples_rdf_1_1_generalized/pos_005/in_003.nt>
-        <triples_rdf_1_1_generalized/pos_005/in_004.nt>
     ) ;
     mf:result <triples_rdf_1_1_generalized/pos_005/out.jelly> .
 
@@ -544,7 +544,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <quads_rdf_1_1_generalized/pos_001/stream_options.jelly>
-        <quads_rdf_1_1_generalized/pos_001/in_001.nq>
+        <quads_rdf_1_1_generalized/pos_001/in_000.nq>
     ) ;
     mf:result <quads_rdf_1_1_generalized/pos_001/out.jelly> .
 
@@ -555,7 +555,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <quads_rdf_1_1_generalized/pos_002/stream_options.jelly>
-        <quads_rdf_1_1_generalized/pos_002/in_001.nq>
+        <quads_rdf_1_1_generalized/pos_002/in_000.nq>
     ) ;
     mf:result <quads_rdf_1_1_generalized/pos_002/out.jelly> .
 
@@ -566,9 +566,9 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <quads_rdf_1_1_generalized/pos_003/stream_options.jelly>
+        <quads_rdf_1_1_generalized/pos_003/in_000.nq>
         <quads_rdf_1_1_generalized/pos_003/in_001.nq>
         <quads_rdf_1_1_generalized/pos_003/in_002.nq>
-        <quads_rdf_1_1_generalized/pos_003/in_003.nq>
     ) ;
     mf:result <quads_rdf_1_1_generalized/pos_003/out.jelly> .
 
@@ -579,9 +579,9 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <quads_rdf_1_1_generalized/pos_004/stream_options.jelly>
+        <quads_rdf_1_1_generalized/pos_004/in_000.nq>
         <quads_rdf_1_1_generalized/pos_004/in_001.nq>
         <quads_rdf_1_1_generalized/pos_004/in_002.nq>
-        <quads_rdf_1_1_generalized/pos_004/in_003.nq>
     ) ;
     mf:result <quads_rdf_1_1_generalized/pos_004/out.jelly> .
 
@@ -592,9 +592,9 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <quads_rdf_1_1_generalized/pos_005/stream_options.jelly>
+        <quads_rdf_1_1_generalized/pos_005/in_000.nq>
         <quads_rdf_1_1_generalized/pos_005/in_001.nq>
         <quads_rdf_1_1_generalized/pos_005/in_002.nq>
-        <quads_rdf_1_1_generalized/pos_005/in_003.nq>
     ) ;
     mf:result <quads_rdf_1_1_generalized/pos_005/out.jelly> .
 
@@ -605,7 +605,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
     mf:action (
         <triples_rdf_star/pos_001/stream_options.jelly>
-        <triples_rdf_star/pos_001/in_001.nt>
+        <triples_rdf_star/pos_001/in_000.nt>
     ) ;
     mf:result <triples_rdf_star/pos_001/out.jelly> .
 
@@ -616,7 +616,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
     mf:action (
         <triples_rdf_star/pos_002/stream_options.jelly>
-        <triples_rdf_star/pos_002/in_001.nt>
+        <triples_rdf_star/pos_002/in_000.nt>
     ) ;
     mf:result <triples_rdf_star/pos_002/out.jelly> .
 
@@ -627,7 +627,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
     mf:action (
         <triples_rdf_star/pos_003/stream_options.jelly>
-        <triples_rdf_star/pos_003/in_001.nt>
+        <triples_rdf_star/pos_003/in_000.nt>
     ) ;
     mf:result <triples_rdf_star/pos_003/out.jelly> .
 
@@ -638,7 +638,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
     mf:action (
         <triples_rdf_star/pos_004/stream_options.jelly>
-        <triples_rdf_star/pos_004/in_001.nt>
+        <triples_rdf_star/pos_004/in_000.nt>
     ) ;
     mf:result <triples_rdf_star/pos_004/out.jelly> .
 
@@ -649,7 +649,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
     mf:action (
         <triples_rdf_star/pos_005/stream_options.jelly>
-        <triples_rdf_star/pos_005/in_001.nt>
+        <triples_rdf_star/pos_005/in_000.nt>
     ) ;
     mf:result <triples_rdf_star/pos_005/out.jelly> .
 
@@ -660,7 +660,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
     mf:action (
         <triples_rdf_star/pos_006/stream_options.jelly>
-        <triples_rdf_star/pos_006/in_001.nt>
+        <triples_rdf_star/pos_006/in_000.nt>
     ) ;
     mf:result <triples_rdf_star/pos_006/out.jelly> .
 
@@ -671,8 +671,8 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
     mf:action (
         <triples_rdf_star/pos_007/stream_options.jelly>
+        <triples_rdf_star/pos_007/in_000.nt>
         <triples_rdf_star/pos_007/in_001.nt>
-        <triples_rdf_star/pos_007/in_002.nt>
     ) ;
     mf:result <triples_rdf_star/pos_007/out.jelly> .
 
@@ -683,7 +683,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar ;
     mf:action (
         <triples_rdf_star/pos_008/stream_options.jelly>
-        <triples_rdf_star/pos_008/in_001.nt>
+        <triples_rdf_star/pos_008/in_000.nt>
     ) ;
     mf:result <triples_rdf_star/pos_008/out.jelly> .
 
@@ -694,7 +694,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar ;
     mf:action (
         <quads_rdf_star/pos_001/stream_options.jelly>
-        <quads_rdf_star/pos_001/in_001.nq>
+        <quads_rdf_star/pos_001/in_000.nq>
     ) ;
     mf:result <quads_rdf_star/pos_001/out.jelly> .
 
@@ -705,7 +705,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar ;
     mf:action (
         <quads_rdf_star/pos_002/stream_options.jelly>
-        <quads_rdf_star/pos_002/in_001.nq>
+        <quads_rdf_star/pos_002/in_000.nq>
     ) ;
     mf:result <quads_rdf_star/pos_002/out.jelly> .
 
@@ -716,7 +716,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar ;
     mf:action (
         <quads_rdf_star/pos_003/stream_options.jelly>
-        <quads_rdf_star/pos_003/in_001.nq>
+        <quads_rdf_star/pos_003/in_000.nq>
     ) ;
     mf:result <quads_rdf_star/pos_003/out.jelly> .
 
@@ -727,7 +727,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar ;
     mf:action (
         <quads_rdf_star/pos_004/stream_options.jelly>
-        <quads_rdf_star/pos_004/in_001.nq>
+        <quads_rdf_star/pos_004/in_000.nq>
     ) ;
     mf:result <quads_rdf_star/pos_004/out.jelly> .
 
@@ -738,7 +738,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar ;
     mf:action (
         <quads_rdf_star/pos_005/stream_options.jelly>
-        <quads_rdf_star/pos_005/in_001.nq>
+        <quads_rdf_star/pos_005/in_000.nq>
     ) ;
     mf:result <quads_rdf_star/pos_005/out.jelly> .
 
@@ -749,7 +749,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar ;
     mf:action (
         <quads_rdf_star/pos_006/stream_options.jelly>
-        <quads_rdf_star/pos_006/in_001.nq>
+        <quads_rdf_star/pos_006/in_000.nq>
     ) ;
     mf:result <quads_rdf_star/pos_006/out.jelly> .
 
@@ -760,9 +760,9 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar ;
     mf:action (
         <quads_rdf_star/pos_007/stream_options.jelly>
+        <quads_rdf_star/pos_007/in_000.nq>
         <quads_rdf_star/pos_007/in_001.nq>
         <quads_rdf_star/pos_007/in_002.nq>
-        <quads_rdf_star/pos_007/in_003.nq>
     ) ;
     mf:result <quads_rdf_star/pos_007/out.jelly> .
 
@@ -773,7 +773,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <quads_rdf_star_generalized/pos_001/stream_options.jelly>
-        <quads_rdf_star_generalized/pos_001/in_001.nq>
+        <quads_rdf_star_generalized/pos_001/in_000.nq>
     ) ;
     mf:result <quads_rdf_star_generalized/pos_001/out.jelly> .
 
@@ -784,7 +784,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <quads_rdf_star_generalized/pos_002/stream_options.jelly>
-        <quads_rdf_star_generalized/pos_002/in_001.nq>
+        <quads_rdf_star_generalized/pos_002/in_000.nq>
     ) ;
     mf:result <quads_rdf_star_generalized/pos_002/out.jelly> .
 
@@ -795,7 +795,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <quads_rdf_star_generalized/pos_003/stream_options.jelly>
-        <quads_rdf_star_generalized/pos_003/in_001.nq>
+        <quads_rdf_star_generalized/pos_003/in_000.nq>
     ) ;
     mf:result <quads_rdf_star_generalized/pos_003/out.jelly> .
 
@@ -806,7 +806,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <quads_rdf_star_generalized/pos_004/stream_options.jelly>
-        <quads_rdf_star_generalized/pos_004/in_001.nq>
+        <quads_rdf_star_generalized/pos_004/in_000.nq>
     ) ;
     mf:result <quads_rdf_star_generalized/pos_004/out.jelly> .
 
@@ -817,7 +817,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <quads_rdf_star_generalized/pos_005/stream_options.jelly>
-        <quads_rdf_star_generalized/pos_005/in_001.nq>
+        <quads_rdf_star_generalized/pos_005/in_000.nq>
     ) ;
     mf:result <quads_rdf_star_generalized/pos_005/out.jelly> .
 
@@ -828,9 +828,9 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <quads_rdf_star_generalized/pos_006/stream_options.jelly>
+        <quads_rdf_star_generalized/pos_006/in_000.nq>
         <quads_rdf_star_generalized/pos_006/in_001.nq>
         <quads_rdf_star_generalized/pos_006/in_002.nq>
-        <quads_rdf_star_generalized/pos_006/in_003.nq>
     ) ;
     mf:result <quads_rdf_star_generalized/pos_006/out.jelly> .
 
@@ -841,7 +841,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <triples_rdf_star_generalized/pos_001/stream_options.jelly>
-        <triples_rdf_star_generalized/pos_001/in_001.nt>
+        <triples_rdf_star_generalized/pos_001/in_000.nt>
     ) ;
     mf:result <triples_rdf_star_generalized/pos_001/out.jelly> .
 
@@ -852,7 +852,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <triples_rdf_star_generalized/pos_002/stream_options.jelly>
-        <triples_rdf_star_generalized/pos_002/in_001.nt>
+        <triples_rdf_star_generalized/pos_002/in_000.nt>
     ) ;
     mf:result <triples_rdf_star_generalized/pos_002/out.jelly> .
 
@@ -863,7 +863,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <triples_rdf_star_generalized/pos_003/stream_options.jelly>
-        <triples_rdf_star_generalized/pos_003/in_001.nt>
+        <triples_rdf_star_generalized/pos_003/in_000.nt>
     ) ;
     mf:result <triples_rdf_star_generalized/pos_003/out.jelly> .
 
@@ -874,7 +874,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <triples_rdf_star_generalized/pos_004/stream_options.jelly>
-        <triples_rdf_star_generalized/pos_004/in_001.nt>
+        <triples_rdf_star_generalized/pos_004/in_000.nt>
     ) ;
     mf:result <triples_rdf_star_generalized/pos_004/out.jelly> .
 
@@ -885,7 +885,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <triples_rdf_star_generalized/pos_005/stream_options.jelly>
-        <triples_rdf_star_generalized/pos_005/in_001.nt>
+        <triples_rdf_star_generalized/pos_005/in_000.nt>
     ) ;
     mf:result <triples_rdf_star_generalized/pos_005/out.jelly> .
 
@@ -896,8 +896,8 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples, jellyt:requirementRdfStar, jellyt:requirementGeneralizedRdf ;
     mf:action (
         <triples_rdf_star_generalized/pos_006/stream_options.jelly>
+        <triples_rdf_star_generalized/pos_006/in_000.nt>
         <triples_rdf_star_generalized/pos_006/in_001.nt>
         <triples_rdf_star_generalized/pos_006/in_002.nt>
-        <triples_rdf_star_generalized/pos_006/in_003.nt>
     ) ;
     mf:result <triples_rdf_star_generalized/pos_006/out.jelly> .

@@ -1,0 +1,4 @@
+<http://example.org/resource/r1> <http://example.org/property/p> <http://example.org/resource/r2> .
+_:B86f8c2acdc5e21c460ce6bc933dbf7af <http://example.org/property/p> "Literal" .
+"2000"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.org/property/p> <http://example.org/resource/r2> <http://example.org/graph/G1> .
+<http://example.org/resource/r1> _:Bbdd805e8f3d64147382a2d9dfad1bd82 <http://example.org/resource/r2> _:Bf734f88474852be169bbaf11d119a5ed .

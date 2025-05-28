@@ -1,0 +1,9 @@
+<http://example.org/resource/r1> <http://example.org/property/belongsTo> <http://example.org/organization/o1> .
+<< <http://example.org/resource/r1> <http://example.org/property/belongsTo> <http://example.org/organization/o1> >> <http://example.org/property/notedBy> <http://example.org/ministry/m1> .
+<< _:bn_s_tt _:bn_p_tt _:bn_o_tt >> _:bn_property _:bn_obj .
+<< "Resource" "locatedAt" "Place" >> "reportedBy" "Unknown Source" .
+<http://example.org/organization/o1> <http://example.org/action/talkedAbout> <http://example.org/project/p1>.
+<http://example.org/resource/r1> << _:bn_pr "Describes" _:bn_connection >> <http://example.org/organization/o2> .
+_:bn_subj << _:bn_s _:bn_p  _:bn_connection >> _:bn_obj .
+_:bn_subj << _:bn_s _:bn_p  _:bn_connection >> _:bn_obj .
+_:bn_connection <http://example.org/property/isBiDirectional> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
