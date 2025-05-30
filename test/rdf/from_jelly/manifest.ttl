@@ -107,6 +107,17 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/from_jelly/>
         <quads_rdf_star/pos_006>
         <quads_rdf_star/pos_007>
 
+        <graphs_rdf_star/neg_001>
+        <graphs_rdf_star/neg_002>
+        <graphs_rdf_star/neg_003>
+        <graphs_rdf_star/pos_001>
+        <graphs_rdf_star/pos_002>
+        <graphs_rdf_star/pos_003>
+        <graphs_rdf_star/pos_004>
+        <graphs_rdf_star/pos_005>
+        <graphs_rdf_star/pos_006>
+        <graphs_rdf_star/pos_007>
+
         <quads_rdf_star_generalized/neg_001>
         <quads_rdf_star_generalized/neg_002>
         <quads_rdf_star_generalized/neg_003>
@@ -824,6 +835,73 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/from_jelly/>
         <quads_rdf_star/pos_007/out_001.nq> 
         <quads_rdf_star/pos_007/out_002.nq> 
     ) .
+
+<graphs_rdf_star/neg_001> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame, o_triple_term is missing a s_iri. Repeated terms are prohibited in quoted triples. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ; 
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action <graphs_rdf_star/neg_001/in.jelly> .
+
+<graphs_rdf_star/neg_002> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame, s_triple_term is empty {}. Repeated terms are prohibited in quoted triples. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ; 
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action <graphs_rdf_star/neg_002/in.jelly> .
+
+<graphs_rdf_star/neg_003> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame, o_triple_term is missing a p_iri on level 5 and is repeated on the previous and next nesting levels. Repeated terms are prohibited in quoted triples. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ; 
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action <graphs_rdf_star/neg_003/in.jelly> .
+
+<graphs_rdf_star/pos_001> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame with one simple quoted triple in the default graph. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action <graphs_rdf_star/pos_001/in.jelly> ;
+    mf:result <graphs_rdf_star/pos_001/out_000.nq> .
+
+<graphs_rdf_star/pos_002> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame with a set of quads contatining quoted triples in s/o or both in one IRI-labeled graph. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action <graphs_rdf_star/pos_002/in.jelly> ;
+    mf:result <graphs_rdf_star/pos_002/out_000.nq> .
+
+<graphs_rdf_star/pos_003> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame with a set of quads contatining quoted triples in s/o or both in the default and BN-/IRI-labeled graphs. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action <graphs_rdf_star/pos_003/in.jelly> ;
+    mf:result <graphs_rdf_star/pos_003/out_000.nq> .
+
+<graphs_rdf_star/pos_004> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame with a set of quads contatining quoted triples in s/o or both mixed with the same quoted triples as assertions in the respective default and BN-/IRI-labeled graphs. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action <graphs_rdf_star/pos_004/in.jelly> ;
+    mf:result <graphs_rdf_star/pos_004/out_000.nq> .
+
+<graphs_rdf_star/pos_005> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame with a set of quads with quoted triples in s/o or both mixed with the same quoted triples as assertions in the respective default and BN-/IRI-labeled graphs. Statements repeated in the same graph. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action <graphs_rdf_star/pos_005/in.jelly> ;
+    mf:result <graphs_rdf_star/pos_005/out_000.nq> .
+
+<graphs_rdf_star/pos_006> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Single frame with a set of quads with quoted triples nesting level 10 in s and o in the default and BN-/IRI-labeled graphs. Predicates repeat across nested levels. Prefix table disabled." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action <graphs_rdf_star/pos_006/in.jelly> ;
+    mf:result <graphs_rdf_star/pos_006/out_000.nq> .
+
+<graphs_rdf_star/pos_007> a jellyt:TestPositive, jellyt:TestRdfFromJelly ;
+    mf:name "Three (3) frames with a set of quads with quoted triples  Prefix table enabled." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action <graphs_rdf_star/pos_007/in.jelly> ;
+    mf:result <graphs_rdf_star/pos_007/out_000.nq> .
 
 <quads_rdf_star_generalized/neg_001> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
     mf:name "Single frame, s_triple_term is missing a p_literal on the first nesting level, p_literal on the deeper levels repeats. Repeated terms are prohibited in quoted triples." ;
