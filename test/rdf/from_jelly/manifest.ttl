@@ -1,6 +1,7 @@
 PREFIX jellyt: <https://w3id.org/jelly/dev/tests/vocab#>
 PREFIX mf:     <http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#>
 PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdft:   <http://www.w3.org/ns/rdftest#>
 
 BASE           <https://w3id.org/jelly/dev/tests/rdf/from_jelly/>
 
