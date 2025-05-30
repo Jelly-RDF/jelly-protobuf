@@ -1,0 +1,6 @@
+<http://example.org/person/p1> <http://example.org/property/age> "25"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<< <http://example.org/person/p1> <http://example.org/property/age> "25"^^<http://www.w3.org/2001/XMLSchema#integer> >> <http://example.org/property/worksAt> <http://example.org/organization/o1> .
+<http://example.org/place/p1> <http://example.org/property/hasMetro> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:bn1 <http://example.org/property/hasName> "PlaceName" .
+<< _:bn1 <http://example.org/property/isSimilarTo> _:bn2 >> <http://example.org/property/isConnectedTo> << <http://example.org/organization/place/p1> <http://example.org/property/hasPopulation> "250000"^^<http://www.w3.org/2001/XMLSchema#integer> >> .
+<< << _:bn1 <http://example.org/property/wasMentioned> <http://example.org/sources/s1> >> <http://example.org/property/isSimilarTo> << _:bn2 <http://example.org/property/wasMentioned> <http://example.org/sources/s2> >> >> <http://example.org/property/isConnectedTo> << << <http://example.org/place/p1> <http://example.org/property/hasMetro> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> >> <http://example.org/property/hasPopulation> << <http://example.org/method/registered> <http://example.org/property/estimatedAt> "250000"^^<http://www.w3.org/2001/XMLSchema#integer> >> >> .
