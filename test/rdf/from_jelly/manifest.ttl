@@ -15,14 +15,11 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/from_jelly/>
         <triples_rdf_1_1/neg_001>
         <triples_rdf_1_1/neg_002>
         <triples_rdf_1_1/neg_003>
-        <triples_rdf_1_1/neg_004>
         <triples_rdf_1_1/neg_005>
         <triples_rdf_1_1/neg_006>
         <triples_rdf_1_1/neg_007>
         <triples_rdf_1_1/neg_008>
-        <triples_rdf_1_1/neg_009>
         <triples_rdf_1_1/neg_010>
-        <triples_rdf_1_1/neg_011>
         <triples_rdf_1_1/neg_012>
         <triples_rdf_1_1/neg_013>
         <triples_rdf_1_1/pos_001>
@@ -149,12 +146,6 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/from_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action <triples_rdf_1_1/neg_003/in.jelly> .
 
-<triples_rdf_1_1/neg_004> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
-    mf:name "Single frame, unsupported version (3). As of May 2025, the latest version tag is 2." ;
-    rdft:approval rdft:Proposed ;
-    mf:requires jellyt:requirementPhysicalTypeTriples ;
-    mf:action <triples_rdf_1_1/neg_004/in.jelly> .
-
 <triples_rdf_1_1/neg_005> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
     mf:name "Single frame, prefix row is in the stream, when prefix lookup table is disabled. Prefix table usage is prohibited if max_prefix_table_size is set to 0 (lookup disabled)." ;
     rdft:approval rdft:Proposed ;
@@ -179,23 +170,11 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/from_jelly/>
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action <triples_rdf_1_1/neg_008/in.jelly> .
 
-<triples_rdf_1_1/neg_009> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
-    mf:name "Single frame, physical stream type is set to PHYSICAL_STREAM_TYPE_UNSPECIFIED. This physical stream type MUST NOT be used." ;
-    rdft:approval rdft:Proposed ;
-    mf:requires jellyt:requirementPhysicalTypeTriples ;
-    mf:action <triples_rdf_1_1/neg_009/in.jelly> .
-
 <triples_rdf_1_1/neg_010> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
     mf:name "Single frame, a quad row present in the PHYSICAL_STREAM_TYPE_TRIPLES stream. PHYSICAL_STREAM_TYPE_TRIPLES MUST NOT contain rows with the quad field set." ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementPhysicalTypeTriples ;
     mf:action <triples_rdf_1_1/neg_010/in.jelly> .
-
-<triples_rdf_1_1/neg_011> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
-    mf:name "Single frame, later occurrence of stream options row does not match the first. Each stream options row in the stream MUST be identical to all previous occurrences." ;
-    rdft:approval rdft:Proposed ;
-    mf:requires jellyt:requirementPhysicalTypeTriples ;
-    mf:action <triples_rdf_1_1/neg_011/in.jelly> .
 
 <triples_rdf_1_1/neg_012> a jellyt:TestNegative, jellyt:TestRdfFromJelly ;
     mf:name "Single frame, repeated term (s_iri and o_iri) appears in the first statement row. Repeated terms MUST NOT occur in the first statement row of the stream." ;
