@@ -79,6 +79,14 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
         <quads_rdf_star/pos_006>
         <quads_rdf_star/pos_007>
 
+        <graphs_rdf_star/pos_001>
+        <graphs_rdf_star/pos_002>
+        <graphs_rdf_star/pos_003>
+        <graphs_rdf_star/pos_004>
+        <graphs_rdf_star/pos_005>
+        <graphs_rdf_star/pos_006>
+        <graphs_rdf_star/pos_007>
+
         # RDF-Star generalized
         <quads_rdf_star_generalized/pos_001>
         <quads_rdf_star_generalized/pos_002>
@@ -722,7 +730,7 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
     mf:result <quads_rdf_star/pos_003/out.jelly> .
 
 <quads_rdf_star/pos_004> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
-    mf:name "A set of quads with all possible graph labels and a variety of quoted triples form." ;
+    mf:name "A set of quads with all possible graph labels and a variety of quoted triples form. With same quads assertions before/after statements with quoted triples." ;
     rdfs:comment "Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=16, max-prefix-table-size=0, max-datatype-table-size=4." ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementPhysicalTypeQuads, jellyt:requirementRdfStar ;
@@ -766,6 +774,85 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/to_jelly/>
         <quads_rdf_star/pos_007/in_002.nq>
     ) ;
     mf:result <quads_rdf_star/pos_007/out.jelly> .
+
+<graphs_rdf_star/pos_001> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "One quad with subject as quoted triple in a default graph." ;
+    rdfs:comment "Only IRIs as terms. Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action (
+        <graphs_rdf_star/pos_001/stream_options.jelly>
+        <graphs_rdf_star/pos_001/in_000.nq>
+    ) ;
+    mf:result <graphs_rdf_star/pos_001/out.jelly> .
+
+<graphs_rdf_star/pos_002> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "Three quads with s/o or both featuring quoted triples in a IRI-labeled graph." ;
+    rdfs:comment "Only IRIs as terms. Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=8, max-prefix-table-size=0, max-datatype-table-size=0." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action (
+        <graphs_rdf_star/pos_002/stream_options.jelly>
+        <graphs_rdf_star/pos_002/in_000.nq>
+    ) ;
+    mf:result <graphs_rdf_star/pos_002/out.jelly> .
+
+<graphs_rdf_star/pos_003> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of quads with s/o or both featuring quoted triples in a default, BN-/IRI-labeled graphs." ;
+    rdfs:comment "Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=16, max-prefix-table-size=0, max-datatype-table-size=4." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action (
+        <graphs_rdf_star/pos_003/stream_options.jelly>
+        <graphs_rdf_star/pos_003/in_000.nq>
+    ) ;
+    mf:result <graphs_rdf_star/pos_003/out.jelly> .
+
+<graphs_rdf_star/pos_004> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of quads with s/o or both featuring quoted triples in a default, BN-/IRI-labeled graphs with assertions of the same statements inside the same graph." ;
+    rdfs:comment "Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=16, max-prefix-table-size=0, max-datatype-table-size=4." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action (
+        <graphs_rdf_star/pos_004/stream_options.jelly>
+        <graphs_rdf_star/pos_004/in_000.nq>
+    ) ;
+    mf:result <graphs_rdf_star/pos_004/out.jelly> .
+
+<graphs_rdf_star/pos_005> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of quads with s/o or both featuring quoted triples in a default, BN-/IRI-labeled graphs with assertions of the same statements inside the same graph. Both assertions and statements with quoted triples are repeated inside respectve graphs." ;
+    rdfs:comment "Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=16, max-prefix-table-size=0, max-datatype-table-size=4." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action (
+        <graphs_rdf_star/pos_005/stream_options.jelly>
+        <graphs_rdf_star/pos_005/in_000.nq>
+    ) ;
+    mf:result <graphs_rdf_star/pos_005/out.jelly> .
+
+<graphs_rdf_star/pos_006> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of quads that use quoted triples with nesting level 10 as subject/object, and repeated predicates in the nested triples. One RDF-star statement per graph." ;
+    rdfs:comment "Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=32, max-prefix-table-size=0, max-datatype-table-size=4." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action (
+        <graphs_rdf_star/pos_006/stream_options.jelly>
+        <graphs_rdf_star/pos_006/in_000.nq>
+    ) ;
+    mf:result <graphs_rdf_star/pos_006/out.jelly> .
+
+<graphs_rdf_star/pos_007> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
+    mf:name "A set of quads with quoted triples and assertions with a variety of repeating terms. Three (3) frames with one (1) graph per frame. Focuses on reusing all lookup tables." ;
+    rdfs:comment "Stream options are: generalized-statements=false, rdf-star=true, max-name-table-size=24, max-prefix-table-size=8, max-datatype-table-size=2." ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPhysicalTypeGraphs, jellyt:requirementRdfStar ;
+    mf:action (
+        <graphs_rdf_star/pos_007/stream_options.jelly>
+        <graphs_rdf_star/pos_007/in_000.nq>
+        <graphs_rdf_star/pos_007/in_001.nq>
+        <graphs_rdf_star/pos_007/in_002.nq>
+    ) ;
+    mf:result <graphs_rdf_star/pos_007/out.jelly> .
 
 <quads_rdf_star_generalized/pos_001> a jellyt:TestPositive, jellyt:TestRdfToJelly ;
     mf:name "A variety of generalized RDF-star quads with graph labels being BN/IRI/Literal/Default graph, featuring quoted triples of different shapes in different places." ;
