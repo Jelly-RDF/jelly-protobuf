@@ -23,6 +23,8 @@ This directory contains the tests for the [Jelly RDF serialization format specif
   - TRIPLES stream type:
     - `triples_rdf_1_1` – RDF 1.1 standard conformant.
   
-[NOTES]: 
+## Notes
+
 1. Generalized RDF test cases (`*_generalized`) require a generalized parser. If the library does not implement generalized RDF, then the generalized RDF tests should be skipped
-2. All tests must be run with --compare-to-rdf-file=true option in jelly-cli rdf validate
+2. All tests must be run with `--compare-to-rdf-file=true` option in `jelly-cli rdf validate`
+3. Blank node identifiers in the input files should be considered to all come from the same blank node pool, i.e. blank nodes should be considered equal if they have the same identifier.
