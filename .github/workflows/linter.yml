@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 0
 
       - name: Lint codebase
-        uses: super-linter/super-linter@v7
+        uses: super-linter/super-linter@v8
         env:
           # This repo is small enough for a full check
           VALIDATE_ALL_CODEBASE: true
