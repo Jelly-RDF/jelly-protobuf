@@ -7,7 +7,7 @@ _:bn_org "hasLinkTo" << _:bn_org1 "hasLinkTo" << _:bn_org2 "hasLinkTo" << _:bn_o
 _:bn_org3 "hasLinkTo" _:bn_org1 .
 <http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> .
 << << << <http://example.org/program/p1> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> >> "versioned" "0.1"^^<http://www.w3.org/2001/XMLSchema#float> .
-<< _:anonymous_person << _:anonymous_person _:anonymous_link _:anonymous_person1 >>  _:anonymous_person1 >> _:anonymous_link _:anon_graph.
+<< _:anonymous_person << _:anonymous_person _:anonymous_link _:anonymous_person1 >>  _:anonymous_person1 >> _:anonymous_link _:anon_graph .
 _:anonymous_person _:anonymous_link _:anonymous_person1 .
 _:anonymous_person _:anonymous_link _:anonymous_person1 _:anon_graph .
 << _:anonymous_person << _:anonymous_person _:anonymous_link _:anonymous_person1 >>  _:anonymous_person1 >> _:anonymous_link "anonymous" _:anon_graph .

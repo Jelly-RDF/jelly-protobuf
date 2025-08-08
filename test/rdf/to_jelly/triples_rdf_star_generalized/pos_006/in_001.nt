@@ -1,7 +1,7 @@
 _:bn_connection <http://example.org/property/isRequired> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
 "1000"^^<http://www.w3.org/2001/XMLSchema#integer> << _:bn_s _:bn_p _:bn_connection >> "2021-11-12"^^<http://www.w3.org/2001/XMLSchema#date> .
 
-<http://example.org/ministry/m1> <http://example.org/property/hasImpact> "true"^^<http://www.w3.org/2001/XMLSchema#boolean>.
+<http://example.org/ministry/m1> <http://example.org/property/hasImpact> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
 <http://example.org/property/hasImpact> <http://example.org/property/allocatedTo> <http://example.org/organization/o> .
 <http://example.org/source/s1> <http://example.org/property/hasDescription> << "Source"@en "Reported By"@en "Person"@en >> .
 <http://example.org/source/s2> <http://example.org/property/hasDescription> << "Source"@en "Reported By"@en "Person"@en >> .
