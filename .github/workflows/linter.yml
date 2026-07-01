@@ -28,6 +28,7 @@ jobs:
           VALIDATE_NATURAL_LANGUAGE: false
           VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
           VALIDATE_SPELL_CODESPELL: false
+          VALIDATE_JSCPD: false
           FIX_JSON: true
           FIX_MARKDOWN: true
           FIX_MARKDOWN_PRETTIER: true
