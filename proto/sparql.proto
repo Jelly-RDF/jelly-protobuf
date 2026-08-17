@@ -88,11 +88,11 @@ message SparqlTerm {
 // Columns use a compact sequence layout encoding: the logical sequence of
 // row_count cells is stored as the `values` list (each run of consecutive
 // equal values stored exactly once, unbound cells not stored at all) plus a
-// `layout` list describing where the cell sequence deviates from "each value
+// `layouts` list describing where the cell sequence deviates from "each value
 // appears exactly once". When every cell is bound and no value is repeated
-// consecutively, `layout` is empty.
+// consecutively, `layouts` is empty.
 //
-// `layout` is a flat list of exceptions. Each exception is one
+// `layouts` is a flat list of exceptions. Each exception is one
 // varint token, optionally followed by one extension varint:
 //
 //   token = (skip << 5) | (kind << 4) | len_code
@@ -101,7 +101,7 @@ message SparqlTerm {
 //              exception (or since the start of the column)
 //   kind     – 0 = repeat run, 1 = unbound run
 //   len_code – 0–14: len is this literal value;
-//                15: len = 15 + the next varint in the layout list
+//                15: len = 15 + the next varint in the layouts list
 //
 // A token stays a single byte while skip <= 3. Runs of up to 16 repeats or
 // 15 unbound cells are inlined in the token, without an extension varint.
@@ -147,7 +147,7 @@ message SparqlIriColumn {
   // decoded independently of each other (given the lookup tables).
   repeated uint32 name_ids = 1;
   // Sequence layout, see above. Empty = every cell is bound, no repeats.
-  repeated uint32 layout = 2;
+  repeated uint32 layouts = 2;
   // Prefix identifiers of the run values, in row order.
   //
   // The list must have one of three lengths:
@@ -169,7 +169,7 @@ message SparqlBnodeColumn {
   // Run values (blank node labels), in row order.
   repeated string values = 1;
   // Sequence layout, see above.
-  repeated uint32 layout = 2;
+  repeated uint32 layouts = 2;
 }
 
 // Column of literal values.
@@ -184,7 +184,7 @@ message SparqlLiteralColumn {
   // Run values, in row order. Must be empty if lex_values is not empty.
   repeated RdfLiteral values = 1;
   // Sequence layout, see above.
-  repeated uint32 layout = 2;
+  repeated uint32 layouts = 2;
   // Lexical forms of the run values, in row order.
   //
   // If this list is not empty, it replaces values: the column has one value
@@ -213,7 +213,7 @@ message SparqlPolyColumn {
   // non-IRI values.
   repeated SparqlTerm values = 1;
   // Sequence layout, see above.
-  repeated uint32 layout = 2;
+  repeated uint32 layouts = 2;
 }
 
 // SPARQL results frame – base message of a SPARQL result stream.
