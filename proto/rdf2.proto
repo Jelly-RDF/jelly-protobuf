@@ -1,0 +1,62 @@
+syntax = "proto3";
+package eu.ostrzyciel.jelly.core.proto.v1;
+
+// EXPERIMENTAL FEATURE -- the API and format may change.
+
+// Messages shared by the newer Jelly formats, in preparation for the RDF 1.2
+// version of Jelly.
+
+// Packed entries of a lookup table.
+//
+// Lookup entries are almost always assigned consecutive identifiers, because
+// that is what the "id = 0 means previous_id + 1" rule of the unpacked entries
+// optimizes for. A packed entry states the identifier once and then lists the
+// values of a whole run of consecutive entries, saving the framing of every
+// entry after the first.
+//
+// The identifier of the first value follows the same rule as the unpacked
+// entries: 0 means previous_id + 1, or 1 at the start of the stream. Every
+// following value takes the identifier of the previous one plus 1.
+//
+// A packed entry with no values at all is a no-op and must not be written.
+
+// Packed entries of the name lookup table
+message RdfNameEntryPacked {
+  // 1-based identifier of the first value.
+  // If id=0, it should be interpreted as previous_id + 1.
+  // If id=0 appears in the first name entry of the stream, it should be
+  // interpreted as 1.
+  uint32 id = 1;
+  // Values of the names (UTF-8 encoded), for consecutive identifiers
+  // starting at id.
+  repeated string values = 2;
+}
+
+// Packed entries of the prefix lookup table
+//
+// Note: the prefixes in the lookup table can be arbitrary strings, and are
+// NOT meant to be user-facing. They are only used for IRI compression.
+// To transmit user-facing namespace declarations for cosmetic purposes, use
+// RdfNamespaceDeclaration.
+message RdfPrefixEntryPacked {
+  // 1-based identifier of the first value.
+  // If id=0, it should be interpreted as previous_id + 1.
+  // If id=0 appears in the first prefix entry of the stream, it should be
+  // interpreted as 1.
+  uint32 id = 1;
+  // Values of the prefixes (UTF-8 encoded), for consecutive identifiers
+  // starting at id.
+  repeated string values = 2;
+}
+
+// Packed entries of the datatype lookup table
+message RdfDatatypeEntryPacked {
+  // 1-based identifier of the first value.
+  // If id=0, it should be interpreted as previous_id + 1.
+  // If id=0 appears in the first datatype entry of the stream, it should be
+  // interpreted as 1.
+  uint32 id = 1;
+  // Values of the datatypes (UTF-8 encoded), for consecutive identifiers
+  // starting at id.
+  repeated string values = 2;
+}
