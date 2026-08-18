@@ -53,8 +53,8 @@ message SparqlVariable {
   // a frame, in field number order: iri_columns first, then bnode_columns,
   // literal_columns, and finally poly_columns.
   //
-  // For example, if a frame has 2 IRI columns, 1 blank node column, and 2 literal 
-  // columns, the column indices are as follows:
+  // For example, if a frame has 2 IRI columns, 1 blank node column, and 2 
+  // literal columns, the column indices are as follows:
   //   iri_columns[0]     | column_index = 0
   //   iri_columns[1]     | column_index = 1
   //   bnode_columns[0]   | column_index = 2
