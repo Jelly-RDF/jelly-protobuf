@@ -53,8 +53,13 @@ message SparqlVariable {
   // a frame, in field number order: iri_columns first, then bnode_columns,
   // literal_columns, and finally poly_columns.
   //
-  // Variables and columns map 1:1: the column indices in a header must form
-  // a permutation of [0, number of variables).
+  // For example, if a frame has 2 IRI columns, 1 blank node column, and 2 literal columns,
+  // the column indices are as follows:
+  //   iri_columns[0]     | column_index = 0
+  //   iri_columns[1]     | column_index = 1
+  //   bnode_columns[0]   | column_index = 2
+  //   literal_columns[0] | column_index = 3
+  //   literal_columns[1] | column_index = 4
   uint32 column_index = 2;
 }
 
@@ -66,8 +71,7 @@ message SparqlAskResult {
 
 // A single bound RDF term in a polymorphic column.
 //
-// Exactly one of the fields must be set. Unbound cells are expressed in the
-// column layout (see below), never as an empty SparqlTerm.
+// Exactly one of the fields in `term` must be set.
 message SparqlTerm {
   oneof term {
     // IRI
@@ -92,8 +96,9 @@ message SparqlTerm {
 // appears exactly once". When every cell is bound and no value is repeated
 // consecutively, `layouts` is empty.
 //
-// `layouts` is a flat list of exceptions. Each exception is one
-// varint token, optionally followed by one extension varint:
+// `layouts` is a flat list of run-length exceptions for values that need to
+// be repeated, or need to have a run of unbound values after them. Each
+// exception is one varint token, optionally followed by one extension varint:
 //
 //   token = (skip << 5) | (kind << 4) | len_code
 //
