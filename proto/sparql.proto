@@ -259,11 +259,16 @@ message SparqlResultsFrame {
   // frame's columns must still hold the intended value after all entries are
   // applied: the working set of a single frame must fit in the lookup
   // tables.
-  repeated RdfNameEntryPacked names = 4;
+  repeated RdfLookupEntryPacked names = 4;
   // Entries in the prefix lookup table. See `names` for ordering rules.
-  repeated RdfPrefixEntryPacked prefixes = 5;
+  //
+  // Note: the prefixes in the lookup table can be arbitrary strings, and are
+  // NOT meant to be user-facing. They are only used for IRI compression.
+  // To transmit user-facing namespace declarations for cosmetic purposes, use
+  // RdfNamespaceDeclaration.
+  repeated RdfLookupEntryPacked prefixes = 5;
   // Entries in the datatype lookup table. See `names` for ordering rules.
-  repeated RdfDatatypeEntryPacked datatypes = 6;
+  repeated RdfLookupEntryPacked datatypes = 6;
   // IRI columns.
   repeated SparqlIriColumn iri_columns = 7;
   // Blank node columns.
