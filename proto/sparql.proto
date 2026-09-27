@@ -29,6 +29,13 @@ message SparqlResultsOptions {
   // Name of the stream (completely optional).
   // This may be used for, e.g., topic names in a pub/sub system.
   string stream_name = 1;
+  // Version of RDF whose terms may occur in the stream.
+  //   RDF_VERSION_1_1       – no triple terms, no base directions
+  //   RDF_VERSION_1_2_BASIC – base directions, no triple terms
+  //   RDF_VERSION_1_2       – base directions and triple terms
+  // Unspecified (the default) means that no version is announced: the stream
+  // may contain any RDF 1.2 term.
+  RdfVersion rdf_version = 5;
   // Maximum size of the name lookup table
   // (required, must be >= 128)
   uint32 max_name_table_size = 9;
@@ -76,11 +83,15 @@ message SparqlAskResult {
 message SparqlTerm {
   oneof term {
     // IRI
-    RdfIri      iri = 1;
+    RdfIri        iri = 1;
     // Blank node
-    string      bnode = 2;
+    string        bnode = 2;
     // Literal
-    RdfLiteral  literal = 3;
+    RdfLiteral2   literal = 3;
+    // Triple term
+    // Not valid if the stream options declare RDF_VERSION_1_1 or
+    // RDF_VERSION_1_2_BASIC.
+    RdfTripleTerm triple_term = 4;
   }
 }
 
@@ -186,25 +197,25 @@ message SparqlBnodeColumn {
 // lexical forms. This drops the length-delimited sub-message and the datatype
 // reference or language tag of every value, and lets readers keep the column
 // in a string array instead of one object per value. Columns mixing
-// datatypes, language tags, or language-tagged and other literals use the
-// RdfLiteral form.
+// datatypes, language tags, base directions, or language-tagged and other
+// literals use the RdfLiteral2 form.
 message SparqlLiteralColumn {
   // Run values, in row order. Must be empty if lex_values is not empty.
-  repeated RdfLiteral values = 1;
+  repeated RdfLiteral2 values = 1;
   // Sequence layout, see above.
   repeated uint32 layouts = 2;
   // Lexical forms of the run values, in row order.
   //
   // If this list is not empty, it replaces values: the column has one value
   // per entry, each a literal with this lexical form and either the datatype
-  // given by the datatype field or the language tag given by the langtag
-  // field. A column with no run values at all is empty either way, and is
-  // read as the values form.
+  // given by the datatype field or the language tag (and base direction)
+  // given by the langtag and direction fields. A column with no run values
+  // at all is empty either way, and is read as the values form.
   repeated string lex_values = 3;
   // The datatype shared by every value of lex_values: a reference to an entry
   // in the datatype lookup, or 0 for simple literals (that is, xsd:string).
   // Must not be set if lex_values is empty or langtag is set. Must not refer
-  // to rdf:langString – use langtag instead.
+  // to rdf:langString or rdf:dirLangString – use langtag instead.
   //
   // Simple literals do not need an xsd:string entry in the datatype lookup –
   // the writer states no datatype at all and the reader produces the same
@@ -216,6 +227,10 @@ message SparqlLiteralColumn {
   //
   // The language tag should be a valid BCP 47 language tag.
   string langtag = 5;
+  // The base direction shared by every value of lex_values.
+  // Must not be set unless langtag is set.
+  // Not valid if the stream options declare RDF_VERSION_1_1.
+  RdfBaseDirection direction = 6;
 }
 
 // Polymorphic column: values may be RDF terms of any type.
@@ -226,7 +241,8 @@ message SparqlPolyColumn {
   //
   // The RdfIri inference state (see SparqlIriColumn) is shared by all IRIs
   // in this column: it advances through the values in order, skipping
-  // non-IRI values.
+  // non-IRI values. IRIs inside triple terms take part in it too, in the
+  // order subject, predicate, object, recursively into nested triple terms.
   repeated SparqlTerm values = 1;
   // Sequence layout, see above.
   repeated uint32 layouts = 2;
