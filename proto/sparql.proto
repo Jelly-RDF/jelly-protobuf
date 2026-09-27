@@ -181,11 +181,13 @@ message SparqlBnodeColumn {
 // Column of literal values.
 //
 // A column in which every value has the same datatype – including a column of
-// simple literals, whose datatype is xsd:string – can state that datatype once
-// and list only the lexical forms. This drops the length-delimited sub-message
-// and the datatype reference of every value, and lets readers keep the column
-// in a string array instead of one object per value. Columns holding
-// language-tagged literals or mixing datatypes use the RdfLiteral form.
+// simple literals, whose datatype is xsd:string – or every value has the same
+// language tag can state that datatype or language tag once and list only the
+// lexical forms. This drops the length-delimited sub-message and the datatype
+// reference or language tag of every value, and lets readers keep the column
+// in a string array instead of one object per value. Columns mixing
+// datatypes, language tags, or language-tagged and other literals use the
+// RdfLiteral form.
 message SparqlLiteralColumn {
   // Run values, in row order. Must be empty if lex_values is not empty.
   repeated RdfLiteral values = 1;
@@ -194,18 +196,26 @@ message SparqlLiteralColumn {
   // Lexical forms of the run values, in row order.
   //
   // If this list is not empty, it replaces values: the column has one value
-  // per entry, each a literal with this lexical form and the datatype given by
-  // the datatype field. A column with no run values at all is empty either
-  // way, and is read as the values form.
+  // per entry, each a literal with this lexical form and either the datatype
+  // given by the datatype field or the language tag given by the langtag
+  // field. A column with no run values at all is empty either way, and is
+  // read as the values form.
   repeated string lex_values = 3;
   // The datatype shared by every value of lex_values: a reference to an entry
   // in the datatype lookup, or 0 for simple literals (that is, xsd:string).
-  // Must not be set if lex_values is empty.
+  // Must not be set if lex_values is empty or langtag is set. Must not refer
+  // to rdf:langString – use langtag instead.
   //
   // Simple literals do not need an xsd:string entry in the datatype lookup –
   // the writer states no datatype at all and the reader produces the same
   // term, as a simple literal and an xsd:string literal are the same thing.
   uint32 datatype = 4;
+  // The language tag shared by every value of lex_values. If set, every value
+  // is a language-tagged string (rdf:langString) with this language tag.
+  // Must not be set if lex_values is empty or datatype is set.
+  //
+  // The language tag should be a valid BCP 47 language tag.
+  string langtag = 5;
 }
 
 // Polymorphic column: values may be RDF terms of any type.
