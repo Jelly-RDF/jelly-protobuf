@@ -14,7 +14,7 @@
         },
         "y": {
           "type": "uri",
-          "value": "a"
+          "value": "urn:x:full"
         }
       },
       {
@@ -24,7 +24,7 @@
         },
         "y": {
           "type": "uri",
-          "value": "http://example.org/b"
+          "value": "http://example.org/a"
         }
       }
     ]

@@ -22,6 +22,7 @@ Before anything is written, every case is checked:
 Requires only Python 3.9+. protoc is optional.
 """
 
+import re
 import shutil
 import subprocess
 import sys
@@ -37,13 +38,14 @@ import decoder  # noqa: E402
 import encoder  # noqa: E402
 import msgs  # noqa: E402
 import pb  # noqa: E402
-from model import AskResult, equivalent, from_srj, to_srj  # noqa: E402
+from model import AskResult, Iri, Lit, Triple, equivalent, from_srj, to_srj  # noqa: E402
 
 SUITE = HERE.parent
 PROTO_DIR = SUITE.parent.parent / "proto"
 SPEC = "https://w3id.org/jelly/dev/specification/sparql/"
 BASE = "https://w3id.org/jelly/dev/tests/sparql"
 FRAME_TYPE = "eu.ostrzyciel.jelly.core.proto.v1.sparql.SparqlResultsFrame"
+ABSOLUTE_IRI = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
 
 REQUIREMENTS = {
     cases.SELECT_1_2_BASIC: "jellyt:requirementRdf12Basic",
@@ -126,7 +128,30 @@ def build_to_jelly(case, label):
     return files
 
 
+def check_absolute_iris(result, label):
+    """Every IRI must be absolute: some libraries (e.g. RDF4J) cannot hold relative IRIs."""
+    if isinstance(result, AskResult):
+        return
+
+    def walk(t):
+        if isinstance(t, Iri):
+            iris.append(t.value)
+        elif isinstance(t, Lit) and t.datatype:
+            iris.append(t.datatype)
+        elif isinstance(t, Triple):
+            walk(t.s), walk(t.p), walk(t.o)
+
+    iris = list(result.links)
+    for row in result.rows:
+        for t in row.values():
+            walk(t)
+    relative = sorted({i for i in iris if not ABSOLUTE_IRI.match(i)})
+    if relative:
+        raise CaseError(f"{label}: relative IRIs in the result: {relative}")
+
+
 def srj(result, label) -> bytes:
+    check_absolute_iris(result, label)
     text = to_srj(result)
     if equivalent(result, from_srj(text)):
         raise CaseError(f"{label}: the SPARQL JSON results do not round-trip")

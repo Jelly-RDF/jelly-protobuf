@@ -375,11 +375,11 @@ from_pos(C, "name_ids mixing explicit identifiers and 0 (previous + 1): [5, 0, 0
 from_pos(C, "The name_id and prefix_id inference state resets at the start of every column.",
          "iri-columns",
          [F(options=O(prefix=8), vars=[("x", 0), ("y", 1)], rows=2,
-            prefixes=[N(E, "https://b.org/")], names=[N("a", "b")],
-            iri=[iri_col([0, 0], [], [2, 0]), iri_col([0, 0], [], [0, 1])], trailer="")],
-         RS(["x", "y"], row(x=Iri("https://b.org/a"), y=Iri("a")),
-            row(x=Iri("https://b.org/b"), y=I("b"))),
-         comment="In the second column, the first prefix_id of 0 means no prefix, not the prefix of the previous column.")
+            prefixes=[N(E, "https://b.org/")], names=[N("urn:x:full", "a", "b")],
+            iri=[iri_col([2, 0], [], [2, 0]), iri_col([0, 0], [], [0, 1])], trailer="")],
+         RS(["x", "y"], row(x=Iri("https://b.org/a"), y=Iri("urn:x:full")),
+            row(x=Iri("https://b.org/b"), y=I("a"))),
+         comment="The first column ends at name 3 with prefix 2. The second column still starts from name 0 and no prefix: its first name_id of 0 means name 1, and its first prefix_id of 0 means no prefix, not the prefix of the previous column.")
 from_pos(C, "The name_id inference state resets at the start of every frame.",
          "iri-columns",
          [F(options=O(prefix=8), vars=[("v", 0)], rows=3, prefixes=[N(E)], names=[N("a", "b", "c")],
