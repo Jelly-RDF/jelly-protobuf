@@ -1,0 +1,22 @@
+{
+  "head": {
+    "vars": [
+      "label",
+      "item"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "label": {
+          "type": "literal",
+          "value": "A"
+        },
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/a"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "head": {
+    "vars": [
+      "label"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "label": {
+          "type": "literal",
+          "value": "שורה 0",
+          "xml:lang": "he",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "label": {
+          "type": "literal",
+          "value": "שורה 1",
+          "xml:lang": "he",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "label": {
+          "type": "literal",
+          "value": "שורה 2",
+          "xml:lang": "he",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "label": {
+          "type": "literal",
+          "value": "שורה 3",
+          "xml:lang": "he",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "label": {
+          "type": "literal",
+          "value": "שורה 4",
+          "xml:lang": "he",
+          "its:dir": "rtl"
+        }
+      }
+    ]
+  }
+}

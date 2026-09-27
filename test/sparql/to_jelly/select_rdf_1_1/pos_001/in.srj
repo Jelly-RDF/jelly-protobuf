@@ -1,0 +1,181 @@
+{
+  "head": {
+    "vars": [
+      "s",
+      "p",
+      "o"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s0"
+        },
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/p0"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://example.org/o0"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s1"
+        },
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/p1"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://example.org/o1"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s2"
+        },
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/p0"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://example.org/o2"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s0"
+        },
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/p1"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://example.org/o3"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s1"
+        },
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/p0"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://example.org/o4"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s2"
+        },
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/p1"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://example.org/o5"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s0"
+        },
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/p0"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://example.org/o6"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s1"
+        },
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/p1"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://example.org/o7"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s2"
+        },
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/p0"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://example.org/o8"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s0"
+        },
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/p1"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://example.org/o9"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s1"
+        },
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/p0"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://example.org/o10"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s2"
+        },
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/p1"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://example.org/o11"
+        }
+      }
+    ]
+  }
+}

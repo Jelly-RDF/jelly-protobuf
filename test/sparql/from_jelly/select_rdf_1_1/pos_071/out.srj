@@ -1,0 +1,32 @@
+{
+  "head": {
+    "vars": [
+      "a",
+      "b"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "a": {
+          "type": "literal",
+          "value": "1"
+        },
+        "b": {
+          "type": "literal",
+          "value": "2"
+        }
+      },
+      {
+        "a": {
+          "type": "literal",
+          "value": "3"
+        },
+        "b": {
+          "type": "bnode",
+          "value": "x"
+        }
+      }
+    ]
+  }
+}

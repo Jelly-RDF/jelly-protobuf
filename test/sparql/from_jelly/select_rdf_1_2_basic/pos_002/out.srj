@@ -1,0 +1,27 @@
+{
+  "head": {
+    "vars": [
+      "v"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "v": {
+          "type": "literal",
+          "value": "שלום",
+          "xml:lang": "he",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "עולם",
+          "xml:lang": "he",
+          "its:dir": "rtl"
+        }
+      }
+    ]
+  }
+}

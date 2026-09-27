@@ -1,0 +1,42 @@
+{
+  "head": {
+    "vars": [
+      "t"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "t": {
+          "type": "uri",
+          "value": "http://example.org/a"
+        }
+      },
+      {
+        "t": {
+          "type": "triple",
+          "value": {
+            "subject": {
+              "type": "uri",
+              "value": "http://example.org/b"
+            },
+            "predicate": {
+              "type": "uri",
+              "value": "http://example.org/c"
+            },
+            "object": {
+              "type": "uri",
+              "value": "http://example.org/d"
+            }
+          }
+        }
+      },
+      {
+        "t": {
+          "type": "uri",
+          "value": "http://example.org/e"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "head": {
+    "vars": [
+      "v"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "v": {
+          "type": "uri",
+          "value": "https://b.org/x"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "https://b.org/y"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "https://b.org/z"
+        }
+      }
+    ]
+  }
+}

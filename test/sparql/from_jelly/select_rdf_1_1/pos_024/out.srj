@@ -1,0 +1,88 @@
+{
+  "head": {
+    "vars": [
+      "b",
+      "l",
+      "f",
+      "p"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "b": {
+          "type": "bnode",
+          "value": "x"
+        },
+        "f": {
+          "type": "literal",
+          "value": "hi",
+          "xml:lang": "en"
+        },
+        "p": {
+          "type": "uri",
+          "value": "http://example.org/a"
+        }
+      },
+      {
+        "b": {
+          "type": "bnode",
+          "value": "x"
+        },
+        "l": {
+          "type": "literal",
+          "value": "1"
+        },
+        "p": {
+          "type": "bnode",
+          "value": "x"
+        }
+      },
+      {
+        "l": {
+          "type": "literal",
+          "value": "1"
+        },
+        "p": {
+          "type": "bnode",
+          "value": "x"
+        }
+      },
+      {
+        "l": {
+          "type": "literal",
+          "value": "1"
+        },
+        "p": {
+          "type": "bnode",
+          "value": "x"
+        }
+      },
+      {
+        "b": {
+          "type": "bnode",
+          "value": "y"
+        },
+        "l": {
+          "type": "literal",
+          "value": "1"
+        },
+        "f": {
+          "type": "literal",
+          "value": "hej",
+          "xml:lang": "sv"
+        },
+        "p": {
+          "type": "literal",
+          "value": "z"
+        }
+      },
+      {
+        "l": {
+          "type": "literal",
+          "value": "2"
+        }
+      }
+    ]
+  }
+}

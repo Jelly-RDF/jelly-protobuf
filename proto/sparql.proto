@@ -34,7 +34,7 @@ message SparqlResultsOptions {
   //   RDF_VERSION_1_2_BASIC – base directions, no triple terms
   //   RDF_VERSION_1_2       – base directions and triple terms
   // Unspecified (the default) means that no version is announced: the stream
-  // may contain any RDF 1.2 term.
+  // may contain any RDF 1.2 term. Values not listed here are invalid.
   RdfVersion rdf_version = 5;
   // Maximum size of the name lookup table
   // (required, must be >= 128)
