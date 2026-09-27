@@ -18,7 +18,8 @@ package eu.ostrzyciel.jelly.core.proto.v1.sparql;
 // variable names to columns. The header (except the options) may be restated
 // in a later frame to change the column layout mid-stream – for example,
 // when a variable that so far held only IRIs encounters a literal and needs
-// to move to a polymorphic column.
+// to move to a polymorphic column. The stream ends with an optional trailer,
+// which says whether the result set is complete.
 
 import "rdf.proto";
 import "rdf2.proto";
@@ -221,21 +222,42 @@ message SparqlPolyColumn {
   repeated uint32 layouts = 2;
 }
 
+// End-of-stream marker, saying whether the result set is complete.
+//
+// A frame containing a trailer must not be followed by any frame that does not
+// include the stream options. Producers should write a trailer in the last 
+// frame of the stream.
+message SparqlResultsTrailer {
+  // Empty (the default) means the result set is complete.
+  // A non-empty value is a human-readable explanation of why the producer
+  // could not complete the result set (e.g., query failure mid-evaluation).
+  string error = 1;
+}
+
 // SPARQL results frame – base message of a SPARQL result stream.
 //
-// A frame contains a batch of rows (solutions). Every frame must contain the
-// same number of columns of each type, as established by the most recent
-// header. A column whose cells are all unbound in a frame is encoded as an
-// empty message. Columns must decode to at most row_count cells each
-// (shorter columns are padded with unbound cells – see the layout encoding).
+// A frame contains a batch of rows (solutions). A frame must contain either
+// exactly the columns established by the most recent header (the same number
+// of columns of each type), or no columns at all. The no-columns form is only
+// valid when row_count is 0 (or the result set has no variables), and is the
+// recommended encoding for a frame with no rows. A column whose cells are all
+// unbound in a frame is encoded as an empty message. Columns must decode to
+// at most row_count cells each (shorter columns are padded with unbound
+// cells – see the layout encoding).
 //
 // Frames are self-contained except for the lookup tables and the header:
 // a frame can be decoded using only the lookup table state left by the
 // preceding frames and the most recently transmitted header.
 message SparqlResultsFrame {
   // Stream options.
-  // Must be set in the first frame of the stream and unset in all
-  // subsequent frames.
+  // Must be set in the first frame of the stream.
+  //
+  // May be set again in a later frame. Doing so resets the state of the
+  // stream: the lookup tables are emptied (identifier numbering restarts at 1)
+  // and the header ceases to be in effect, so the same frame must restate it,
+  // with the same variables as the first frame. Blank node labels are not
+  // reset. This is intended only for concatenating result streams of the same
+  // query.
   SparqlResultsOptions options = 1;
   // Result set header: the variables of the result set, in projection
   // (SELECT clause) order, each mapped to one column.
@@ -247,11 +269,13 @@ message SparqlResultsFrame {
   // the column assignments (and thus the number of columns of each type)
   // may change. It takes effect for the frame it appears in and for all
   // subsequent frames, until restated again.
-  // An empty variables list in the first frame of the stream declares a
+  // An empty variables list in a frame that contains the options declares a
   // zero-variable result set (row_count then conveys the number of empty
   // solutions).
   repeated SparqlVariable variables = 2;
   // Number of rows (solutions) in this frame (required).
+  // Must not be greater than 2^27 - 1, the largest number of cells the
+  // layout encoding can address.
   uint32 row_count = 3;
   // Entries in the name lookup table.
   // All lookup entries of a frame are applied, in order, before any column
@@ -283,10 +307,19 @@ message SparqlResultsFrame {
   // include no variables, no columns, and row_count = 0. No further result
   // content may follow in the stream.
   SparqlAskResult ask_result = 11;
+  // End-of-stream marker. See SparqlResultsTrailer.
+  SparqlResultsTrailer trailer = 12;
   // Arbitrary metadata
   // The keys are UTF-8 encoded strings, the values are byte arrays.
-  // This may be used by implementations in any way they see fit.
   // The metadata does not affect the result data in any way, treat it
   // as comments in a text file.
+  //
+  // Well-known keys (their values must be valid UTF-8):
+  //   link – zero or more IRIs separated by LF (U+000A), describing the
+  //          result set as a whole (not the frame). Corresponds to head.link
+  //          in the SPARQL Query Results JSON format.
+  //
+  // All other keys may be used by implementations in any way they see fit,
+  // and their values are arbitrary bytes.
   map<string, bytes> metadata = 15;
 }
