@@ -29,6 +29,14 @@ jobs:
           VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
           VALIDATE_SPELL_CODESPELL: false
           VALIDATE_JSCPD: false
+          # The Python code is a small test-suite generator, not worth linting
+          VALIDATE_PYTHON_BLACK: false
+          VALIDATE_PYTHON_FLAKE8: false
+          VALIDATE_PYTHON_ISORT: false
+          VALIDATE_PYTHON_MYPY: false
+          VALIDATE_PYTHON_PYLINT: false
+          VALIDATE_PYTHON_RUFF: false
+          VALIDATE_PYTHON_RUFF_FORMAT: false
           FIX_JSON: true
           FIX_MARKDOWN: true
           FIX_MARKDOWN_PRETTIER: true

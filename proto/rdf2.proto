@@ -33,7 +33,8 @@ message RdfLookupEntryPacked {
 }
 
 // Version of RDF that a stream conforms to, following the version labels of
-// RDF 1.2 Concepts (https://www.w3.org/TR/rdf12-concepts/#defined-version-labels).
+// RDF 1.2 Concepts:
+// https://www.w3.org/TR/rdf12-concepts/#defined-version-labels
 //
 // Each version includes the ones listed before it: RDF 1.1 data is valid
 // RDF 1.2 Basic data, which is valid RDF 1.2 data.
@@ -53,7 +54,7 @@ enum RdfVersion {
 // Initial text direction of a language-tagged string (RDF 1.2).
 enum RdfBaseDirection {
   // No base direction: an ordinary language-tagged string (rdf:langString).
-  RDF_BASE_DIRECTION_NONE = 0;
+  RDF_BASE_DIRECTION_UNSPECIFIED = 0;
   // Left-to-right ("ltr"): a directional language-tagged string
   // (rdf:dirLangString).
   RDF_BASE_DIRECTION_LTR = 1;
