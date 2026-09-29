@@ -1,0 +1,74 @@
+{
+  "head": {
+    "vars": [
+      "s",
+      "text"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/zażółć/gęślą#jaźń"
+        },
+        "text": {
+          "type": "literal",
+          "value": "Zażółć gęślą jaźń"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://例え.jp/テスト"
+        },
+        "text": {
+          "type": "literal",
+          "value": "日本語のテキスト",
+          "xml:lang": "ja"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/emoji/😀"
+        },
+        "text": {
+          "type": "literal",
+          "value": "emoji 😀🎉 and a combining mark: é"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/rtl"
+        },
+        "text": {
+          "type": "literal",
+          "value": "مرحبا بالعالم",
+          "xml:lang": "ar"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/escapes"
+        },
+        "text": {
+          "type": "literal",
+          "value": "quotes \" and ' backslash \\ tab \t newline \n return \r"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/empty"
+        },
+        "text": {
+          "type": "literal",
+          "value": ""
+        }
+      }
+    ]
+  }
+}

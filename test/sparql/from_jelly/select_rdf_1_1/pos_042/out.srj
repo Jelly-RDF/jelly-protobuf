@@ -1,0 +1,50 @@
+{
+  "head": {
+    "vars": [
+      "p",
+      "l",
+      "b",
+      "i"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "p": {
+          "type": "bnode",
+          "value": "z"
+        },
+        "l": {
+          "type": "literal",
+          "value": "1"
+        },
+        "b": {
+          "type": "bnode",
+          "value": "x"
+        },
+        "i": {
+          "type": "uri",
+          "value": "http://example.org/a"
+        }
+      },
+      {
+        "p": {
+          "type": "literal",
+          "value": "w"
+        },
+        "l": {
+          "type": "literal",
+          "value": "2"
+        },
+        "b": {
+          "type": "bnode",
+          "value": "y"
+        },
+        "i": {
+          "type": "uri",
+          "value": "http://example.org/b"
+        }
+      }
+    ]
+  }
+}

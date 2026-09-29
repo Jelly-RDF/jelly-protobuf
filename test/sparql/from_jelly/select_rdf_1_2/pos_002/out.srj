@@ -1,0 +1,32 @@
+{
+  "head": {
+    "vars": [
+      "t"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "t": {
+          "type": "triple",
+          "value": {
+            "subject": {
+              "type": "bnode",
+              "value": "b0"
+            },
+            "predicate": {
+              "type": "uri",
+              "value": "http://example.org/b"
+            },
+            "object": {
+              "type": "literal",
+              "value": "x",
+              "xml:lang": "en",
+              "its:dir": "rtl"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

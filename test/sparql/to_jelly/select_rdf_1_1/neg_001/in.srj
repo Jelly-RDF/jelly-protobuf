@@ -1,0 +1,657 @@
+{
+  "head": {
+    "vars": [
+      "v0",
+      "v1",
+      "v2",
+      "v3",
+      "v4",
+      "v5",
+      "v6",
+      "v7",
+      "v8",
+      "v9",
+      "v10",
+      "v11",
+      "v12",
+      "v13",
+      "v14",
+      "v15",
+      "v16",
+      "v17",
+      "v18",
+      "v19",
+      "v20",
+      "v21",
+      "v22",
+      "v23",
+      "v24",
+      "v25",
+      "v26",
+      "v27",
+      "v28",
+      "v29",
+      "v30",
+      "v31",
+      "v32",
+      "v33",
+      "v34",
+      "v35",
+      "v36",
+      "v37",
+      "v38",
+      "v39",
+      "v40",
+      "v41",
+      "v42",
+      "v43",
+      "v44",
+      "v45",
+      "v46",
+      "v47",
+      "v48",
+      "v49",
+      "v50",
+      "v51",
+      "v52",
+      "v53",
+      "v54",
+      "v55",
+      "v56",
+      "v57",
+      "v58",
+      "v59",
+      "v60",
+      "v61",
+      "v62",
+      "v63",
+      "v64",
+      "v65",
+      "v66",
+      "v67",
+      "v68",
+      "v69",
+      "v70",
+      "v71",
+      "v72",
+      "v73",
+      "v74",
+      "v75",
+      "v76",
+      "v77",
+      "v78",
+      "v79",
+      "v80",
+      "v81",
+      "v82",
+      "v83",
+      "v84",
+      "v85",
+      "v86",
+      "v87",
+      "v88",
+      "v89",
+      "v90",
+      "v91",
+      "v92",
+      "v93",
+      "v94",
+      "v95",
+      "v96",
+      "v97",
+      "v98",
+      "v99",
+      "v100",
+      "v101",
+      "v102",
+      "v103",
+      "v104",
+      "v105",
+      "v106",
+      "v107",
+      "v108",
+      "v109",
+      "v110",
+      "v111",
+      "v112",
+      "v113",
+      "v114",
+      "v115",
+      "v116",
+      "v117",
+      "v118",
+      "v119",
+      "v120",
+      "v121",
+      "v122",
+      "v123",
+      "v124",
+      "v125",
+      "v126",
+      "v127",
+      "v128"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "v0": {
+          "type": "uri",
+          "value": "http://example.org/n0"
+        },
+        "v1": {
+          "type": "uri",
+          "value": "http://example.org/n1"
+        },
+        "v2": {
+          "type": "uri",
+          "value": "http://example.org/n2"
+        },
+        "v3": {
+          "type": "uri",
+          "value": "http://example.org/n3"
+        },
+        "v4": {
+          "type": "uri",
+          "value": "http://example.org/n4"
+        },
+        "v5": {
+          "type": "uri",
+          "value": "http://example.org/n5"
+        },
+        "v6": {
+          "type": "uri",
+          "value": "http://example.org/n6"
+        },
+        "v7": {
+          "type": "uri",
+          "value": "http://example.org/n7"
+        },
+        "v8": {
+          "type": "uri",
+          "value": "http://example.org/n8"
+        },
+        "v9": {
+          "type": "uri",
+          "value": "http://example.org/n9"
+        },
+        "v10": {
+          "type": "uri",
+          "value": "http://example.org/n10"
+        },
+        "v11": {
+          "type": "uri",
+          "value": "http://example.org/n11"
+        },
+        "v12": {
+          "type": "uri",
+          "value": "http://example.org/n12"
+        },
+        "v13": {
+          "type": "uri",
+          "value": "http://example.org/n13"
+        },
+        "v14": {
+          "type": "uri",
+          "value": "http://example.org/n14"
+        },
+        "v15": {
+          "type": "uri",
+          "value": "http://example.org/n15"
+        },
+        "v16": {
+          "type": "uri",
+          "value": "http://example.org/n16"
+        },
+        "v17": {
+          "type": "uri",
+          "value": "http://example.org/n17"
+        },
+        "v18": {
+          "type": "uri",
+          "value": "http://example.org/n18"
+        },
+        "v19": {
+          "type": "uri",
+          "value": "http://example.org/n19"
+        },
+        "v20": {
+          "type": "uri",
+          "value": "http://example.org/n20"
+        },
+        "v21": {
+          "type": "uri",
+          "value": "http://example.org/n21"
+        },
+        "v22": {
+          "type": "uri",
+          "value": "http://example.org/n22"
+        },
+        "v23": {
+          "type": "uri",
+          "value": "http://example.org/n23"
+        },
+        "v24": {
+          "type": "uri",
+          "value": "http://example.org/n24"
+        },
+        "v25": {
+          "type": "uri",
+          "value": "http://example.org/n25"
+        },
+        "v26": {
+          "type": "uri",
+          "value": "http://example.org/n26"
+        },
+        "v27": {
+          "type": "uri",
+          "value": "http://example.org/n27"
+        },
+        "v28": {
+          "type": "uri",
+          "value": "http://example.org/n28"
+        },
+        "v29": {
+          "type": "uri",
+          "value": "http://example.org/n29"
+        },
+        "v30": {
+          "type": "uri",
+          "value": "http://example.org/n30"
+        },
+        "v31": {
+          "type": "uri",
+          "value": "http://example.org/n31"
+        },
+        "v32": {
+          "type": "uri",
+          "value": "http://example.org/n32"
+        },
+        "v33": {
+          "type": "uri",
+          "value": "http://example.org/n33"
+        },
+        "v34": {
+          "type": "uri",
+          "value": "http://example.org/n34"
+        },
+        "v35": {
+          "type": "uri",
+          "value": "http://example.org/n35"
+        },
+        "v36": {
+          "type": "uri",
+          "value": "http://example.org/n36"
+        },
+        "v37": {
+          "type": "uri",
+          "value": "http://example.org/n37"
+        },
+        "v38": {
+          "type": "uri",
+          "value": "http://example.org/n38"
+        },
+        "v39": {
+          "type": "uri",
+          "value": "http://example.org/n39"
+        },
+        "v40": {
+          "type": "uri",
+          "value": "http://example.org/n40"
+        },
+        "v41": {
+          "type": "uri",
+          "value": "http://example.org/n41"
+        },
+        "v42": {
+          "type": "uri",
+          "value": "http://example.org/n42"
+        },
+        "v43": {
+          "type": "uri",
+          "value": "http://example.org/n43"
+        },
+        "v44": {
+          "type": "uri",
+          "value": "http://example.org/n44"
+        },
+        "v45": {
+          "type": "uri",
+          "value": "http://example.org/n45"
+        },
+        "v46": {
+          "type": "uri",
+          "value": "http://example.org/n46"
+        },
+        "v47": {
+          "type": "uri",
+          "value": "http://example.org/n47"
+        },
+        "v48": {
+          "type": "uri",
+          "value": "http://example.org/n48"
+        },
+        "v49": {
+          "type": "uri",
+          "value": "http://example.org/n49"
+        },
+        "v50": {
+          "type": "uri",
+          "value": "http://example.org/n50"
+        },
+        "v51": {
+          "type": "uri",
+          "value": "http://example.org/n51"
+        },
+        "v52": {
+          "type": "uri",
+          "value": "http://example.org/n52"
+        },
+        "v53": {
+          "type": "uri",
+          "value": "http://example.org/n53"
+        },
+        "v54": {
+          "type": "uri",
+          "value": "http://example.org/n54"
+        },
+        "v55": {
+          "type": "uri",
+          "value": "http://example.org/n55"
+        },
+        "v56": {
+          "type": "uri",
+          "value": "http://example.org/n56"
+        },
+        "v57": {
+          "type": "uri",
+          "value": "http://example.org/n57"
+        },
+        "v58": {
+          "type": "uri",
+          "value": "http://example.org/n58"
+        },
+        "v59": {
+          "type": "uri",
+          "value": "http://example.org/n59"
+        },
+        "v60": {
+          "type": "uri",
+          "value": "http://example.org/n60"
+        },
+        "v61": {
+          "type": "uri",
+          "value": "http://example.org/n61"
+        },
+        "v62": {
+          "type": "uri",
+          "value": "http://example.org/n62"
+        },
+        "v63": {
+          "type": "uri",
+          "value": "http://example.org/n63"
+        },
+        "v64": {
+          "type": "uri",
+          "value": "http://example.org/n64"
+        },
+        "v65": {
+          "type": "uri",
+          "value": "http://example.org/n65"
+        },
+        "v66": {
+          "type": "uri",
+          "value": "http://example.org/n66"
+        },
+        "v67": {
+          "type": "uri",
+          "value": "http://example.org/n67"
+        },
+        "v68": {
+          "type": "uri",
+          "value": "http://example.org/n68"
+        },
+        "v69": {
+          "type": "uri",
+          "value": "http://example.org/n69"
+        },
+        "v70": {
+          "type": "uri",
+          "value": "http://example.org/n70"
+        },
+        "v71": {
+          "type": "uri",
+          "value": "http://example.org/n71"
+        },
+        "v72": {
+          "type": "uri",
+          "value": "http://example.org/n72"
+        },
+        "v73": {
+          "type": "uri",
+          "value": "http://example.org/n73"
+        },
+        "v74": {
+          "type": "uri",
+          "value": "http://example.org/n74"
+        },
+        "v75": {
+          "type": "uri",
+          "value": "http://example.org/n75"
+        },
+        "v76": {
+          "type": "uri",
+          "value": "http://example.org/n76"
+        },
+        "v77": {
+          "type": "uri",
+          "value": "http://example.org/n77"
+        },
+        "v78": {
+          "type": "uri",
+          "value": "http://example.org/n78"
+        },
+        "v79": {
+          "type": "uri",
+          "value": "http://example.org/n79"
+        },
+        "v80": {
+          "type": "uri",
+          "value": "http://example.org/n80"
+        },
+        "v81": {
+          "type": "uri",
+          "value": "http://example.org/n81"
+        },
+        "v82": {
+          "type": "uri",
+          "value": "http://example.org/n82"
+        },
+        "v83": {
+          "type": "uri",
+          "value": "http://example.org/n83"
+        },
+        "v84": {
+          "type": "uri",
+          "value": "http://example.org/n84"
+        },
+        "v85": {
+          "type": "uri",
+          "value": "http://example.org/n85"
+        },
+        "v86": {
+          "type": "uri",
+          "value": "http://example.org/n86"
+        },
+        "v87": {
+          "type": "uri",
+          "value": "http://example.org/n87"
+        },
+        "v88": {
+          "type": "uri",
+          "value": "http://example.org/n88"
+        },
+        "v89": {
+          "type": "uri",
+          "value": "http://example.org/n89"
+        },
+        "v90": {
+          "type": "uri",
+          "value": "http://example.org/n90"
+        },
+        "v91": {
+          "type": "uri",
+          "value": "http://example.org/n91"
+        },
+        "v92": {
+          "type": "uri",
+          "value": "http://example.org/n92"
+        },
+        "v93": {
+          "type": "uri",
+          "value": "http://example.org/n93"
+        },
+        "v94": {
+          "type": "uri",
+          "value": "http://example.org/n94"
+        },
+        "v95": {
+          "type": "uri",
+          "value": "http://example.org/n95"
+        },
+        "v96": {
+          "type": "uri",
+          "value": "http://example.org/n96"
+        },
+        "v97": {
+          "type": "uri",
+          "value": "http://example.org/n97"
+        },
+        "v98": {
+          "type": "uri",
+          "value": "http://example.org/n98"
+        },
+        "v99": {
+          "type": "uri",
+          "value": "http://example.org/n99"
+        },
+        "v100": {
+          "type": "uri",
+          "value": "http://example.org/n100"
+        },
+        "v101": {
+          "type": "uri",
+          "value": "http://example.org/n101"
+        },
+        "v102": {
+          "type": "uri",
+          "value": "http://example.org/n102"
+        },
+        "v103": {
+          "type": "uri",
+          "value": "http://example.org/n103"
+        },
+        "v104": {
+          "type": "uri",
+          "value": "http://example.org/n104"
+        },
+        "v105": {
+          "type": "uri",
+          "value": "http://example.org/n105"
+        },
+        "v106": {
+          "type": "uri",
+          "value": "http://example.org/n106"
+        },
+        "v107": {
+          "type": "uri",
+          "value": "http://example.org/n107"
+        },
+        "v108": {
+          "type": "uri",
+          "value": "http://example.org/n108"
+        },
+        "v109": {
+          "type": "uri",
+          "value": "http://example.org/n109"
+        },
+        "v110": {
+          "type": "uri",
+          "value": "http://example.org/n110"
+        },
+        "v111": {
+          "type": "uri",
+          "value": "http://example.org/n111"
+        },
+        "v112": {
+          "type": "uri",
+          "value": "http://example.org/n112"
+        },
+        "v113": {
+          "type": "uri",
+          "value": "http://example.org/n113"
+        },
+        "v114": {
+          "type": "uri",
+          "value": "http://example.org/n114"
+        },
+        "v115": {
+          "type": "uri",
+          "value": "http://example.org/n115"
+        },
+        "v116": {
+          "type": "uri",
+          "value": "http://example.org/n116"
+        },
+        "v117": {
+          "type": "uri",
+          "value": "http://example.org/n117"
+        },
+        "v118": {
+          "type": "uri",
+          "value": "http://example.org/n118"
+        },
+        "v119": {
+          "type": "uri",
+          "value": "http://example.org/n119"
+        },
+        "v120": {
+          "type": "uri",
+          "value": "http://example.org/n120"
+        },
+        "v121": {
+          "type": "uri",
+          "value": "http://example.org/n121"
+        },
+        "v122": {
+          "type": "uri",
+          "value": "http://example.org/n122"
+        },
+        "v123": {
+          "type": "uri",
+          "value": "http://example.org/n123"
+        },
+        "v124": {
+          "type": "uri",
+          "value": "http://example.org/n124"
+        },
+        "v125": {
+          "type": "uri",
+          "value": "http://example.org/n125"
+        },
+        "v126": {
+          "type": "uri",
+          "value": "http://example.org/n126"
+        },
+        "v127": {
+          "type": "uri",
+          "value": "http://example.org/n127"
+        },
+        "v128": {
+          "type": "uri",
+          "value": "http://example.org/n128"
+        }
+      }
+    ]
+  }
+}

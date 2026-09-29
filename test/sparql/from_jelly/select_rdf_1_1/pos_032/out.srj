@@ -1,0 +1,32 @@
+{
+  "head": {
+    "vars": [
+      "x",
+      "y"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "x": {
+          "type": "uri",
+          "value": "https://b.org/a"
+        },
+        "y": {
+          "type": "uri",
+          "value": "urn:x:full"
+        }
+      },
+      {
+        "x": {
+          "type": "uri",
+          "value": "https://b.org/b"
+        },
+        "y": {
+          "type": "uri",
+          "value": "http://example.org/a"
+        }
+      }
+    ]
+  }
+}

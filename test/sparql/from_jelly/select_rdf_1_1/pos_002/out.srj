@@ -1,0 +1,214 @@
+{
+  "head": {
+    "vars": [
+      "person",
+      "name",
+      "age",
+      "homepage"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "person": {
+          "type": "uri",
+          "value": "http://example.org/person/0"
+        },
+        "name": {
+          "type": "literal",
+          "value": "Person 0",
+          "xml:lang": "en"
+        },
+        "age": {
+          "type": "literal",
+          "value": "20",
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        "homepage": {
+          "type": "uri",
+          "value": "https://site0.example/home"
+        }
+      },
+      {
+        "person": {
+          "type": "uri",
+          "value": "http://example.org/person/1"
+        },
+        "name": {
+          "type": "literal",
+          "value": "Person 1",
+          "xml:lang": "en"
+        },
+        "age": {
+          "type": "literal",
+          "value": "21",
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        "homepage": {
+          "type": "uri",
+          "value": "https://site1.example/home"
+        }
+      },
+      {
+        "person": {
+          "type": "uri",
+          "value": "http://example.org/person/2"
+        },
+        "name": {
+          "type": "literal",
+          "value": "Person 2",
+          "xml:lang": "en"
+        },
+        "age": {
+          "type": "literal",
+          "value": "22",
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        "homepage": {
+          "type": "uri",
+          "value": "https://site2.example/home"
+        }
+      },
+      {
+        "person": {
+          "type": "uri",
+          "value": "http://example.org/person/3"
+        },
+        "name": {
+          "type": "literal",
+          "value": "Person 3",
+          "xml:lang": "en"
+        },
+        "age": {
+          "type": "literal",
+          "value": "23",
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        "homepage": {
+          "type": "uri",
+          "value": "https://site0.example/home"
+        }
+      },
+      {
+        "person": {
+          "type": "uri",
+          "value": "http://example.org/person/4"
+        },
+        "name": {
+          "type": "literal",
+          "value": "Person 4",
+          "xml:lang": "en"
+        },
+        "age": {
+          "type": "literal",
+          "value": "24",
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        "homepage": {
+          "type": "uri",
+          "value": "https://site1.example/home"
+        }
+      },
+      {
+        "person": {
+          "type": "uri",
+          "value": "http://example.org/person/5"
+        },
+        "name": {
+          "type": "literal",
+          "value": "Person 5",
+          "xml:lang": "en"
+        },
+        "age": {
+          "type": "literal",
+          "value": "25",
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        "homepage": {
+          "type": "uri",
+          "value": "https://site2.example/home"
+        }
+      },
+      {
+        "person": {
+          "type": "uri",
+          "value": "http://example.org/person/6"
+        },
+        "name": {
+          "type": "literal",
+          "value": "Person 6",
+          "xml:lang": "en"
+        },
+        "age": {
+          "type": "literal",
+          "value": "26",
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        "homepage": {
+          "type": "uri",
+          "value": "https://site0.example/home"
+        }
+      },
+      {
+        "person": {
+          "type": "uri",
+          "value": "http://example.org/person/7"
+        },
+        "name": {
+          "type": "literal",
+          "value": "Person 7",
+          "xml:lang": "en"
+        },
+        "age": {
+          "type": "literal",
+          "value": "27",
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        "homepage": {
+          "type": "uri",
+          "value": "https://site1.example/home"
+        }
+      },
+      {
+        "person": {
+          "type": "uri",
+          "value": "http://example.org/person/8"
+        },
+        "name": {
+          "type": "literal",
+          "value": "Person 8",
+          "xml:lang": "en"
+        },
+        "age": {
+          "type": "literal",
+          "value": "28",
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        "homepage": {
+          "type": "uri",
+          "value": "https://site2.example/home"
+        }
+      },
+      {
+        "person": {
+          "type": "uri",
+          "value": "http://example.org/person/9"
+        },
+        "name": {
+          "type": "literal",
+          "value": "Person 9",
+          "xml:lang": "en"
+        },
+        "age": {
+          "type": "literal",
+          "value": "29",
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        },
+        "homepage": {
+          "type": "uri",
+          "value": "https://site0.example/home"
+        }
+      }
+    ]
+  }
+}

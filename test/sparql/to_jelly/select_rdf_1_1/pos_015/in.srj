@@ -1,0 +1,43 @@
+{
+  "head": {
+    "vars": [
+      "z",
+      "a",
+      "m"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "a": {
+          "type": "literal",
+          "value": "1"
+        }
+      },
+      {
+        "z": {
+          "type": "literal",
+          "value": "3"
+        },
+        "m": {
+          "type": "literal",
+          "value": "2"
+        }
+      },
+      {
+        "z": {
+          "type": "literal",
+          "value": "4"
+        },
+        "a": {
+          "type": "literal",
+          "value": "5"
+        },
+        "m": {
+          "type": "literal",
+          "value": "6"
+        }
+      }
+    ]
+  }
+}

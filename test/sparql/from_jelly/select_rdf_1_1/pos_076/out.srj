@@ -1,0 +1,42 @@
+{
+  "head": {
+    "vars": [
+      "s",
+      "o"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/a"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "x"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/b"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "y"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "https://b.org/c"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "x"
+        }
+      }
+    ]
+  }
+}

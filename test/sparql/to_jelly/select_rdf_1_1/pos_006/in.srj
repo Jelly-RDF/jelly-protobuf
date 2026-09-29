@@ -1,0 +1,212 @@
+{
+  "head": {
+    "vars": [
+      "x",
+      "label"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "x": {
+          "type": "uri",
+          "value": "http://example.org/n0"
+        },
+        "label": {
+          "type": "literal",
+          "value": "n0"
+        }
+      },
+      {
+        "x": {
+          "type": "uri",
+          "value": "http://example.org/n1"
+        },
+        "label": {
+          "type": "literal",
+          "value": "n1"
+        }
+      },
+      {
+        "x": {
+          "type": "uri",
+          "value": "http://example.org/n2"
+        },
+        "label": {
+          "type": "literal",
+          "value": "n2"
+        }
+      },
+      {
+        "x": {
+          "type": "uri",
+          "value": "http://example.org/n3"
+        },
+        "label": {
+          "type": "literal",
+          "value": "n3"
+        }
+      },
+      {
+        "x": {
+          "type": "uri",
+          "value": "http://example.org/n4"
+        },
+        "label": {
+          "type": "literal",
+          "value": "n4"
+        }
+      },
+      {
+        "x": {
+          "type": "literal",
+          "value": "literal 0"
+        },
+        "label": {
+          "type": "literal",
+          "value": "l0"
+        }
+      },
+      {
+        "x": {
+          "type": "literal",
+          "value": "literal 1"
+        },
+        "label": {
+          "type": "literal",
+          "value": "l1"
+        }
+      },
+      {
+        "x": {
+          "type": "literal",
+          "value": "literal 2"
+        },
+        "label": {
+          "type": "literal",
+          "value": "l2"
+        }
+      },
+      {
+        "x": {
+          "type": "literal",
+          "value": "literal 3"
+        },
+        "label": {
+          "type": "literal",
+          "value": "l3"
+        }
+      },
+      {
+        "x": {
+          "type": "literal",
+          "value": "literal 4"
+        },
+        "label": {
+          "type": "literal",
+          "value": "l4"
+        }
+      },
+      {
+        "x": {
+          "type": "bnode",
+          "value": "b0"
+        },
+        "label": {
+          "type": "literal",
+          "value": "b0"
+        }
+      },
+      {
+        "x": {
+          "type": "bnode",
+          "value": "b1"
+        },
+        "label": {
+          "type": "literal",
+          "value": "b1"
+        }
+      },
+      {
+        "x": {
+          "type": "bnode",
+          "value": "b2"
+        },
+        "label": {
+          "type": "literal",
+          "value": "b2"
+        }
+      },
+      {
+        "x": {
+          "type": "bnode",
+          "value": "b3"
+        },
+        "label": {
+          "type": "literal",
+          "value": "b3"
+        }
+      },
+      {
+        "x": {
+          "type": "bnode",
+          "value": "b4"
+        },
+        "label": {
+          "type": "literal",
+          "value": "b4"
+        }
+      },
+      {
+        "x": {
+          "type": "literal",
+          "value": "mixed"
+        },
+        "label": {
+          "type": "literal",
+          "value": "m"
+        }
+      },
+      {
+        "x": {
+          "type": "uri",
+          "value": "http://example.org/n1"
+        },
+        "label": {
+          "type": "literal",
+          "value": "m"
+        }
+      },
+      {
+        "x": {
+          "type": "literal",
+          "value": "mixed"
+        },
+        "label": {
+          "type": "literal",
+          "value": "m"
+        }
+      },
+      {
+        "x": {
+          "type": "uri",
+          "value": "http://example.org/n1"
+        },
+        "label": {
+          "type": "literal",
+          "value": "m"
+        }
+      },
+      {
+        "x": {
+          "type": "literal",
+          "value": "mixed"
+        },
+        "label": {
+          "type": "literal",
+          "value": "m"
+        }
+      }
+    ]
+  }
+}

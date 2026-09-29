@@ -1,0 +1,21 @@
+{
+  "head": {
+    "vars": [
+      "v"
+    ],
+    "link": [
+      "http://example.org/doc1",
+      "http://example.org/doc2"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "v": {
+          "type": "literal",
+          "value": "x"
+        }
+      }
+    ]
+  }
+}
