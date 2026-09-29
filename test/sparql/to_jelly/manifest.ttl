@@ -289,7 +289,7 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/to_jelly/>
     mf:result <select_rdf_1_2_basic/pos_002/out.jellys> .
 
 <select_rdf_1_2_basic/pos_003> a jellyt:TestPositive, jellyt:TestSparqlToJelly ;
-    mf:name "One language tag and direction for a whole variable (the lexical form of the literal column)." ;
+    mf:name "One language tag and direction for a whole variable (a single literal kind)." ;
     rdfs:comment "Stream options are: max-name-table-size=128, max-prefix-table-size=0, max-datatype-table-size=0, rdf-version=1.2-basic." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literal-columns> ;
     rdft:approval rdft:Proposed ;

@@ -307,21 +307,45 @@ class Encoder:
         return msgs.bnode_col([t.label for t in values], layouts)
 
     def col_literal(self, values, layouts):
-        signatures = {(t.datatype, t.lang, t.direction) for t in values}
-        if len(signatures) == 1:
-            dt, lang, direction = signatures.pop()
-            return msgs.lit_col(
-                lex=[t.lex for t in values],
-                layouts=layouts,
-                datatype=self.datatypes.ids[dt] if dt else None,
-                langtag=lang,
-                direction=self.direction(direction) or None,
-            )
-        return msgs.lit_col(values=[self.lit(t) for t in values], layouts=layouts)
+        langtags = []  # (tag, direction), in the order of first use
+        kinds = []
+        for t in values:
+            if t.lang is not None:
+                key = (t.lang, t.direction)
+                if key not in langtags:
+                    langtags.append(key)
+                kinds.append(msgs.k_lang(langtags.index(key)))
+            elif t.datatype is not None:
+                kinds.append(msgs.k_dt(self.datatypes.ids[t.datatype]))
+            else:
+                kinds.append(msgs.K_SIMPLE)
+        if set(kinds) == {msgs.K_SIMPLE}:
+            kinds = []
+        elif len(set(kinds)) == 1:
+            kinds = kinds[:1]
+        dirs = [self.direction(d) for _, d in langtags]
+        return msgs.lit_col(
+            lex=[t.lex for t in values],
+            layouts=layouts,
+            kinds=kinds,
+            langtags=[tag for tag, _ in langtags],
+            dirs=dirs if any(dirs) else None,
+        )
 
     def col_poly(self, values, layouts):
+        kind_of = {Iri: msgs.P_IRI, Lit: msgs.P_LIT, Bnode: msgs.P_BNODE, Triple: msgs.P_TRIPLE}
+        kinds = [kind_of[type(t)] for t in values]
+        split = [[t for t, k in zip(values, kinds) if k == want] for want in range(4)]
+        iris, lits, bnodes, triples = split
         state = [0, 0]
-        return msgs.poly_col([self.sparql_term(t, state) for t in values], layouts)
+        return msgs.poly_col(
+            kinds=kinds,
+            layouts=layouts,
+            iris=self.col_iri(iris, None) if iris else None,
+            literals=self.col_literal(lits, None) if lits else None,
+            bnodes=self.col_bnode(bnodes, None) if bnodes else None,
+            triples=[self.triple_term(t, state) for t in triples],
+        )
 
     def direction(self, d):
         return {None: 0, "ltr": msgs.DIR_LTR, "rtl": msgs.DIR_RTL}[d]
@@ -340,15 +364,6 @@ class Encoder:
         m = msgs.iri(None if pid == state[0] else pid, None if nid == state[1] + 1 else nid)
         state[0], state[1] = pid, nid
         return m
-
-    def sparql_term(self, t, state):
-        if isinstance(t, Iri):
-            return msgs.Msg().msg(1, self.rdf_iri(t, state))
-        if isinstance(t, Bnode):
-            return msgs.t_bnode(t.label)
-        if isinstance(t, Lit):
-            return msgs.Msg().msg(3, self.lit(t))
-        return msgs.t_triple(self.triple_term(t, state))
 
     def triple_term(self, t: Triple, state):
         kw = {}

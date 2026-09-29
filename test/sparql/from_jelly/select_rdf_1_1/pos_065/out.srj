@@ -8,8 +8,26 @@
     "bindings": [
       {
         "v": {
+          "type": "uri",
+          "value": "http://example.org/a"
+        }
+      },
+      {
+        "v": {
           "type": "literal",
           "value": "x"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/a"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/b"
         }
       }
     ]

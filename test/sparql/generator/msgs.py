@@ -13,7 +13,7 @@ RDF_VERSION_1_2_BASIC = 2
 RDF_VERSION_1_2 = 3
 
 # RdfBaseDirection
-DIR_NONE = 0
+DIR_UNSPECIFIED = 0
 DIR_LTR = 1
 DIR_RTL = 2
 
@@ -66,25 +66,30 @@ def triple(s_iri=None, s_bnode=None, p_iri=None, o_iri=None, o_bnode=None,
     )
 
 
-# SparqlTerm
-def t_iri(prefix_id=None, name_id=None):
-    return Msg().msg(1, iri(prefix_id, name_id))
+# Literal kinds (SparqlLiteralColumn.literal_kinds)
+K_SIMPLE = 0
 
 
-def t_bnode(label):
-    return Msg().string(2, label)
+def k_dt(datatype_id):
+    """The literal kind of a literal with this datatype lookup id."""
+    return 2 * datatype_id - 1
 
 
-def t_lit(lex, langtag=None, datatype=None, direction=None):
-    return Msg().msg(3, lit(lex, langtag, datatype, direction))
+def k_lang(index):
+    """The literal kind of a language-tagged string with langtags[index]."""
+    return 2 * index + 2
 
 
-def t_triple(tt):
-    return Msg().msg(4, tt)
+# Term kinds (SparqlPolyColumn.kinds)
+P_IRI, P_LIT, P_BNODE, P_TRIPLE = 0, 1, 2, 3
 
 
-def t_empty():
-    return Msg()
+def pack_kinds(kinds):
+    """Pack term kinds, 2 bits each, four per byte, least significant first."""
+    out = bytearray((len(kinds) + 3) // 4)
+    for i, k in enumerate(kinds):
+        out[i // 4] |= k << (2 * (i % 4))
+    return bytes(out)
 
 
 # Columns
@@ -96,21 +101,31 @@ def bnode_col(values=None, layouts=None):
     return Msg().strings(1, values).packed(2, layouts)
 
 
-def lit_col(values=None, layouts=None, lex=None, datatype=None, langtag=None,
-            direction=None):
+def lit_col(lex=None, layouts=None, kinds=None, langtags=None, dirs=None):
+    """SparqlLiteralColumn: lex_values, literal_kinds, langtags, langtag_directions."""
     return (
         Msg()
-        .msgs(1, values)
+        .strings(1, lex)
         .packed(2, layouts)
-        .strings(3, lex)
-        .uint(4, datatype)
-        .string(5, langtag)
-        .uint(6, direction)
+        .packed(3, kinds)
+        .strings(4, langtags)
+        .packed(5, dirs)
     )
 
 
-def poly_col(values=None, layouts=None):
-    return Msg().msgs(1, values).packed(2, layouts)
+def poly_col(kinds=None, layouts=None, iris=None, literals=None, bnodes=None, triples=None):
+    """SparqlPolyColumn. kinds: a list of term kinds (packed here) or raw bytes."""
+    if isinstance(kinds, list):
+        kinds = pack_kinds(kinds) if kinds else None
+    return (
+        Msg()
+        .bytes(1, kinds)
+        .packed(2, layouts)
+        .msg(3, iris)
+        .msg(4, literals)
+        .msg(5, bnodes)
+        .msgs(6, triples)
+    )
 
 
 def trailer(error=None):

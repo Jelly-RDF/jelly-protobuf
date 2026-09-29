@@ -1,26 +1,31 @@
 {
   "head": {
     "vars": [
+      "b",
       "t"
     ]
   },
   "results": {
     "bindings": [
       {
+        "b": {
+          "type": "bnode",
+          "value": "n"
+        },
         "t": {
           "type": "triple",
           "value": {
             "subject": {
-              "type": "uri",
-              "value": "http://example.org/a"
+              "type": "bnode",
+              "value": "n"
             },
             "predicate": {
               "type": "uri",
-              "value": "http://example.org/b"
+              "value": "http://example.org/a"
             },
             "object": {
               "type": "uri",
-              "value": "http://example.org/c"
+              "value": "http://example.org/b"
             }
           }
         }

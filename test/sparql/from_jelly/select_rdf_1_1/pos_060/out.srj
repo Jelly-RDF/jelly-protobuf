@@ -1,33 +1,57 @@
 {
   "head": {
     "vars": [
-      "x",
-      "y"
+      "v"
     ]
   },
   "results": {
     "bindings": [
       {
-        "x": {
+        "v": {
           "type": "literal",
-          "value": "",
-          "xml:lang": "en"
-        },
-        "y": {
-          "type": "literal",
-          "value": ""
+          "value": "s"
         }
       },
       {
-        "x": {
+        "v": {
           "type": "literal",
-          "value": "",
+          "value": "1",
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "2.5",
+          "datatype": "http://www.w3.org/2001/XMLSchema#decimal"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "true",
+          "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "en",
           "xml:lang": "en"
-        },
-        "y": {
+        }
+      },
+      {
+        "v": {
           "type": "literal",
-          "value": "",
-          "xml:lang": "fr"
+          "value": "de",
+          "xml:lang": "de"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "pl",
+          "xml:lang": "pl"
         }
       }
     ]

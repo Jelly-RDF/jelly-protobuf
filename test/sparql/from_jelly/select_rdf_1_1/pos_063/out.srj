@@ -1,40 +1,45 @@
 {
   "head": {
     "vars": [
-      "x",
-      "y"
+      "v"
     ]
   },
   "results": {
     "bindings": [
       {
-        "x": {
-          "type": "bnode",
-          "value": "n1"
-        },
-        "y": {
-          "type": "bnode",
-          "value": "n2"
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/a"
         }
       },
       {
-        "x": {
+        "v": {
           "type": "bnode",
-          "value": "n2"
-        },
-        "y": {
+          "value": "x"
+        }
+      },
+      {
+        "v": {
           "type": "literal",
-          "value": "z"
+          "value": "l"
         }
       },
       {
-        "x": {
-          "type": "bnode",
-          "value": "n2"
-        },
-        "y": {
-          "type": "bnode",
-          "value": "n1"
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/b"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/e"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/f"
         }
       }
     ]

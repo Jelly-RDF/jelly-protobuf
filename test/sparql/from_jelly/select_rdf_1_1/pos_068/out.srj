@@ -9,13 +9,13 @@
       {
         "v": {
           "type": "literal",
-          "value": "x"
+          "value": "a"
         }
       },
       {
         "v": {
-          "type": "literal",
-          "value": "y"
+          "type": "bnode",
+          "value": "n"
         }
       }
     ]

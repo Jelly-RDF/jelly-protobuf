@@ -34,15 +34,17 @@ from msgs import (
     frame,
     iri,
     iri_col,
+    K_SIMPLE,
+    P_BNODE,
+    P_IRI,
+    P_LIT,
+    P_TRIPLE,
+    k_dt,
+    k_lang,
     lit,
     lit_col,
     poly_col,
     rep,
-    t_bnode,
-    t_empty,
-    t_iri,
-    t_lit,
-    t_triple,
     triple,
     unb,
 )
@@ -186,7 +188,7 @@ from_pos_encoded(C, "Typical SELECT result: IRIs, language-tagged and typed lite
                  "result-frames", TYPICAL, Opts(prefix=16, datatype=8))
 from_pos_encoded(C, "Typical SELECT result with the prefix lookup disabled – names hold whole IRIs.",
                  "stream-options", TYPICAL, Opts(prefix=0, datatype=8))
-from_pos_encoded(C, "Typical SELECT result split into frames of 3 rows. Lookup entries carry over between frames.",
+from_pos_encoded(C, "Typical SELECT result split into frames of 3 rows. Lookup entries are kept between frames.",
                  "prefix-name-and-datatype-lookup-entries", TYPICAL, Opts(prefix=16, datatype=8), max_rows=3)
 
 MANY = RS(
@@ -246,7 +248,7 @@ from_pos_encoded(C, "Blank nodes whose labels repeat across rows and across fram
 from_pos_encoded(C, "An empty result set with three variables: one frame with the options and the header, no rows.",
                  "frames-with-no-rows", RS(["s", "p", "o"]), Opts())
 
-from_pos_encoded(C, "2000 rows of a single integer variable, in frames of 256 rows. Literal columns in the lexical form.",
+from_pos_encoded(C, "2000 rows of a single integer variable, in frames of 256 rows. Literal columns with a single literal kind.",
                  "literal-columns", RS(["n"], *[row(n=L(str(i), "integer")) for i in range(2000)]),
                  Opts(datatype=4), max_rows=256)
 
@@ -309,15 +311,16 @@ from_pos(C, "Tokens that take more than one byte: skip = 4 and skip = 300.",
          ResultSet(["v"], [{"v": L(str(i))} for i in range(4)] + [{}]
                    + [{"v": L(str(i))} for i in range(4, 304)] + [{}, {}]
                    + [{"v": L(str(i))} for i in range(304, 306)]))
-from_pos(C, "The sequence layout in every column type: blank node, literal (lexical form), literal (full form), and polymorphic columns.",
+from_pos(C, "The sequence layout in every column type: blank node, literal (no literal kinds), literal (a literal kind per value), and polymorphic columns.",
          "sequence-layout",
          [F(options=O(prefix=8), vars=[("b", 0), ("l", 1), ("f", 2), ("p", 3)], rows=6,
             prefixes=[N(E)], names=[N("a")],
             bnode=[bnode_col(["x", "y"], rep(0, 2) + unb(0, 2))],
             literal=[lit_col(lex=["1", "2"], layouts=unb(0, 1) + rep(0, 4)),
-                     lit_col(values=[lit("hi", langtag="en"), lit("hej", langtag="sv")],
-                             layouts=unb(1, 3))],
-            poly=[poly_col([t_iri(1, 1), t_bnode("x"), t_lit("z")], rep(1, 3))],
+                     lit_col(lex=["hi", "hej"], layouts=unb(1, 3), kinds=[k_lang(0), k_lang(1)],
+                             langtags=["en", "sv"])],
+            poly=[poly_col([P_IRI, P_BNODE, P_LIT], rep(1, 3), iris=iri_col([1], None, [1]),
+                           literals=lit_col(lex=["z"]), bnodes=bnode_col(["x"]))],
             trailer="")],
          RS(["b", "l", "f", "p"],
             row(b=B("x"), f=L("hi", lang="en"), p=I("a")),
@@ -428,7 +431,7 @@ from_pos(C, "Lookup table sizes at the recommended default consumer limits: 1638
          [F(options=O(name=16384, prefix=4096, datatype=256), vars=[("v", 0)], rows=1,
             prefixes=[N(E, id=4096)], names=[N("a", id=16384)], datatypes=[N(XSD + "int", id=256)],
             iri=[iri_col([16384], [], [4096])]),
-          F(vars=[("v", 0)], rows=1, literal=[lit_col(lex=["7"], datatype=256)], trailer="")],
+          F(vars=[("v", 0)], rows=1, literal=[lit_col(lex=["7"], kinds=[k_dt(256)])], trailer="")],
          RS(["v"], row(v=I("a")), row(v=L("7", "int"))))
 
 # --- header and columns ----------------------------------------------------------------
@@ -443,7 +446,8 @@ from_pos(C, "All four column types in one frame. Column indices follow the virtu
          [F(options=O(prefix=8), vars=[("p", 3), ("l", 2), ("b", 1), ("i", 0)], rows=2,
             prefixes=[N(E)], names=[N("a", "b")],
             iri=[iri_col([0, 0], [], [1])], bnode=[bnode_col(["x", "y"])],
-            literal=[lit_col(lex=["1", "2"])], poly=[poly_col([t_bnode("z"), t_lit("w")])],
+            literal=[lit_col(lex=["1", "2"])],
+            poly=[poly_col([P_BNODE, P_LIT], bnodes=bnode_col(["z"]), literals=lit_col(lex=["w"]))],
             trailer="")],
          RS(["p", "l", "b", "i"],
             row(p=B("z"), l=L("1"), b=B("x"), i=I("a")),
@@ -453,15 +457,16 @@ from_pos(C, "Variables unbound in every row, each encoded as an empty column mes
          [F(options=O(prefix=8), vars=[("v", 4), ("i", 0), ("b", 1), ("l", 2), ("p", 3)], rows=2,
             prefixes=[N(E)], names=[N("a")],
             iri=[iri_col()], bnode=[bnode_col()], literal=[lit_col()],
-            poly=[poly_col(), poly_col([t_iri(1, 1)], rep(0, 2))], trailer="")],
+            poly=[poly_col(), poly_col([P_IRI], rep(0, 2), iris=iri_col([1], None, [1]))], trailer="")],
          RS(["v", "i", "b", "l", "p"], row(v=I("a")), row(v=I("a"))))
 from_pos(C, "Header restated to move a variable from an IRI column to a polymorphic column. A later frame without a header keeps the restated layout.",
          "restating-the-header",
          [F(options=O(prefix=8), vars=[("s", 0), ("o", 1)], rows=1, prefixes=[N(E)], names=[N("a", "b")],
             iri=[iri_col([1], [], [1]), iri_col([2], [], [1])]),
           F(vars=[("s", 0), ("o", 1)], rows=1,
-            iri=[iri_col([1], [], [1])], poly=[poly_col([t_lit("x")])]),
-          F(rows=2, iri=[iri_col([1], rep(0, 2), [1])], poly=[poly_col([t_iri(1, 2), t_lit("y")])],
+            iri=[iri_col([1], [], [1])], poly=[poly_col([P_LIT], literals=lit_col(lex=["x"]))]),
+          F(rows=2, iri=[iri_col([1], rep(0, 2), [1])],
+            poly=[poly_col([P_IRI, P_LIT], iris=iri_col([2], None, [1]), literals=lit_col(lex=["y"]))],
             trailer="")],
          RS(["s", "o"], row(s=I("a"), o=I("b")), row(s=I("a"), o=L("x")),
             row(s=I("a"), o=I("b")), row(s=I("a"), o=L("y"))))
@@ -482,20 +487,20 @@ from_pos(C, "A variable with an empty name (allowed, not recommended).",
 
 # --- frames with no rows ------------------------------------------------------------
 
-from_pos(C, "A frame with no rows and no columns in the middle of a stream, carrying only lookup entries for the next frame.",
+from_pos(C, "A frame with no rows and no columns in the middle of a stream, with only lookup entries for the next frame.",
          "frames-with-no-rows",
          [F(options=O(prefix=8), vars=[("x", 0), ("y", 1)], rows=1, prefixes=[N(E)], names=[N("a")],
             iri=[iri_col([1], [], [1]), iri_col([1], [], [1])]),
           F(names=[N("b")]),
           F(rows=1, iri=[iri_col([2], [], [1]), iri_col([1], [], [1])], trailer="")],
          RS(["x", "y"], row(x=I("a"), y=I("a")), row(x=I("b"), y=I("a"))))
-from_pos(C, "A frame with no rows that carries one empty column per variable (allowed, producers should omit the columns).",
+from_pos(C, "A frame with no rows and one empty column per variable (allowed, producers should omit the columns).",
          "frames-with-no-rows",
          [F(options=O(), vars=[("x", 0), ("y", 1)], rows=1, literal=[lit_col(lex=["1"]), lit_col(lex=["2"])]),
           F(literal=[lit_col(), lit_col()]),
           F(rows=1, literal=[lit_col(lex=["3"]), lit_col(lex=["4"])], trailer="")],
          RS(["x", "y"], row(x=L("1"), y=L("2")), row(x=L("3"), y=L("4"))))
-from_pos(C, "An empty result set whose first frame carries one empty column per variable.",
+from_pos(C, "An empty result set whose first frame has one empty column per variable.",
          "frames-with-no-rows",
          [F(options=O(), vars=[("x", 0), ("y", 1)], iri=[iri_col(), iri_col()], trailer="")],
          RS(["x", "y"]))
@@ -521,62 +526,113 @@ from_pos(C, "Two zero-variable streams concatenated: the repeated options come w
 
 # --- literal columns -------------------------------------------------------------------
 
-from_pos(C, "Literal column, lexical form, simple literals (datatype 0).",
+from_pos(C, "Literal column of simple literals: literal_kinds is empty.",
          "literal-columns",
          [F(options=O(), vars=[("v", 0)], rows=2, literal=[lit_col(lex=["x", "y"])], trailer="")],
          RS(["v"], row(v=L("x")), row(v=L("y"))))
-from_pos(C, "xsd:string literals encoded three ways: lexical form with datatype 0, lexical form with an xsd:string datatype entry, and full form with an xsd:string datatype entry. All are the same simple literal.",
+from_pos(C, "xsd:string literals encoded three ways: no literal kinds, a single literal kind referring to an xsd:string datatype entry, and one literal kind per value mixing 0 and that entry. All are the same simple literal.",
          "literal-columns",
          [F(options=O(datatype=4), vars=[("v", 0)], rows=1, datatypes=[N(XSD_STRING)],
             literal=[lit_col(lex=["a"])]),
-          F(rows=1, literal=[lit_col(lex=["b"], datatype=1)]),
-          F(rows=1, literal=[lit_col(values=[lit("c", datatype=1)])], trailer="")],
-         RS(["v"], row(v=L("a")), row(v=L("b")), row(v=L("c"))))
-from_pos(C, "Literal column, lexical form, typed literals (xsd:integer, then xsd:dateTime).",
+          F(rows=1, literal=[lit_col(lex=["b"], kinds=[k_dt(1)])]),
+          F(rows=2, literal=[lit_col(lex=["c", "d"], kinds=[K_SIMPLE, k_dt(1)])], trailer="")],
+         RS(["v"], row(v=L("a")), row(v=L("b")), row(v=L("c")), row(v=L("d"))))
+from_pos(C, "Literal column with a single literal kind for the whole column: xsd:integer, then xsd:dateTime.",
          "literal-columns",
          [F(options=O(datatype=4), vars=[("v", 0)], rows=2, datatypes=[N(XSD + "integer", XSD + "dateTime")],
-            literal=[lit_col(lex=["1", "-20"], datatype=1)]),
-          F(rows=1, literal=[lit_col(lex=["2024-01-01T00:00:00Z"], datatype=2)], trailer="")],
+            literal=[lit_col(lex=["1", "-20"], kinds=[k_dt(1)])]),
+          F(rows=1, literal=[lit_col(lex=["2024-01-01T00:00:00Z"], kinds=[k_dt(2)])], trailer="")],
          RS(["v"], row(v=L("1", "integer")), row(v=L("-20", "integer")),
             row(v=L("2024-01-01T00:00:00Z", "dateTime"))))
-from_pos(C, "Literal column, lexical form, one language tag for the whole column.",
+from_pos(C, "Literal column with one language tag for the whole column: a single literal kind of 2.",
          "literal-columns",
-         [F(options=O(), vars=[("v", 0)], rows=3, literal=[lit_col(lex=["cat", "dog", "cat"], langtag="en")], trailer="")],
+         [F(options=O(), vars=[("v", 0)], rows=3,
+            literal=[lit_col(lex=["cat", "dog", "cat"], kinds=[k_lang(0)], langtags=["en"])], trailer="")],
          RS(["v"], row(v=L("cat", lang="en")), row(v=L("dog", lang="en")), row(v=L("cat", lang="en"))))
-from_pos(C, "Literal column, full form, mixing simple, typed, and language-tagged literals with different tags.",
+from_pos(C, "Literal column with one literal kind per value, mixing simple, typed, and language-tagged literals with different tags.",
          "literal-columns",
          [F(options=O(datatype=4), vars=[("v", 0)], rows=4, datatypes=[N(XSD + "integer")],
-            literal=[lit_col(values=[lit("a"), lit("1", datatype=1), lit("b", langtag="en"),
-                                     lit("c", langtag="de")])], trailer="")],
+            literal=[lit_col(lex=["a", "1", "b", "c"], kinds=[K_SIMPLE, k_dt(1), k_lang(0), k_lang(1)],
+                             langtags=["en", "de"])], trailer="")],
          RS(["v"], row(v=L("a")), row(v=L("1", "integer")), row(v=L("b", lang="en")),
             row(v=L("c", lang="de"))))
-from_pos(C, "Empty lexical forms, in the lexical form and in the full form.",
+from_pos(C, "Literal kind values: 0 is a simple literal, odd values 1, 3, 5 are datatypes 1, 2, 3, and even values 2, 4, 6 are language tags 0, 1, 2.",
+         "literal-columns",
+         [F(options=O(datatype=4), vars=[("v", 0)], rows=7,
+            datatypes=[N(XSD + "integer", XSD + "decimal", XSD + "boolean")],
+            literal=[lit_col(lex=["s", "1", "2.5", "true", "en", "de", "pl"],
+                             kinds=[0, 1, 3, 5, 2, 4, 6], langtags=["en", "de", "pl"])], trailer="")],
+         RS(["v"], row(v=L("s")), row(v=L("1", "integer")), row(v=L("2.5", "decimal")),
+            row(v=L("true", "boolean")), row(v=L("en", lang="en")), row(v=L("de", lang="de")),
+            row(v=L("pl", lang="pl"))))
+from_pos(C, "Empty lexical forms, with a single literal kind and with one literal kind per value.",
          "literal-columns",
          [F(options=O(), vars=[("x", 0), ("y", 1)], rows=2,
-            literal=[lit_col(lex=["", ""], langtag="en"), lit_col(values=[lit(""), lit("", langtag="fr")])],
+            literal=[lit_col(lex=["", ""], kinds=[k_lang(0)], langtags=["en"]),
+                     lit_col(lex=["", ""], kinds=[K_SIMPLE, k_lang(0)], langtags=["fr"])],
             trailer="")],
          RS(["x", "y"], row(x=L("", lang="en"), y=L("")), row(x=L("", lang="en"), y=L("", lang="fr"))))
+from_pos(C, "langtag_directions with only 0 entries (no base direction) in a stream that declares RDF 1.1.",
+         "base-direction",
+         [F(options=O(rdf_version=msgs.RDF_VERSION_1_1), vars=[("v", 0)], rows=2,
+            literal=[lit_col(lex=["a", "b"], kinds=[k_lang(0), k_lang(1)], langtags=["en", "de"],
+                             dirs=[msgs.DIR_UNSPECIFIED, msgs.DIR_UNSPECIFIED])], trailer="")],
+         RS(["v"], row(v=L("a", lang="en")), row(v=L("b", lang="de"))),
+         comment="Producers should leave langtag_directions empty instead, but a list of zeros is valid.")
 
 # --- polymorphic columns and blank nodes ----------------------------------------------
 
-from_pos(C, "Polymorphic column: the IRI inference state is shared by the IRIs of the column and skips other values.",
+from_pos(C, "Polymorphic column: kinds says which sub-column holds each run value. Six values need two bytes of kinds.",
          "polymorphic-columns",
          [F(options=O(prefix=8), vars=[("v", 0)], rows=6, prefixes=[N(E)], names=[N("a", "b", "c", "d", "e", "f")],
-            poly=[poly_col([t_iri(1, None), t_bnode("x"), t_lit("l"), t_iri(), t_iri(None, 5), t_iri()])],
+            poly=[poly_col([P_IRI, P_BNODE, P_LIT, P_IRI, P_IRI, P_IRI],
+                           iris=iri_col([0, 0, 5, 0], None, [1]), literals=lit_col(lex=["l"]),
+                           bnodes=bnode_col(["x"]))],
             trailer="")],
          RS(["v"], row(v=I("a")), row(v=B("x")), row(v=L("l")), row(v=I("b")), row(v=I("e")), row(v=I("f"))),
-         comment="Values: iri(prefix 1, name 0 -> 1), bnode, literal, iri(0, 0 -> 2), iri(0, 5), iri(0, 0 -> 6).")
-from_pos(C, "Polymorphic column: the IRI inference state resets at the start of every frame.",
+         comment="kinds = [0x18, 0x00]: iri, bnode, literal, iri in the first byte, then iri, iri. The iris sub-column is decoded like an IRI column: name_ids [0, 0, 5, 0] are names 1, 2, 5, 6.")
+from_pos(C, "Polymorphic column with exactly four values: kinds is one full byte.",
+         "polymorphic-columns",
+         [F(options=O(prefix=8), vars=[("v", 0)], rows=4, prefixes=[N(E)], names=[N("a")],
+            poly=[poly_col([P_LIT, P_BNODE, P_IRI, P_LIT], iris=iri_col([1], None, [1]),
+                           literals=lit_col(lex=["x", "y"]), bnodes=bnode_col(["n"]))],
+            trailer="")],
+         RS(["v"], row(v=L("x")), row(v=B("n")), row(v=I("a")), row(v=L("y"))))
+from_pos(C, "Polymorphic column: the IRI inference state of the iris sub-column resets at the start of every frame.",
          "polymorphic-columns",
          [F(options=O(prefix=8), vars=[("v", 0)], rows=2, prefixes=[N(E)], names=[N("a", "b")],
-            poly=[poly_col([t_iri(1, None), t_lit("x")])]),
-          F(rows=2, poly=[poly_col([t_iri(1, None), t_iri()])], trailer="")],
+            poly=[poly_col([P_IRI, P_LIT], iris=iri_col([0], None, [1]), literals=lit_col(lex=["x"]))]),
+          F(rows=2, poly=[poly_col([P_IRI, P_IRI], iris=iri_col([0, 0], None, [1]))], trailer="")],
          RS(["v"], row(v=I("a")), row(v=L("x")), row(v=I("a")), row(v=I("b"))))
+from_pos(C, "Polymorphic column whose literals sub-column has its own literal kinds and language tags.",
+         "polymorphic-columns",
+         [F(options=O(prefix=8, datatype=4), vars=[("v", 0)], rows=3, prefixes=[N(E)], names=[N("a")],
+            datatypes=[N(XSD + "integer")],
+            poly=[poly_col([P_LIT, P_IRI, P_LIT], iris=iri_col([1], None, [1]),
+                           literals=lit_col(lex=["x", "1"], kinds=[k_lang(0), k_dt(1)], langtags=["en"]))],
+            trailer="")],
+         RS(["v"], row(v=L("x", lang="en")), row(v=I("a")), row(v=L("1", "integer"))))
+from_pos(C, "Polymorphic column with empty sub-column messages: a sub-column that is set but has no values.",
+         "polymorphic-columns",
+         [F(options=O(), vars=[("v", 0)], rows=2,
+            poly=[poly_col([P_LIT, P_BNODE], iris=iri_col(), literals=lit_col(lex=["x"]),
+                           bnodes=bnode_col(["n"]))],
+            trailer="")],
+         RS(["v"], row(v=L("x")), row(v=B("n"))))
+from_pos(C, "A sub-column of a polymorphic column with its own layouts, which the consumer must ignore.",
+         "polymorphic-columns",
+         [F(options=O(), vars=[("v", 0)], rows=2,
+            poly=[poly_col([P_LIT, P_BNODE], literals=lit_col(lex=["a"], layouts=rep(0, 2)),
+                           bnodes=bnode_col(["n"]))],
+            trailer="")],
+         RS(["v"], row(v=L("a")), row(v=B("n"))),
+         comment="Producers must not set layouts in a sub-column. Only the layouts of the polymorphic column itself apply.")
 from_pos(C, "Blank node labels are scoped to the whole stream: the same label in different frames and in different column types is the same blank node.",
          "blank-node-columns",
          [F(options=O(), vars=[("x", 0), ("y", 1)], rows=2,
-            bnode=[bnode_col(["n1", "n2"])], poly=[poly_col([t_bnode("n2"), t_lit("z")])]),
-          F(rows=1, bnode=[bnode_col(["n2"])], poly=[poly_col([t_bnode("n1")])], trailer="")],
+            bnode=[bnode_col(["n1", "n2"])],
+            poly=[poly_col([P_BNODE, P_LIT], bnodes=bnode_col(["n2"]), literals=lit_col(lex=["z"]))]),
+          F(rows=1, bnode=[bnode_col(["n2"])], poly=[poly_col([P_BNODE], bnodes=bnode_col(["n1"]))], trailer="")],
          RS(["x", "y"], row(x=B("n1"), y=B("n2")), row(x=B("n2"), y=L("z")), row(x=B("n2"), y=B("n1"))))
 
 # --- metadata, options, trailer --------------------------------------------------------
@@ -628,7 +684,7 @@ from_pos(C, "Concatenated streams with different column layouts: the restated he
          "repeating-the-stream-options",
          [F(options=O(), vars=[("a", 0), ("b", 1)], rows=1, literal=[lit_col(lex=["1"]), lit_col(lex=["2"])], trailer=""),
           F(options=O(), vars=[("a", 1), ("b", 0)], rows=1, bnode=[bnode_col(["x"])],
-            poly=[poly_col([t_lit("3")])], trailer="")],
+            poly=[poly_col([P_LIT], literals=lit_col(lex=["3"]))], trailer="")],
          RS(["a", "b"], row(a=L("1"), b=L("2")), row(a=L("3"), b=B("x"))))
 from_pos(C, "Options repeated without a trailer before them (a producer that did not write trailers).",
          "repeating-the-stream-options",
@@ -691,51 +747,69 @@ from_neg(C, "An IRI column uses prefix_ids while the prefix lookup is disabled."
 from_neg(C, "prefix_ids with 2 entries for 3 values. The length must be 0, 1, or the number of values.",
          "iri-columns",
          ex_frame_1var(iri_col([0, 0, 0], [], [1, 1]), 3), "prefix_ids has 2 entries")
-from_neg(C, "A literal column refers to a datatype identifier outside the datatype table.",
+from_neg(C, "A literal kind refers to a datatype identifier outside the datatype table.",
          "literal-columns",
-         [F(options=O(datatype=8), vars=[("v", 0)], rows=1, literal=[lit_col(lex=["1"], datatype=9)], trailer="")],
+         [F(options=O(datatype=8), vars=[("v", 0)], rows=1, literal=[lit_col(lex=["1"], kinds=[k_dt(9)])], trailer="")],
          "datatype id 9 outside")
-from_neg(C, "A literal column refers to a datatype while the datatype lookup is disabled.",
+from_neg(C, "A literal kind refers to a datatype while the datatype lookup is disabled.",
          "stream-options",
-         [F(options=O(), vars=[("v", 0)], rows=1, literal=[lit_col(lex=["1"], datatype=1)], trailer="")],
+         [F(options=O(), vars=[("v", 0)], rows=1, literal=[lit_col(lex=["1"], kinds=[k_dt(1)])], trailer="")],
          "datatype id 1 outside")
-from_neg(C, "A literal in the full form with datatype 0, which is invalid (unlike in the lexical form).",
-         "literal-columns",
-         [F(options=O(datatype=8), vars=[("v", 0)], rows=1, datatypes=[N(XSD + "int")],
-            literal=[lit_col(values=[lit("1", datatype=0)])], trailer="")],
-         "datatype 0")
-from_neg(C, "A literal column in the lexical form whose datatype is rdf:langString.",
+from_neg(C, "A literal kind refers to a datatype entry holding rdf:langString.",
          "literal-columns",
          [F(options=O(datatype=8), vars=[("v", 0)], rows=1, datatypes=[N(RDF_LANG_STRING)],
-            literal=[lit_col(lex=["x"], datatype=1)], trailer="")],
+            literal=[lit_col(lex=["x"], kinds=[k_dt(1)])], trailer="")],
          "needs a language tag", should=True)
-from_neg(C, "A literal in the full form whose datatype is rdf:langString.",
-         "base-direction",
-         [F(options=O(datatype=8), vars=[("v", 0)], rows=1, datatypes=[N(RDF_LANG_STRING)],
-            literal=[lit_col(values=[lit("x", datatype=1)])], trailer="")],
-         "needs a language tag", should=True)
-from_neg(C, "A literal column with both values and lex_values set.",
+from_neg(C, "literal_kinds with 2 entries for 3 values. The length must be 0, 1, or the number of values.",
          "literal-columns",
-         [F(options=O(), vars=[("v", 0)], rows=2, literal=[lit_col(values=[lit("a")], lex=["b"])], trailer="")],
-         "both values and lex_values")
-from_neg(C, "A literal column in the full form (lex_values empty) that sets datatype.",
+         [F(options=O(), vars=[("v", 0)], rows=3,
+            literal=[lit_col(lex=["a", "b", "c"], kinds=[k_lang(0), k_lang(0)], langtags=["en"])], trailer="")],
+         "literal_kinds has 2 entries")
+from_neg(C, "A literal kind refers to a language tag index past the end of langtags.",
          "literal-columns",
-         [F(options=O(datatype=8), vars=[("v", 0)], rows=1, datatypes=[N(XSD + "int")],
-            literal=[lit_col(values=[lit("a")], datatype=1)], trailer="")],
-         "sets datatype, but lex_values is empty")
-from_neg(C, "A literal column in the full form (lex_values empty) that sets langtag.",
+         [F(options=O(), vars=[("v", 0)], rows=1,
+            literal=[lit_col(lex=["a"], kinds=[k_lang(1)], langtags=["en"])], trailer="")],
+         "refers to language tag 1")
+from_neg(C, "A literal kind refers to a language tag, but the column has no language tags.",
          "literal-columns",
-         [F(options=O(), vars=[("v", 0)], rows=1, literal=[lit_col(values=[lit("a")], langtag="en")], trailer="")],
-         "sets langtag, but lex_values is empty")
-from_neg(C, "A literal column in the lexical form that sets both datatype and langtag.",
-         "literal-columns",
-         [F(options=O(datatype=8), vars=[("v", 0)], rows=1, datatypes=[N(XSD + "int")],
-            literal=[lit_col(lex=["a"], datatype=1, langtag="en")], trailer="")],
-         "both datatype and langtag")
-from_neg(C, "A term in a polymorphic column with no field of the oneof set.",
+         [F(options=O(), vars=[("v", 0)], rows=1, literal=[lit_col(lex=["a"], kinds=[k_lang(0)])], trailer="")],
+         "refers to language tag 0")
+from_neg(C, "A literal kind in the literals sub-column of a polymorphic column refers to a language tag that is not there.",
          "polymorphic-columns",
-         [F(options=O(), vars=[("v", 0)], rows=2, poly=[poly_col([t_lit("a"), t_empty()])], trailer="")],
-         "no value set")
+         [F(options=O(), vars=[("v", 0)], rows=2,
+            poly=[poly_col([P_LIT, P_BNODE], literals=lit_col(lex=["a"], kinds=[k_lang(0)]),
+                           bnodes=bnode_col(["n"]))], trailer="")],
+         "refers to language tag 0")
+from_neg(C, "kinds of a polymorphic column is too short: one byte for five values.",
+         "polymorphic-columns",
+         [F(options=O(), vars=[("v", 0)], rows=5,
+            poly=[poly_col(msgs.pack_kinds([P_LIT] * 4), literals=lit_col(lex=["a", "b", "c", "d", "e"]))],
+            trailer="")],
+         "kinds has 1 bytes for 5 values")
+from_neg(C, "kinds of a polymorphic column is too long: two bytes for two values.",
+         "polymorphic-columns",
+         [F(options=O(), vars=[("v", 0)], rows=2,
+            poly=[poly_col(msgs.pack_kinds([P_LIT, P_LIT]) + b"\x00", literals=lit_col(lex=["a", "b"]))],
+            trailer="")],
+         "kinds has 2 bytes for 2 values")
+from_neg(C, "kinds of a polymorphic column is missing, but the sub-columns have values.",
+         "polymorphic-columns",
+         [F(options=O(), vars=[("v", 0)], rows=2,
+            poly=[poly_col(None, literals=lit_col(lex=["a"]), bnodes=bnode_col(["n"]))], trailer="")],
+         "kinds has 0 bytes for 2 values")
+from_neg(C, "The unused bits of the last byte of kinds are not 0.",
+         "polymorphic-columns",
+         [F(options=O(), vars=[("v", 0)], rows=2,
+            poly=[poly_col(bytes([0b00010101]), literals=lit_col(lex=["a", "b"]))], trailer="")],
+         "unused bits",
+         comment="kinds = 0x15: literal, literal, and then a third literal in the bits of a value that does not exist.")
+from_neg(C, "kinds refers to more values of a sub-column than it has: two IRIs, but the iris sub-column has one.",
+         "polymorphic-columns",
+         [F(options=O(prefix=8), vars=[("v", 0)], rows=2, prefixes=[N(E)], names=[N("a")],
+            poly=[poly_col([P_IRI, P_IRI], iris=iri_col([1], None, [1]), literals=lit_col(lex=["x"]))],
+            trailer="")],
+         "past the end of the iris sub-column",
+         comment="The number of kinds matches the total number of values (2), but not the number of values of each sub-column.")
 from_neg(C, "row_count of 2^27, larger than the maximum of 2^27 - 1.",
          "result-frames",
          [F(options=O(), rows=1 << 27, trailer="")], "larger than 2^27 - 1",
@@ -852,11 +926,11 @@ from_neg(C, "A boolean result frame that contains a column.", "boolean-results",
 from_neg(C, "A boolean result frame with row_count 1.", "boolean-results",
          [F(options=O(), rows=1, ask=True, trailer="")], "row_count != 0", should=True)
 from_neg(C, "A frame follows the boolean result.", "boolean-results",
-         [F(options=O(), ask=True), F(trailer="")], "follows the frame carrying the boolean result", should=True)
+         [F(options=O(), ask=True), F(trailer="")], "follows the frame with the boolean result", should=True)
 from_neg(C, "A second boolean result stream concatenated after the first. Boolean results cannot be concatenated.",
          "boolean-results",
          [F(options=O(), ask=True, trailer=""), F(options=O(), ask=True, trailer="")],
-         "follows the frame carrying the boolean result", should=True)
+         "follows the frame with the boolean result", should=True)
 from_neg(C, "A boolean result with an error trailer.", "stream-trailer",
          [F(options=O(), ask=True, trailer="Service unavailable")], "error trailer")
 
@@ -868,33 +942,37 @@ from_neg(C, "A boolean result with an error trailer.", "stream-trailer",
 C = SELECT_1_2_BASIC
 V12B = msgs.RDF_VERSION_1_2_BASIC
 
-from_pos(C, "Full-form literal column with directional language-tagged strings (ltr and rtl) next to a language-tagged string without a direction.",
+from_pos(C, "Literal column with directional language-tagged strings (ltr and rtl) next to a language-tagged string without a direction. The tag en is listed twice in langtags, with different directions.",
          "base-direction",
          [F(options=O(rdf_version=V12B), vars=[("v", 0)], rows=3,
-            literal=[lit_col(values=[lit("hello", "en", direction=msgs.DIR_LTR),
-                                     lit("مرحبا", "ar", direction=msgs.DIR_RTL), lit("hello", "en")])],
+            literal=[lit_col(lex=["hello", "مرحبا", "hello"], kinds=[k_lang(0), k_lang(1), k_lang(2)],
+                             langtags=["en", "ar", "en"],
+                             dirs=[msgs.DIR_LTR, msgs.DIR_RTL, msgs.DIR_UNSPECIFIED])],
             trailer="")],
          RS(["v"], row(v=L("hello", lang="en", d="ltr")), row(v=L("مرحبا", lang="ar", d="rtl")),
             row(v=L("hello", lang="en"))))
-from_pos(C, "Lexical-form literal column with a shared language tag and base direction.",
+from_pos(C, "Literal column with a single literal kind: one language tag and base direction for the whole column.",
          "literal-columns",
          [F(options=O(rdf_version=V12B), vars=[("v", 0)], rows=2,
-            literal=[lit_col(lex=["שלום", "עולם"], langtag="he", direction=msgs.DIR_RTL)], trailer="")],
+            literal=[lit_col(lex=["שלום", "עולם"], kinds=[k_lang(0)], langtags=["he"], dirs=[msgs.DIR_RTL])],
+            trailer="")],
          RS(["v"], row(v=L("שלום", lang="he", d="rtl")), row(v=L("עולם", lang="he", d="rtl"))))
 from_pos(C, "Directional literals in a stream that declares no RDF version (allowed: no version is announced).",
          "rdf-version",
          [F(options=O(), vars=[("v", 0)], rows=1,
-            literal=[lit_col(lex=["x"], langtag="en", direction=msgs.DIR_LTR)], trailer="")],
+            literal=[lit_col(lex=["x"], kinds=[k_lang(0)], langtags=["en"], dirs=[msgs.DIR_LTR])], trailer="")],
          RS(["v"], row(v=L("x", lang="en", d="ltr"))))
 from_pos(C, "Directional literals in a stream that declares RDF 1.2.",
          "rdf-version",
          [F(options=O(rdf_version=msgs.RDF_VERSION_1_2), vars=[("v", 0)], rows=1,
-            literal=[lit_col(values=[lit("x", "en", direction=msgs.DIR_RTL)])], trailer="")],
+            literal=[lit_col(lex=["x"], kinds=[k_lang(0)], langtags=["en"], dirs=[msgs.DIR_RTL])], trailer="")],
          RS(["v"], row(v=L("x", lang="en", d="rtl"))))
-from_pos(C, "A directional literal in a polymorphic column.",
+from_pos(C, "A directional literal in the literals sub-column of a polymorphic column.",
          "base-direction",
          [F(options=O(rdf_version=V12B, prefix=8), vars=[("v", 0)], rows=2, prefixes=[N(E)], names=[N("a")],
-            poly=[poly_col([t_iri(1, 1), t_lit("x", "en", direction=msgs.DIR_LTR)])], trailer="")],
+            poly=[poly_col([P_IRI, P_LIT], iris=iri_col([1], None, [1]),
+                           literals=lit_col(lex=["x"], kinds=[k_lang(0)], langtags=["en"], dirs=[msgs.DIR_LTR]))],
+            trailer="")],
          RS(["v"], row(v=I("a")), row(v=L("x", lang="en", d="ltr"))))
 from_pos_encoded(C, "Common usage: labels in several languages and directions, over several frames.",
                  "base-direction",
@@ -904,45 +982,33 @@ from_pos_encoded(C, "Common usage: labels in several languages and directions, o
                      for i in range(40)]),
                  Opts(prefix=8, rdf_version=V12B), max_rows=6)
 
-from_neg(C, "A directional literal (full form) in a stream that declares RDF 1.1.", "rdf-version",
+from_neg(C, "A directional literal in a stream that declares RDF 1.1.", "rdf-version",
          [F(options=O(rdf_version=msgs.RDF_VERSION_1_1), vars=[("v", 0)], rows=1,
-            literal=[lit_col(values=[lit("x", "en", direction=msgs.DIR_LTR)])], trailer="")],
+            literal=[lit_col(lex=["x"], kinds=[k_lang(0)], langtags=["en"], dirs=[msgs.DIR_RTL])], trailer="")],
          "declares RDF 1.1")
-from_neg(C, "A directional literal (lexical form) in a stream that declares RDF 1.1.", "rdf-version",
-         [F(options=O(rdf_version=msgs.RDF_VERSION_1_1), vars=[("v", 0)], rows=1,
-            literal=[lit_col(lex=["x"], langtag="en", direction=msgs.DIR_RTL)], trailer="")],
+from_neg(C, "A directional literal in the literals sub-column of a polymorphic column, in a stream that declares RDF 1.1.",
+         "rdf-version",
+         [F(options=O(rdf_version=msgs.RDF_VERSION_1_1), vars=[("v", 0)], rows=2,
+            poly=[poly_col([P_BNODE, P_LIT], bnodes=bnode_col(["n"]),
+                           literals=lit_col(lex=["x"], kinds=[k_lang(0)], langtags=["en"], dirs=[msgs.DIR_LTR]))],
+            trailer="")],
          "declares RDF 1.1")
-from_neg(C, "A full-form literal with a direction but no language tag.", "base-direction",
+from_neg(C, "langtag_directions with 2 entries for 1 language tag.", "literal-columns",
          [F(options=O(rdf_version=V12B), vars=[("v", 0)], rows=1,
-            literal=[lit_col(values=[lit("x", direction=msgs.DIR_LTR)])], trailer="")],
-         "direction without langtag")
-from_neg(C, "A full-form literal with a direction and a datatype.", "base-direction",
-         [F(options=O(rdf_version=V12B, datatype=4), vars=[("v", 0)], rows=1, datatypes=[N(XSD + "int")],
-            literal=[lit_col(values=[lit("1", datatype=1, direction=msgs.DIR_LTR)])], trailer="")],
-         "direction without langtag")
-from_neg(C, "A lexical-form literal column with a direction but no language tag.", "base-direction",
+            literal=[lit_col(lex=["x"], kinds=[k_lang(0)], langtags=["en"], dirs=[msgs.DIR_LTR, msgs.DIR_RTL])],
+            trailer="")],
+         "langtag_directions has 2 entries")
+from_neg(C, "langtag_directions set in a column with no language tags.", "literal-columns",
          [F(options=O(rdf_version=V12B), vars=[("v", 0)], rows=1,
-            literal=[lit_col(lex=["x"], direction=msgs.DIR_RTL)], trailer="")],
-         "direction without langtag")
-from_neg(C, "A lexical-form literal column with a direction and a datatype.", "base-direction",
-         [F(options=O(rdf_version=V12B, datatype=4), vars=[("v", 0)], rows=1, datatypes=[N(XSD + "int")],
-            literal=[lit_col(lex=["1"], datatype=1, direction=msgs.DIR_RTL)], trailer="")],
-         "direction without langtag")
-from_neg(C, "A full-form literal with an unknown direction value (3).", "base-direction",
+            literal=[lit_col(lex=["x"], dirs=[msgs.DIR_LTR])], trailer="")],
+         "langtag_directions has 1 entries")
+from_neg(C, "langtag_directions with an unknown direction value (7).", "base-direction",
          [F(options=O(rdf_version=V12B), vars=[("v", 0)], rows=1,
-            literal=[lit_col(values=[lit("x", "en", direction=3)])], trailer="")],
+            literal=[lit_col(lex=["x"], kinds=[k_lang(0)], langtags=["en"], dirs=[7])], trailer="")],
          "unknown base direction")
-from_neg(C, "A lexical-form literal column with an unknown direction value (7).", "base-direction",
-         [F(options=O(rdf_version=V12B), vars=[("v", 0)], rows=1,
-            literal=[lit_col(lex=["x"], langtag="en", direction=7)], trailer="")],
-         "unknown base direction")
-from_neg(C, "A lexical-form literal column whose datatype is rdf:dirLangString.", "base-direction",
+from_neg(C, "A literal kind refers to a datatype entry holding rdf:dirLangString.", "base-direction",
          [F(options=O(rdf_version=V12B, datatype=4), vars=[("v", 0)], rows=1, datatypes=[N(RDF_DIR_LANG_STRING)],
-            literal=[lit_col(lex=["x"], datatype=1)], trailer="")],
-         "needs a language tag", should=True)
-from_neg(C, "A full-form literal whose datatype is rdf:dirLangString.", "base-direction",
-         [F(options=O(rdf_version=V12B, datatype=4), vars=[("v", 0)], rows=1, datatypes=[N(RDF_DIR_LANG_STRING)],
-            literal=[lit_col(values=[lit("x", datatype=1)])], trailer="")],
+            literal=[lit_col(lex=["x"], kinds=[k_dt(1)])], trailer="")],
          "needs a language tag", should=True)
 
 
@@ -956,49 +1022,57 @@ ABC_FRAME = dict(prefixes=[N(E)], names=[N("a", "b", "c", "d", "e", "f")])
 
 from_pos(C, "A triple term of three IRIs in a polymorphic column.", "triple-terms",
          [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
-            poly=[poly_col([t_triple(triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3)))])],
+            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3))])],
             trailer="")],
          RS(["t"], row(t=T(I("a"), I("b"), I("c")))))
 from_pos(C, "A triple term with a blank node subject and a directional literal object.", "triple-terms",
          [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
-            poly=[poly_col([t_triple(triple(s_bnode="b0", p_iri=iri(1, 2),
-                                            o_literal=lit("x", "en", direction=msgs.DIR_RTL)))])],
+            poly=[poly_col([P_TRIPLE], triples=[triple(s_bnode="b0", p_iri=iri(1, 2),
+                                                       o_literal=lit("x", "en", direction=msgs.DIR_RTL))])],
             trailer="")],
          RS(["t"], row(t=T(B("b0"), I("b"), L("x", lang="en", d="rtl")))))
 from_pos(C, "Triple terms nested three levels deep (in the object position).", "triple-terms",
          [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
-            poly=[poly_col([t_triple(triple(
+            poly=[poly_col([P_TRIPLE], triples=[triple(
                 s_iri=iri(1, 1), p_iri=iri(None, 2), o_triple=triple(
                     s_iri=iri(None, 3), p_iri=iri(None, 4), o_triple=triple(
-                        s_bnode="x", p_iri=iri(None, 5), o_literal=lit("deep")))))])],
+                        s_bnode="x", p_iri=iri(None, 5), o_literal=lit("deep"))))])],
             trailer="")],
          RS(["t"], row(t=T(I("a"), I("b"), T(I("c"), I("d"), T(B("x"), I("e"), L("deep")))))))
-from_pos(C, "The IRIs inside a triple term take part in the IRI inference state of the polymorphic column, in subject, predicate, object order.",
+from_pos(C, "The IRIs inside the triple terms of a polymorphic column have their own IRI inference state, separate from the iris sub-column.",
          "triple-terms",
          [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=3, **ABC_FRAME,
-            poly=[poly_col([t_iri(1, None),
-                            t_triple(triple(s_iri=iri(), p_iri=iri(), o_iri=iri())),
-                            t_iri()])],
+            poly=[poly_col([P_IRI, P_TRIPLE, P_IRI], iris=iri_col([0, 0], None, [1]),
+                           triples=[triple(s_iri=iri(1, None), p_iri=iri(), o_iri=iri())])],
             trailer="")],
-         RS(["t"], row(t=I("a")), row(t=T(I("b"), I("c"), I("d"))), row(t=I("e"))),
-         comment="All name_ids are 0: the first IRI is name 1, the subject, predicate, and object of the triple term are names 2, 3, and 4, and the last IRI is name 5.")
+         RS(["t"], row(t=I("a")), row(t=T(I("a"), I("b"), I("c"))), row(t=I("b"))),
+         comment="All name_ids are 0. The iris sub-column gives names 1 and 2. The triple term starts from name 0 and no prefix again: its subject, predicate, and object are names 1, 2, and 3.")
+from_pos(C, "The IRI inference state of the triple terms runs through all triple terms of the column, in subject, predicate, object order.",
+         "triple-terms",
+         [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=2, **ABC_FRAME,
+            poly=[poly_col([P_TRIPLE, P_TRIPLE],
+                           triples=[triple(s_iri=iri(1, None), p_iri=iri(), o_iri=iri()),
+                                    triple(s_iri=iri(), p_iri=iri(), o_iri=iri())])],
+            trailer="")],
+         RS(["t"], row(t=T(I("a"), I("b"), I("c"))), row(t=T(I("d"), I("e"), I("f")))),
+         comment="All name_ids are 0: the second triple term continues from name 3, and keeps the prefix of the first.")
 from_pos(C, "A blank node inside a triple term and the same label in a blank node column are the same blank node.",
          "triple-terms",
          [F(options=O(rdf_version=V12, prefix=8), vars=[("b", 0), ("t", 1)], rows=1, **ABC_FRAME,
             bnode=[bnode_col(["n"])],
-            poly=[poly_col([t_triple(triple(s_bnode="n", p_iri=iri(1, 1), o_iri=iri(None, 2)))])],
+            poly=[poly_col([P_TRIPLE], triples=[triple(s_bnode="n", p_iri=iri(1, 1), o_iri=iri(None, 2))])],
             trailer="")],
          RS(["b", "t"], row(b=B("n"), t=T(B("n"), I("a"), I("b")))))
 from_pos(C, "A triple term in a stream that declares no RDF version (allowed: no version is announced).",
          "rdf-version",
          [F(options=O(prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
-            poly=[poly_col([t_triple(triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3)))])],
+            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3))])],
             trailer="")],
          RS(["t"], row(t=T(I("a"), I("b"), I("c")))))
 from_pos(C, "The same triple term in consecutive rows, as a repeat run.", "triple-terms",
          [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=3, **ABC_FRAME,
-            poly=[poly_col([t_triple(triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_literal=lit("v")))],
-                           rep(0, 3))],
+            poly=[poly_col([P_TRIPLE], rep(0, 3),
+                           triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_literal=lit("v"))])],
             trailer="")],
          RS(["t"], *[row(t=T(I("a"), I("b"), L("v")))] * 3))
 from_pos(C, "Concatenated streams: the first segment declares RDF 1.1, the second declares RDF 1.2 and has a triple term.",
@@ -1006,7 +1080,7 @@ from_pos(C, "Concatenated streams: the first segment declares RDF 1.1, the secon
          [F(options=O(rdf_version=msgs.RDF_VERSION_1_1, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
             iri=[iri_col([1], [], [1])], trailer=""),
           F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
-            poly=[poly_col([t_triple(triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3)))])],
+            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3))])],
             trailer="")],
          RS(["t"], row(t=I("a")), row(t=T(I("a"), I("b"), I("c")))))
 from_pos_encoded(C, "Common usage: an annotation query returning statements as triple terms, with IRIs, literals, and nested triple terms, over several frames.",
@@ -1020,35 +1094,63 @@ from_pos_encoded(C, "Common usage: an annotation query returning statements as t
 
 from_neg(C, "A triple term in a stream that declares RDF 1.1.", "rdf-version",
          [F(options=O(rdf_version=msgs.RDF_VERSION_1_1, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
-            poly=[poly_col([t_triple(triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3)))])],
+            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3))])],
             trailer="")],
          "declares RDF 1.1 or RDF 1.2 Basic")
 from_neg(C, "A triple term in a stream that declares RDF 1.2 Basic.", "rdf-version",
          [F(options=O(rdf_version=V12B, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
-            poly=[poly_col([t_triple(triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3)))])],
+            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3))])],
             trailer="")],
          "declares RDF 1.1 or RDF 1.2 Basic")
 from_neg(C, "A triple term without a subject.", "triple-terms",
          [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
-            poly=[poly_col([t_triple(triple(p_iri=iri(1, 2), o_iri=iri(None, 3)))])], trailer="")],
+            poly=[poly_col([P_TRIPLE], triples=[triple(p_iri=iri(1, 2), o_iri=iri(None, 3))])], trailer="")],
          "no subject")
 from_neg(C, "A triple term without a predicate.", "triple-terms",
          [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
-            poly=[poly_col([t_triple(triple(s_iri=iri(1, 1), o_iri=iri(None, 3)))])], trailer="")],
+            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), o_iri=iri(None, 3))])], trailer="")],
          "no predicate")
 from_neg(C, "A triple term without an object.", "triple-terms",
          [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
-            poly=[poly_col([t_triple(triple(s_iri=iri(1, 1), p_iri=iri(None, 2)))])], trailer="")],
+            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2))])], trailer="")],
          "no object")
 from_neg(C, "Concatenated streams: the second segment declares RDF 1.1 and has a triple term.",
          "repeating-the-stream-options",
          [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
-            poly=[poly_col([t_triple(triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3)))])],
+            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3))])],
             trailer=""),
           F(options=O(rdf_version=msgs.RDF_VERSION_1_1, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
-            poly=[poly_col([t_triple(triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3)))])],
+            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3))])],
             trailer="")],
          "declares RDF 1.1 or RDF 1.2 Basic")
+
+
+def tt_lit(literal, datatypes=None):
+    """A frame with one triple term whose object is the given RdfLiteral2."""
+    return [F(options=O(rdf_version=V12, prefix=8, datatype=4), vars=[("t", 0)], rows=1, **ABC_FRAME,
+              datatypes=datatypes,
+              poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_literal=literal)])],
+              trailer="")]
+
+
+from_neg(C, "A literal in a triple term with datatype 0, which is invalid.", "base-direction",
+         tt_lit(lit("1", datatype=0), [N(XSD + "int")]), "datatype 0")
+from_neg(C, "A literal in a triple term with a direction but no language tag.", "base-direction",
+         tt_lit(lit("x", direction=msgs.DIR_LTR)), "direction without langtag")
+from_neg(C, "A literal in a triple term with a direction and a datatype.", "base-direction",
+         tt_lit(lit("1", datatype=1, direction=msgs.DIR_LTR), [N(XSD + "int")]), "direction without langtag")
+from_neg(C, "A literal in a triple term with an unknown direction value (3).", "base-direction",
+         tt_lit(lit("x", "en", direction=3)), "unknown base direction")
+from_neg(C, "A literal in a triple term whose datatype is rdf:langString.", "base-direction",
+         tt_lit(lit("x", datatype=1), [N(RDF_LANG_STRING)]), "needs a language tag", should=True)
+from_neg(C, "A literal in a triple term whose datatype is rdf:dirLangString.", "base-direction",
+         tt_lit(lit("x", datatype=1), [N(RDF_DIR_LANG_STRING)]), "needs a language tag", should=True)
+from_neg(C, "A triple term in a polymorphic column whose kinds do not refer to it: triple_terms has a value, but kinds is empty.",
+         "polymorphic-columns",
+         [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
+            poly=[poly_col(None, triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3))])],
+            trailer="")],
+         "kinds has 0 bytes for 1 values")
 
 
 # =============================================================================
@@ -1121,7 +1223,7 @@ to_pos(C, "Directional language-tagged strings, stream options declaring RDF 1.2
        DIR_RS, Opts(rdf_version=V12B))
 to_pos(C, "Directional language-tagged strings, stream options declaring no RDF version.", "rdf-version",
        DIR_RS, Opts())
-to_pos(C, "One language tag and direction for a whole variable (the lexical form of the literal column).",
+to_pos(C, "One language tag and direction for a whole variable (a single literal kind).",
        "literal-columns",
        RS(["label"], *[row(label=L(f"שורה {i}", lang="he", d="rtl")) for i in range(5)]),
        Opts(rdf_version=V12B))

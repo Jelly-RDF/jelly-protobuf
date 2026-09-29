@@ -23,6 +23,12 @@
           "type": "literal",
           "value": "c"
         }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "d"
+        }
       }
     ]
   }

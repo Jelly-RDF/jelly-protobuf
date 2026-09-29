@@ -18,15 +18,15 @@
           "value": {
             "subject": {
               "type": "uri",
-              "value": "http://example.org/b"
+              "value": "http://example.org/a"
             },
             "predicate": {
               "type": "uri",
-              "value": "http://example.org/c"
+              "value": "http://example.org/b"
             },
             "object": {
               "type": "uri",
-              "value": "http://example.org/d"
+              "value": "http://example.org/c"
             }
           }
         }
@@ -34,7 +34,7 @@
       {
         "t": {
           "type": "uri",
-          "value": "http://example.org/e"
+          "value": "http://example.org/b"
         }
       }
     ]

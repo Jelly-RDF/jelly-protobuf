@@ -2,10 +2,6 @@
   "head": {
     "vars": [
       "v"
-    ],
-    "link": [
-      "http://example.org/doc1",
-      "http://example.org/doc2"
     ]
   },
   "results": {
@@ -14,6 +10,24 @@
         "v": {
           "type": "literal",
           "value": "x"
+        }
+      },
+      {
+        "v": {
+          "type": "bnode",
+          "value": "n"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/a"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "y"
         }
       }
     ]

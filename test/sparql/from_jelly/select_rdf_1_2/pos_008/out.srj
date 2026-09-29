@@ -8,8 +8,21 @@
     "bindings": [
       {
         "t": {
-          "type": "uri",
-          "value": "http://example.org/a"
+          "type": "triple",
+          "value": {
+            "subject": {
+              "type": "uri",
+              "value": "http://example.org/a"
+            },
+            "predicate": {
+              "type": "uri",
+              "value": "http://example.org/b"
+            },
+            "object": {
+              "type": "literal",
+              "value": "v"
+            }
+          }
         }
       },
       {
@@ -25,8 +38,27 @@
               "value": "http://example.org/b"
             },
             "object": {
+              "type": "literal",
+              "value": "v"
+            }
+          }
+        }
+      },
+      {
+        "t": {
+          "type": "triple",
+          "value": {
+            "subject": {
               "type": "uri",
-              "value": "http://example.org/c"
+              "value": "http://example.org/a"
+            },
+            "predicate": {
+              "type": "uri",
+              "value": "http://example.org/b"
+            },
+            "object": {
+              "type": "literal",
+              "value": "v"
             }
           }
         }

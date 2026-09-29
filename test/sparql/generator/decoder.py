@@ -23,6 +23,7 @@ from model import (
 MAX_ROW_COUNT = (1 << 27) - 1
 DIRECTIONS = {0: None, 1: "ltr", 2: "rtl"}
 V_UNSPECIFIED, V_1_1, V_1_2_BASIC, V_1_2 = 0, 1, 2, 3
+SUB_NAMES = ["iris", "literals", "bnodes", "triple_terms"]
 
 
 class SparqlDecodeError(Exception):
@@ -108,14 +109,14 @@ class _Decoder:
     def frame(self, index: int, f: pb.Fields):
         opts = f.msg(1)
         if self.kind == "ask":
-            fail("a frame follows the frame carrying the boolean result")
+            fail("a frame follows the frame with the boolean result")
         if self.trailer_seen and opts is None:
             fail("a frame without the stream options follows a trailer")
 
         if opts is not None:
             self.options(opts)
         elif index == 0:
-            fail("the first frame carries no stream options")
+            fail("the first frame has no stream options")
 
         variables = [(v.string(1), v.uint32(2)) for v in f.msgs(2)]
         row_count = f.uint32(3)
@@ -131,11 +132,11 @@ class _Decoder:
             if index != 0:
                 fail("a boolean result in a frame other than the first")
             if variables:
-                fail("the frame carrying a boolean result declares variables")
+                fail("the frame with a boolean result declares variables")
             if columns:
-                fail("the frame carrying a boolean result contains columns")
+                fail("the frame with a boolean result contains columns")
             if row_count != 0:
-                fail("the frame carrying a boolean result has row_count != 0")
+                fail("the frame with a boolean result has row_count != 0")
             self.kind = "ask"
             self.ask_value = ask.bool(1)
         else:
@@ -244,10 +245,7 @@ class _Decoder:
         elif kind == "literal":
             values = self.literal_values(c)
         else:
-            state = [0, 0]
-            values = []
-            for t in c.msgs(1):
-                values.append(self.poly_term(t, state))
+            values = self.poly_values(c)
         return layout(values, c.uint32s(2), n)
 
     def iri_values(self, c: pb.Fields):
@@ -276,26 +274,57 @@ class _Decoder:
         return prefix + self.names.get(nid)
 
     def literal_values(self, c: pb.Fields):
-        values = c.msgs(1)
-        lex = c.strings(3)
-        datatype, langtag, direction = c.uint32(4), c.string(5), c.uint32(6)
-        if values and lex:
-            fail("a literal column has both values and lex_values")
-        if not lex:
-            if datatype:
-                fail("a literal column sets datatype, but lex_values is empty")
-            if langtag:
-                fail("a literal column sets langtag, but lex_values is empty")
-            if direction:
-                fail("a literal column sets direction, but lex_values is empty")
-            return [self.literal(v) for v in values]
-        if datatype and langtag:
-            fail("a literal column sets both datatype and langtag")
-        if direction and not langtag:
-            fail("a literal column sets direction without langtag")
-        d = self.direction(direction)
-        dt = self.datatype(datatype) if datatype else None
-        return [Lit(x, dt, langtag or None, d) for x in lex]
+        lex = c.strings(1)
+        kinds = c.uint32s(3)
+        langtags = c.strings(4)
+        dirs = c.uint32s(5)
+        m = len(lex)
+        if len(kinds) not in (0, 1, m):
+            fail(f"literal_kinds has {len(kinds)} entries for {m} values")
+        if len(dirs) not in (0, len(langtags)):
+            fail(f"langtag_directions has {len(dirs)} entries for {len(langtags)} language tags")
+        # Only the directions of the language tags that are used are checked.
+        dirs = dirs or [0] * len(langtags)
+        out = []
+        for j, x in enumerate(lex):
+            k = 0 if not kinds else kinds[0] if len(kinds) == 1 else kinds[j]
+            if k == 0:
+                out.append(Lit(x))
+            elif k % 2 == 1:
+                out.append(Lit(x, self.datatype((k + 1) // 2)))
+            else:
+                index = k // 2 - 1
+                if index >= len(langtags):
+                    fail(f"literal kind {k} refers to language tag {index}, "
+                         f"but the column has {len(langtags)} language tags")
+                out.append(Lit(x, None, langtags[index], self.direction(dirs[index])))
+        return out
+
+    def poly_values(self, c: pb.Fields):
+        # The layouts of the sub-columns are ignored.
+        iris, literals, bnodes = c.msg(3), c.msg(4), c.msg(5)
+        state = [0, 0]
+        subs = [
+            self.iri_values(iris) if iris else [],
+            self.literal_values(literals) if literals else [],
+            [Bnode(v) for v in bnodes.strings(1)] if bnodes else [],
+            [self.triple(t, state, 1) for t in c.msgs(6)],
+        ]
+        total = sum(len(x) for x in subs)
+        kinds = c.bytes(1, b"")
+        if len(kinds) != (total + 3) // 4:
+            fail(f"kinds has {len(kinds)} bytes for {total} values")
+        if total % 4 and kinds[-1] >> (2 * (total % 4)):
+            fail("the unused bits of the last byte of kinds are not 0")
+        next_of = [0, 0, 0, 0]
+        out = []
+        for j in range(total):
+            k = (kinds[j // 4] >> (2 * (j % 4))) & 3
+            if next_of[k] >= len(subs[k]):
+                fail(f"kinds refers past the end of the {SUB_NAMES[k]} sub-column")
+            out.append(subs[k][next_of[k]])
+            next_of[k] += 1
+        return out
 
     def literal(self, f: pb.Fields) -> Lit:
         lex = f.string(1)
@@ -326,19 +355,8 @@ class _Decoder:
             fail("a base direction in a stream that declares RDF 1.1")
         return d
 
-    def poly_term(self, t: pb.Fields, state, depth=0):
-        if t.has(1):
-            return self.poly_iri(t.msg(1), state)
-        if t.has(2):
-            return Bnode(t.string(2))
-        if t.has(3):
-            return self.literal(t.msg(3))
-        if t.has(4):
-            return self.triple(t.msg(4), state, depth + 1)
-        fail("a term in a polymorphic column has no value set")
-
     def poly_iri(self, i: pb.Fields, state) -> Iri:
-        """RdfIri with the column's shared inference state [prev_prefix, prev_name]."""
+        """RdfIri with the triple terms' shared inference state [prev_prefix, prev_name]."""
         pid = i.uint32(1) or state[0]
         nid = i.uint32(2) or state[1] + 1
         state[0], state[1] = pid, nid

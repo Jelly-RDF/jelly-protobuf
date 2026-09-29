@@ -1,21 +1,15 @@
 {
   "head": {
     "vars": [
-      "a"
+      "v"
     ]
   },
   "results": {
     "bindings": [
       {
-        "a": {
+        "v": {
           "type": "literal",
-          "value": "1"
-        }
-      },
-      {
-        "a": {
-          "type": "literal",
-          "value": "2"
+          "value": "x"
         }
       }
     ]
