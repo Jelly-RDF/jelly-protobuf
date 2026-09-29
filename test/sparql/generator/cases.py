@@ -619,14 +619,15 @@ from_pos(C, "Polymorphic column with empty sub-column messages: a sub-column tha
                            bnodes=bnode_col(["n"]))],
             trailer="")],
          RS(["v"], row(v=L("x")), row(v=B("n"))))
-from_pos(C, "A sub-column of a polymorphic column with its own layouts, which the consumer must ignore.",
+from_pos(C, "A sub-column of a polymorphic column with its own layouts, which the consumer should ignore.",
          "polymorphic-columns",
          [F(options=O(), vars=[("v", 0)], rows=2,
             poly=[poly_col([P_LIT, P_BNODE], literals=lit_col(lex=["a"], layouts=rep(0, 2)),
                            bnodes=bnode_col(["n"]))],
             trailer="")],
          RS(["v"], row(v=L("a")), row(v=B("n"))),
-         comment="Producers must not set layouts in a sub-column. Only the layouts of the polymorphic column itself apply.")
+         comment="Producers must not set layouts in a sub-column. Consumers should ignore them (only the layouts of the polymorphic column itself apply), but may throw an error instead.",
+         should=True)
 from_pos(C, "Blank node labels are scoped to the whole stream: the same label in different frames and in different column types is the same blank node.",
          "blank-node-columns",
          [F(options=O(), vars=[("x", 0), ("y", 1)], rows=2,

@@ -215,8 +215,8 @@ message SparqlLiteralColumn {
 //
 // The run values are split by term type into typed sub-columns. The `kinds`
 // field says which sub-column contains the next run value. The sub-columns
-// have no layouts of their own: producers must not set `layouts` in them, and
-// consumers must ignore it.
+// have no layouts of their own: producers must not set `layouts` in them.
+// Consumers should ignore it, and may throw an error if it is set.
 message SparqlPolyColumn {
   // Term type of each run value, in row order, 2 bits per value, four values
   // per byte starting from the least significant bits:

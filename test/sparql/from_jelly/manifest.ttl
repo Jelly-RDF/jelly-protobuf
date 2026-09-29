@@ -673,10 +673,11 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
     mf:result <select_rdf_1_1/pos_067/out.srj> .
 
 <select_rdf_1_1/pos_068> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "A sub-column of a polymorphic column with its own layouts, which the consumer must ignore." ;
-    rdfs:comment "Producers must not set layouts in a sub-column. Only the layouts of the polymorphic column itself apply." ;
+    mf:name "A sub-column of a polymorphic column with its own layouts, which the consumer should ignore." ;
+    rdfs:comment "Producers must not set layouts in a sub-column. Consumers should ignore them (only the layouts of the polymorphic column itself apply), but may throw an error instead." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#polymorphic-columns> ;
     rdft:approval rdft:Proposed ;
+    mf:notable jellyt:featureShouldLevel ;
     mf:action <select_rdf_1_1/pos_068/in.jellys> ;
     mf:result <select_rdf_1_1/pos_068/out.srj> .
 
