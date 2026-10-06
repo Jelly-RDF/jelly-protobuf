@@ -50,6 +50,7 @@ ABSOLUTE_IRI = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
 REQUIREMENTS = {
     cases.SELECT_1_2_BASIC: "jellyt:requirementRdf12Basic",
     cases.SELECT_1_2: "jellyt:requirementRdf12",
+    cases.PUNCTUATED: "jellyt:requirementPunctuated",
 }
 TITLES = {
     "from_jelly": "Jelly-SPARQL test cases: from Jelly to SPARQL results",
@@ -92,20 +93,42 @@ def build_from_jelly(case, label):
         return files
     if not case.positive:
         raise CaseError(f"{label}: the reference decoder accepts a negative case")
-    diff = equivalent(case.expected, result)
+    diff = equivalent_all(case.expected, result)
     if diff:
         raise CaseError(f"{label}: decoded result differs from the expected one: {diff}")
-    if not isinstance(result, AskResult) and result.links != case.expected.links:
-        raise CaseError(f"{label}: links {result.links} != {case.expected.links}")
-    files["out.srj"] = srj(case.expected, label)
+    for name, r in result_files("out", case.expected):
+        files[name] = srj(r, label)
     return files
 
 
+def result_files(stem, result):
+    """File names for one result set (FLAT), or for a list of them (PUNCTUATED)."""
+    if isinstance(result, list):
+        return [(f"{stem}_{i:03d}.srj", r) for i, r in enumerate(result)]
+    return [(f"{stem}.srj", result)]
+
+
+def equivalent_all(expected, actual):
+    """Like model.equivalent, for one result set or a list of them, also comparing links."""
+    if isinstance(expected, list) != isinstance(actual, list):
+        return "one is a sequence of result sets, the other is a single result set"
+    if not isinstance(expected, list):
+        expected, actual = [expected], [actual]
+    if len(expected) != len(actual):
+        return f"{len(expected)} result sets != {len(actual)} result sets"
+    for i, (e, a) in enumerate(zip(expected, actual)):
+        diff = equivalent(e, a)
+        if diff:
+            return f"result set {i}: {diff}"
+        if not isinstance(e, AskResult) and e.links != a.links:
+            return f"result set {i}: links {e.links} != {a.links}"
+    return None
+
+
 def build_to_jelly(case, label):
-    files = {
-        "stream_options.jellys": pb.delimited([msgs.frame(options=case.opts.msg())]),
-        "in.srj": srj(case.input, label),
-    }
+    files = {"stream_options.jellys": pb.delimited([msgs.frame(options=case.opts.msg())])}
+    for name, r in result_files("in", case.input):
+        files[name] = srj(r, label)
     try:
         frames = encoder.encode(case.input, case.opts, case.max_rows)
     except encoder.EncodeError as e:
@@ -118,9 +141,12 @@ def build_to_jelly(case, label):
         raise CaseError(f"{label}: the reference encoder accepts a negative case")
     check_protoc(frames, label)
     data = pb.delimited(frames)
-    diff = equivalent(case.input, decoder.decode(data))
+    diff = equivalent_all(case.input, decoder.decode(data))
     if diff:
         raise CaseError(f"{label}: the reference output does not decode to the input: {diff}")
+    last = pb.Fields(pb.split_delimited(data)[-1]).msg(12)
+    if last is None or last.string(1):
+        raise CaseError(f"{label}: the last frame of the reference output has no trailer, or an error trailer")
     first_options = pb.Fields(pb.split_delimited(data)[0]).bytes(1)
     if first_options != case.opts.msg().encode():
         raise CaseError(f"{label}: the reference output has other stream options than requested")
@@ -130,6 +156,10 @@ def build_to_jelly(case, label):
 
 def check_absolute_iris(result, label):
     """Every IRI must be absolute: some libraries (e.g. RDF4J) cannot hold relative IRIs."""
+    if isinstance(result, list):
+        for r in result:
+            check_absolute_iris(r, label)
+        return
     if isinstance(result, AskResult):
         return
 
@@ -207,11 +237,17 @@ def manifest(direction, entries) -> str:
         if direction == "from_jelly":
             lines.append(f"    mf:action <{path}/in.jellys>" + (" ;" if case.positive else " ."))
             if case.positive:
-                lines.append(f"    mf:result <{path}/out.srj> .")
+                outs = [name for name, _ in result_files("out", case.expected)]
+                if isinstance(case.expected, list):
+                    lines.append("    mf:result (")
+                    lines += [f"        <{path}/{name}>" for name in outs]
+                    lines.append("    ) .")
+                else:
+                    lines.append(f"    mf:result <{path}/{outs[0]}> .")
         else:
             lines.append("    mf:action (")
             lines.append(f"        <{path}/stream_options.jellys>")
-            lines.append(f"        <{path}/in.srj>")
+            lines += [f"        <{path}/{name}>" for name, _ in result_files("in", case.input)]
             lines.append("    )" + (" ;" if case.positive else " ."))
             if case.positive:
                 lines.append(f"    mf:result <{path}/out.jellys> .")

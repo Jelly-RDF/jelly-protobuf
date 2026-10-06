@@ -8,6 +8,13 @@
     "bindings": [
       {
         "v": {
+          "type": "literal",
+          "value": "x",
+          "xml:lang": "en"
+        }
+      },
+      {
+        "v": {
           "type": "uri",
           "value": "http://example.org/a"
         }
@@ -15,19 +22,8 @@
       {
         "v": {
           "type": "literal",
-          "value": "x"
-        }
-      },
-      {
-        "v": {
-          "type": "uri",
-          "value": "http://example.org/a"
-        }
-      },
-      {
-        "v": {
-          "type": "uri",
-          "value": "http://example.org/b"
+          "value": "1",
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
         }
       }
     ]

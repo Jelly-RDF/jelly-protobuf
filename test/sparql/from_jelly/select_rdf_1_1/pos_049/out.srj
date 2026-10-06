@@ -6,27 +6,6 @@
     ]
   },
   "results": {
-    "bindings": [
-      {
-        "x": {
-          "type": "literal",
-          "value": "1"
-        },
-        "y": {
-          "type": "literal",
-          "value": "2"
-        }
-      },
-      {
-        "x": {
-          "type": "literal",
-          "value": "3"
-        },
-        "y": {
-          "type": "literal",
-          "value": "4"
-        }
-      }
-    ]
+    "bindings": []
   }
 }

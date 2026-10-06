@@ -28,9 +28,11 @@ class Opts:
     rdf_version: Optional[int] = None
     version: int = 1
     stream_name: Optional[str] = None
+    stream_type: Optional[int] = None
 
     def msg(self):
         return msgs.options(
+            stream_type=self.stream_type,
             name=self.name,
             prefix=self.prefix or None,
             datatype=self.datatype or None,
@@ -46,12 +48,15 @@ class Opts:
             f"max-datatype-table-size={self.datatype}",
             f"rdf-version={RDF_VERSION_LABELS[self.rdf_version or 0]}",
         ]
+        if self.stream_type is not None:
+            parts.insert(0, f"stream-type={STREAM_TYPE_LABELS[self.stream_type]}")
         if self.stream_name is not None:
             parts.append(f"stream-name={self.stream_name!r}")
         return ", ".join(parts)
 
 
 RDF_VERSION_LABELS = {0: "unspecified", 1: "1.1", 2: "1.2-basic", 3: "1.2"}
+STREAM_TYPE_LABELS = {0: "flat", 1: "punctuated"}
 
 
 class Table:
@@ -209,10 +214,24 @@ class Encoder:
     # --- stream ----------------------------------------------------------------
 
     def encode(self, result):
-        if isinstance(result, AskResult):
-            return [msgs.frame(options=self.opts.msg(), ask=result.value, trailer="")]
-        self.vars = result.vars
+        """Encode one result set, or a list of result sets (PUNCTUATED stream)."""
         self.frames = []
+        for r in result if isinstance(result, list) else [result]:
+            self.result_set(r)
+        return [msgs.frame(**f) for f in self.frames]
+
+    def result_set(self, result):
+        start = len(self.frames)
+        if isinstance(result, AskResult):
+            f = {"ask": result.value, "trailer": ""}
+            if not self.frames:
+                f["options"] = self.opts.msg()
+            self.frames.append(f)
+            return
+        if "" in result.vars:
+            raise EncodeError("a variable with an empty name")
+        self.vars = result.vars
+        self.start = start
         self.mapping = None
         rows = []
         for row in result.rows:
@@ -228,12 +247,11 @@ class Encoder:
             for table in (self.names, self.prefixes, self.datatypes):
                 table.use([k for tb, k in needed if tb is table])
             rows.append(row)
-        if rows or not self.frames:
+        if rows or len(self.frames) == start:
             self.flush(rows)
         self.frames[-1]["trailer"] = ""
         if result.links:
-            self.frames[0]["metadata"] = {"link": "\n".join(result.links).encode()}
-        return [msgs.frame(**f) for f in self.frames]
+            self.frames[start]["metadata"] = {"link": "\n".join(result.links).encode()}
 
     def fits(self, needed) -> bool:
         return all(
@@ -250,6 +268,7 @@ class Encoder:
         }
         if not self.frames:
             f["options"] = self.opts.msg()
+        first = len(self.frames) == self.start  # the first frame of the result set
         columns = {"iri": [], "bnode": [], "literal": [], "poly": []}
         placement = []
         if rows and self.vars:
@@ -269,8 +288,8 @@ class Encoder:
                 offset += len(columns[kind])
             mapping = [offsets[kind] + pos for kind, pos in placement]
             f.update(columns)
-            need_header = not self.frames or mapping != self.mapping
-        elif not self.frames:
+            need_header = first or mapping != self.mapping
+        elif first:
             # No columns: an empty or a zero-variable result set.
             mapping = list(range(len(self.vars)))
             need_header = True

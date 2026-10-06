@@ -1,33 +1,23 @@
 {
   "head": {
     "vars": [
-      "x",
-      "y"
+      "v"
     ]
   },
   "results": {
     "bindings": [
       {
-        "x": {
+        "v": {
           "type": "literal",
-          "value": "",
+          "value": "a",
           "xml:lang": "en"
-        },
-        "y": {
-          "type": "literal",
-          "value": ""
         }
       },
       {
-        "x": {
+        "v": {
           "type": "literal",
-          "value": "",
-          "xml:lang": "en"
-        },
-        "y": {
-          "type": "literal",
-          "value": "",
-          "xml:lang": "fr"
+          "value": "b",
+          "xml:lang": "de"
         }
       }
     ]

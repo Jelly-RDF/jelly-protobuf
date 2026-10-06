@@ -1,0 +1,17 @@
+{
+  "head": {
+    "vars": [
+      "w"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "w": {
+          "type": "literal",
+          "value": "y"
+        }
+      }
+    ]
+  }
+}

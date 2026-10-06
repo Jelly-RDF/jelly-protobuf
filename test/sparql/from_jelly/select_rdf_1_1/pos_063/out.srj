@@ -8,38 +8,26 @@
     "bindings": [
       {
         "v": {
+          "type": "literal",
+          "value": "x"
+        }
+      },
+      {
+        "v": {
+          "type": "bnode",
+          "value": "n"
+        }
+      },
+      {
+        "v": {
           "type": "uri",
           "value": "http://example.org/a"
         }
       },
       {
         "v": {
-          "type": "bnode",
-          "value": "x"
-        }
-      },
-      {
-        "v": {
           "type": "literal",
-          "value": "l"
-        }
-      },
-      {
-        "v": {
-          "type": "uri",
-          "value": "http://example.org/b"
-        }
-      },
-      {
-        "v": {
-          "type": "uri",
-          "value": "http://example.org/e"
-        }
-      },
-      {
-        "v": {
-          "type": "uri",
-          "value": "http://example.org/f"
+          "value": "y"
         }
       }
     ]

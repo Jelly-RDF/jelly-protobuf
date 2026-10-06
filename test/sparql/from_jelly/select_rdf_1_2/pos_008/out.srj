@@ -19,46 +19,8 @@
               "value": "http://example.org/b"
             },
             "object": {
-              "type": "literal",
-              "value": "v"
-            }
-          }
-        }
-      },
-      {
-        "t": {
-          "type": "triple",
-          "value": {
-            "subject": {
-              "type": "uri",
-              "value": "http://example.org/a"
-            },
-            "predicate": {
-              "type": "uri",
-              "value": "http://example.org/b"
-            },
-            "object": {
-              "type": "literal",
-              "value": "v"
-            }
-          }
-        }
-      },
-      {
-        "t": {
-          "type": "triple",
-          "value": {
-            "subject": {
-              "type": "uri",
-              "value": "http://example.org/a"
-            },
-            "predicate": {
-              "type": "uri",
-              "value": "http://example.org/b"
-            },
-            "object": {
-              "type": "literal",
-              "value": "v"
+              "type": "bnode",
+              "value": "n"
             }
           }
         }

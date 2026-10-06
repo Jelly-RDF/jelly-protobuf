@@ -1,8 +1,7 @@
 {
   "head": {
     "vars": [
-      "a",
-      "b"
+      "a"
     ]
   },
   "results": {
@@ -11,20 +10,12 @@
         "a": {
           "type": "literal",
           "value": "1"
-        },
-        "b": {
-          "type": "literal",
-          "value": "2"
         }
       },
       {
         "a": {
           "type": "literal",
-          "value": "3"
-        },
-        "b": {
-          "type": "bnode",
-          "value": "x"
+          "value": "2"
         }
       }
     ]

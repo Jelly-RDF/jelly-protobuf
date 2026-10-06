@@ -145,6 +145,8 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
         <select_rdf_1_1/neg_054>
         <select_rdf_1_1/neg_055>
         <select_rdf_1_1/neg_056>
+        <select_rdf_1_1/neg_057>
+        <select_rdf_1_1/neg_058>
 
         # ask
         <ask/pos_001>
@@ -169,8 +171,6 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
         <select_rdf_1_2_basic/neg_002>
         <select_rdf_1_2_basic/neg_003>
         <select_rdf_1_2_basic/neg_004>
-        <select_rdf_1_2_basic/neg_005>
-        <select_rdf_1_2_basic/neg_006>
 
         # select_rdf_1_2
         <select_rdf_1_2/pos_001>
@@ -183,6 +183,10 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
         <select_rdf_1_2/pos_008>
         <select_rdf_1_2/pos_009>
         <select_rdf_1_2/pos_010>
+        <select_rdf_1_2/pos_011>
+        <select_rdf_1_2/pos_012>
+        <select_rdf_1_2/pos_013>
+        <select_rdf_1_2/pos_014>
         <select_rdf_1_2/neg_001>
         <select_rdf_1_2/neg_002>
         <select_rdf_1_2/neg_003>
@@ -193,9 +197,27 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
         <select_rdf_1_2/neg_008>
         <select_rdf_1_2/neg_009>
         <select_rdf_1_2/neg_010>
-        <select_rdf_1_2/neg_011>
-        <select_rdf_1_2/neg_012>
-        <select_rdf_1_2/neg_013>
+
+        # punctuated
+        <punctuated/pos_001>
+        <punctuated/pos_002>
+        <punctuated/pos_003>
+        <punctuated/pos_004>
+        <punctuated/pos_005>
+        <punctuated/pos_006>
+        <punctuated/pos_007>
+        <punctuated/pos_008>
+        <punctuated/pos_009>
+        <punctuated/pos_010>
+        <punctuated/pos_011>
+        <punctuated/neg_001>
+        <punctuated/neg_002>
+        <punctuated/neg_003>
+        <punctuated/neg_004>
+        <punctuated/neg_005>
+        <punctuated/neg_006>
+        <punctuated/neg_007>
+        <punctuated/neg_008>
     ) .
 
 <select_rdf_1_1/pos_001> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
@@ -256,7 +278,7 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
 
 <select_rdf_1_1/pos_009> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
     mf:name "An empty result set with three variables: one frame with the options and the header, no rows." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#frames-with-no-rows> ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#result-set-header> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_009/in.jellys> ;
     mf:result <select_rdf_1_1/pos_009/out.srj> .
@@ -360,7 +382,7 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
     mf:result <select_rdf_1_1/pos_023/out.srj> .
 
 <select_rdf_1_1/pos_024> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "The sequence layout in every column type: blank node, literal (no literal kinds), literal (a literal kind per value), and polymorphic columns." ;
+    mf:name "The sequence layout in blank node, literal (no literal kinds), literal (a literal kind per value), and polymorphic columns." ;
     rdfs:comment "Cells: b = x x _ _ y _; l = _ 1 1 1 1 2; f = hi _ _ _ hej _; p = a x x x z _." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#sequence-layout> ;
     rdft:approval rdft:Proposed ;
@@ -369,6 +391,7 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
 
 <select_rdf_1_1/pos_025> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
     mf:name "Equal values in consecutive rows stored as separate run values, without a repeat run. Both rows must be kept – consumers must not deduplicate." ;
+    rdfs:comment "A conforming producer merges equal adjacent run values into one run, so it does not write this. The consumer must still decode it." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#ordering> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_025/in.jellys> ;
@@ -503,7 +526,8 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
     mf:result <select_rdf_1_1/pos_043/out.srj> .
 
 <select_rdf_1_1/pos_044> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Header restated to move a variable from an IRI column to a polymorphic column. A later frame without a header keeps the restated layout." ;
+    mf:name "Header restated to move a variable from an IRI column to a polymorphic column, which changes the column indices. A later frame without a header keeps the restated layout." ;
+    rdfs:comment "Columns are indexed IRI columns first, then polymorphic columns. When o moves to a polymorphic column, t takes index 1 and o takes index 2." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#restating-the-header> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_044/in.jellys> ;
@@ -524,232 +548,233 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
     mf:result <select_rdf_1_1/pos_046/out.srj> .
 
 <select_rdf_1_1/pos_047> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "A variable with an empty name (allowed, not recommended)." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#result-set-header> ;
+    mf:name "A frame with no rows and no columns in the middle of a stream, with only lookup entries for the next frame." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#column-indices> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_047/in.jellys> ;
     mf:result <select_rdf_1_1/pos_047/out.srj> .
 
 <select_rdf_1_1/pos_048> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "A frame with no rows and no columns in the middle of a stream, with only lookup entries for the next frame." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#frames-with-no-rows> ;
+    mf:name "A frame with no rows and one empty column per variable." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#column-indices> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_048/in.jellys> ;
     mf:result <select_rdf_1_1/pos_048/out.srj> .
 
 <select_rdf_1_1/pos_049> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "A frame with no rows and one empty column per variable (allowed, producers should omit the columns)." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#frames-with-no-rows> ;
+    mf:name "An empty result set whose first frame has one empty column per variable." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#column-indices> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_049/in.jellys> ;
     mf:result <select_rdf_1_1/pos_049/out.srj> .
 
 <select_rdf_1_1/pos_050> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "An empty result set whose first frame has one empty column per variable." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#frames-with-no-rows> ;
+    mf:name "A zero-variable result set with one empty solution (e.g., SELECT * WHERE {})." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#zero-variable-result-sets> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_050/in.jellys> ;
     mf:result <select_rdf_1_1/pos_050/out.srj> .
 
 <select_rdf_1_1/pos_051> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "A zero-variable result set with one empty solution (e.g., SELECT * WHERE {})." ;
+    mf:name "A zero-variable result set with three empty solutions over two frames." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#zero-variable-result-sets> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_051/in.jellys> ;
     mf:result <select_rdf_1_1/pos_051/out.srj> .
 
 <select_rdf_1_1/pos_052> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "A zero-variable result set with three empty solutions over two frames." ;
+    mf:name "A zero-variable result set with no solutions." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#zero-variable-result-sets> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_052/in.jellys> ;
     mf:result <select_rdf_1_1/pos_052/out.srj> .
 
 <select_rdf_1_1/pos_053> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "A zero-variable result set with no solutions." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#zero-variable-result-sets> ;
+    mf:name "Two zero-variable streams concatenated: the repeated options come with an empty header, which declares zero variables again." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#repeating-the-stream-options> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_053/in.jellys> ;
     mf:result <select_rdf_1_1/pos_053/out.srj> .
 
 <select_rdf_1_1/pos_054> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Two zero-variable streams concatenated: the repeated options come with an empty header, which declares zero variables again." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#repeating-the-stream-options> ;
+    mf:name "Literal column of simple literals: literal_kinds is empty." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literal-columns> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_054/in.jellys> ;
     mf:result <select_rdf_1_1/pos_054/out.srj> .
 
 <select_rdf_1_1/pos_055> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Literal column of simple literals: literal_kinds is empty." ;
+    mf:name "xsd:string literals encoded three ways: no literal kinds, a single literal kind referring to an xsd:string datatype entry, and one literal kind per value mixing 0 and that entry. All are the same simple literal." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literal-columns> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_055/in.jellys> ;
     mf:result <select_rdf_1_1/pos_055/out.srj> .
 
 <select_rdf_1_1/pos_056> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "xsd:string literals encoded three ways: no literal kinds, a single literal kind referring to an xsd:string datatype entry, and one literal kind per value mixing 0 and that entry. All are the same simple literal." ;
+    mf:name "Literal column with a single literal kind for the whole column: xsd:integer, then xsd:dateTime." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literal-columns> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_056/in.jellys> ;
     mf:result <select_rdf_1_1/pos_056/out.srj> .
 
 <select_rdf_1_1/pos_057> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Literal column with a single literal kind for the whole column: xsd:integer, then xsd:dateTime." ;
+    mf:name "Literal column with one language tag for the whole column: a single literal kind of 2." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literal-columns> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_057/in.jellys> ;
     mf:result <select_rdf_1_1/pos_057/out.srj> .
 
 <select_rdf_1_1/pos_058> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Literal column with one language tag for the whole column: a single literal kind of 2." ;
+    mf:name "Literal column with one literal kind per value, mixing simple, typed, and language-tagged literals with different tags." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literal-columns> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_058/in.jellys> ;
     mf:result <select_rdf_1_1/pos_058/out.srj> .
 
 <select_rdf_1_1/pos_059> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Literal column with one literal kind per value, mixing simple, typed, and language-tagged literals with different tags." ;
+    mf:name "Literal kind values: 0 is a simple literal, odd values 1, 3, 5 are datatypes 1, 2, 3, and even values 2, 4, 6 are language tags 0, 1, 2." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literal-columns> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_059/in.jellys> ;
     mf:result <select_rdf_1_1/pos_059/out.srj> .
 
 <select_rdf_1_1/pos_060> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Literal kind values: 0 is a simple literal, odd values 1, 3, 5 are datatypes 1, 2, 3, and even values 2, 4, 6 are language tags 0, 1, 2." ;
+    mf:name "Empty lexical forms, with a single literal kind and with one literal kind per value." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literal-columns> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_060/in.jellys> ;
     mf:result <select_rdf_1_1/pos_060/out.srj> .
 
 <select_rdf_1_1/pos_061> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Empty lexical forms, with a single literal kind and with one literal kind per value." ;
+    mf:name "langtag_directions with only 0 entries (no base direction) in a stream that declares RDF 1.1." ;
+    rdfs:comment "Producers should leave langtag_directions empty instead, but a list of zeros is valid." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literal-columns> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_061/in.jellys> ;
     mf:result <select_rdf_1_1/pos_061/out.srj> .
 
 <select_rdf_1_1/pos_062> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "langtag_directions with only 0 entries (no base direction) in a stream that declares RDF 1.1." ;
-    rdfs:comment "Producers should leave langtag_directions empty instead, but a list of zeros is valid." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#base-direction> ;
+    mf:name "Polymorphic column: kinds says which sub-column holds each run value. Six values need two bytes of kinds." ;
+    rdfs:comment "kinds = [0x18, 0x00]: iri, bnode, literal, iri in the first byte, then iri, iri. The iris sub-column is decoded like an IRI column: name_ids [0, 0, 5, 0] are names 1, 2, 5, 6." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#polymorphic-columns> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_062/in.jellys> ;
     mf:result <select_rdf_1_1/pos_062/out.srj> .
 
 <select_rdf_1_1/pos_063> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Polymorphic column: kinds says which sub-column holds each run value. Six values need two bytes of kinds." ;
-    rdfs:comment "kinds = [0x18, 0x00]: iri, bnode, literal, iri in the first byte, then iri, iri. The iris sub-column is decoded like an IRI column: name_ids [0, 0, 5, 0] are names 1, 2, 5, 6." ;
+    mf:name "Polymorphic column with exactly four values: kinds is one full byte." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#polymorphic-columns> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_063/in.jellys> ;
     mf:result <select_rdf_1_1/pos_063/out.srj> .
 
 <select_rdf_1_1/pos_064> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Polymorphic column with exactly four values: kinds is one full byte." ;
+    mf:name "Polymorphic column: the IRI inference state of the iris sub-column resets at the start of every frame." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#polymorphic-columns> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_064/in.jellys> ;
     mf:result <select_rdf_1_1/pos_064/out.srj> .
 
 <select_rdf_1_1/pos_065> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Polymorphic column: the IRI inference state of the iris sub-column resets at the start of every frame." ;
+    mf:name "Polymorphic column whose literals sub-column has its own literal kinds and language tags." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#polymorphic-columns> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_065/in.jellys> ;
     mf:result <select_rdf_1_1/pos_065/out.srj> .
 
 <select_rdf_1_1/pos_066> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Polymorphic column whose literals sub-column has its own literal kinds and language tags." ;
+    mf:name "Polymorphic column with empty sub-column messages: a sub-column that is set but has no values." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#polymorphic-columns> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_066/in.jellys> ;
     mf:result <select_rdf_1_1/pos_066/out.srj> .
 
 <select_rdf_1_1/pos_067> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Polymorphic column with empty sub-column messages: a sub-column that is set but has no values." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#polymorphic-columns> ;
-    rdft:approval rdft:Proposed ;
-    mf:action <select_rdf_1_1/pos_067/in.jellys> ;
-    mf:result <select_rdf_1_1/pos_067/out.srj> .
-
-<select_rdf_1_1/pos_068> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
     mf:name "A sub-column of a polymorphic column with its own layouts, which the consumer should ignore." ;
     rdfs:comment "Producers must not set layouts in a sub-column. Consumers should ignore them (only the layouts of the polymorphic column itself apply), but may throw an error instead." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#polymorphic-columns> ;
     rdft:approval rdft:Proposed ;
     mf:notable jellyt:featureShouldLevel ;
+    mf:action <select_rdf_1_1/pos_067/in.jellys> ;
+    mf:result <select_rdf_1_1/pos_067/out.srj> .
+
+<select_rdf_1_1/pos_068> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "Blank node labels are scoped to the whole stream: the same label in different frames and in different column types is the same blank node." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#blank-node-columns> ;
+    rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_068/in.jellys> ;
     mf:result <select_rdf_1_1/pos_068/out.srj> .
 
 <select_rdf_1_1/pos_069> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Blank node labels are scoped to the whole stream: the same label in different frames and in different column types is the same blank node." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#blank-node-columns> ;
+    mf:name "The well-known link metadata key with two IRIs, mapped to head.link." ;
+    rdfs:comment "The equivalence of result sets does not cover links. Implementations that expose links should check them against head.link." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#well-known-metadata-keys> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_069/in.jellys> ;
     mf:result <select_rdf_1_1/pos_069/out.srj> .
 
 <select_rdf_1_1/pos_070> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "The well-known link metadata key with two IRIs, mapped to head.link." ;
-    rdfs:comment "The equivalence of result sets does not cover links. Implementations that expose links should check them against head.link." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#well-known-metadata-keys> ;
+    mf:name "Metadata with an implementation-defined key whose value is not valid UTF-8. Consumers must not fail on it, and should ignore it." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#frame-metadata> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_070/in.jellys> ;
     mf:result <select_rdf_1_1/pos_070/out.srj> .
 
 <select_rdf_1_1/pos_071> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Metadata with an implementation-defined key whose value is not valid UTF-8. It must be ignored." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#frame-metadata> ;
-    rdft:approval rdft:Proposed ;
-    mf:action <select_rdf_1_1/pos_071/in.jellys> ;
-    mf:result <select_rdf_1_1/pos_071/out.srj> .
-
-<select_rdf_1_1/pos_072> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
     mf:name "The link metadata key with a value that is not valid UTF-8. Consumers should ignore it." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#well-known-metadata-keys> ;
     rdft:approval rdft:Proposed ;
     mf:notable jellyt:featureShouldLevel ;
+    mf:action <select_rdf_1_1/pos_071/in.jellys> ;
+    mf:result <select_rdf_1_1/pos_071/out.srj> .
+
+<select_rdf_1_1/pos_072> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "Stream options with a stream name." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-options> ;
+    rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_072/in.jellys> ;
     mf:result <select_rdf_1_1/pos_072/out.srj> .
 
 <select_rdf_1_1/pos_073> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Stream options with a stream name." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-options> ;
+    mf:name "A trailer-only final frame (row_count 0, no columns, only the trailer)." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-trailer> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_073/in.jellys> ;
     mf:result <select_rdf_1_1/pos_073/out.srj> .
 
 <select_rdf_1_1/pos_074> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "A trailer-only final frame (row_count 0, no columns, only the trailer)." ;
+    mf:name "A stream without a trailer. The result set is valid; consumers should report that it may be truncated." ;
+    rdfs:comment "Consumers may warn or report the missing trailer, but must not fail this test." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-trailer> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_074/in.jellys> ;
     mf:result <select_rdf_1_1/pos_074/out.srj> .
 
 <select_rdf_1_1/pos_075> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "A stream without a trailer. The result set is valid; consumers should report that it may be truncated." ;
-    rdfs:comment "Consumers may warn or report the missing trailer, but must not fail this test." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-trailer> ;
+    mf:name "Two streams of the same query concatenated. The second segment repeats the options (with other table sizes) and the header, and its lookup identifiers restart from 1." ;
+    rdfs:comment "Blank node labels are not reset by the repeated options: the label x in both segments is one blank node." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#repeating-the-stream-options> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_075/in.jellys> ;
     mf:result <select_rdf_1_1/pos_075/out.srj> .
 
 <select_rdf_1_1/pos_076> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Two streams of the same query concatenated. The second segment repeats the options (with other table sizes) and the header, and its lookup identifiers restart from 1." ;
-    rdfs:comment "Blank node labels are not reset by the repeated options: the label x in both segments is one blank node." ;
+    mf:name "Concatenated streams with different column layouts: the restated header maps the same variables to other column types." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#repeating-the-stream-options> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_076/in.jellys> ;
     mf:result <select_rdf_1_1/pos_076/out.srj> .
 
 <select_rdf_1_1/pos_077> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Concatenated streams with different column layouts: the restated header maps the same variables to other column types." ;
+    mf:name "Options repeated without a trailer before them (a producer that did not write trailers)." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#repeating-the-stream-options> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_077/in.jellys> ;
     mf:result <select_rdf_1_1/pos_077/out.srj> .
 
 <select_rdf_1_1/pos_078> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Options repeated without a trailer before them (a producer that did not write trailers)." ;
+    mf:name "Five streams of the same query concatenated: different table sizes, column layouts, and frame counts in each segment, an empty segment, and a segment without a trailer." ;
+    rdfs:comment "Lookup identifiers restart from 1 in every segment. The label x in the first and last segments is one blank node." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#repeating-the-stream-options> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/pos_078/in.jellys> ;
@@ -763,7 +788,7 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
 
 <select_rdf_1_1/neg_002> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
     mf:name "The last frame is truncated: the length prefix promises more bytes than the file has." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#framing> ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#delimited> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/neg_002/in.jellys> .
 
@@ -785,31 +810,33 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
     mf:name "max_name_table_size 127, below the minimum of 128." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-options> ;
     rdft:approval rdft:Proposed ;
+    mf:notable jellyt:featureShouldLevel ;
     mf:action <select_rdf_1_1/neg_005/in.jellys> .
 
 <select_rdf_1_1/neg_006> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
     mf:name "max_name_table_size not set (0)." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-options> ;
     rdft:approval rdft:Proposed ;
+    mf:notable jellyt:featureShouldLevel ;
     mf:action <select_rdf_1_1/neg_006/in.jellys> .
 
 <select_rdf_1_1/neg_007> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "max_name_table_size 10000000. Consumers must limit the lookup sizes they accept (recommended default 16384)." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#overly-large-lookup-tables> ;
+    mf:name "max_name_table_size 10000000. Consumers should reject lookup sizes larger than their limit (recommended default 16384)." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-options> ;
     rdft:approval rdft:Proposed ;
     mf:notable jellyt:featureShouldLevel ;
     mf:action <select_rdf_1_1/neg_007/in.jellys> .
 
 <select_rdf_1_1/neg_008> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "max_prefix_table_size 10000000. Consumers must limit the lookup sizes they accept (recommended default 4096)." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#overly-large-lookup-tables> ;
+    mf:name "max_prefix_table_size 10000000. Consumers should reject lookup sizes larger than their limit (recommended default 4096)." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-options> ;
     rdft:approval rdft:Proposed ;
     mf:notable jellyt:featureShouldLevel ;
     mf:action <select_rdf_1_1/neg_008/in.jellys> .
 
 <select_rdf_1_1/neg_009> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "max_datatype_table_size 10000000. Consumers must limit the lookup sizes they accept (recommended default 256)." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#overly-large-lookup-tables> ;
+    mf:name "max_datatype_table_size 10000000. Consumers should reject lookup sizes larger than their limit (recommended default 256)." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-options> ;
     rdft:approval rdft:Proposed ;
     mf:notable jellyt:featureShouldLevel ;
     mf:action <select_rdf_1_1/neg_009/in.jellys> .
@@ -824,12 +851,14 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
     mf:name "A prefix lookup entry when the prefix lookup is disabled (max_prefix_table_size 0)." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-options> ;
     rdft:approval rdft:Proposed ;
+    mf:notable jellyt:featureShouldLevel ;
     mf:action <select_rdf_1_1/neg_011/in.jellys> .
 
 <select_rdf_1_1/neg_012> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
     mf:name "A datatype lookup entry when the datatype lookup is disabled (max_datatype_table_size 0)." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-options> ;
     rdft:approval rdft:Proposed ;
+    mf:notable jellyt:featureShouldLevel ;
     mf:action <select_rdf_1_1/neg_012/in.jellys> .
 
 <select_rdf_1_1/neg_013> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
@@ -1032,6 +1061,7 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
     mf:name "The repeated stream options are not valid on their own (max_name_table_size 10)." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#repeating-the-stream-options> ;
     rdft:approval rdft:Proposed ;
+    mf:notable jellyt:featureShouldLevel ;
     mf:action <select_rdf_1_1/neg_045/in.jellys> .
 
 <select_rdf_1_1/neg_046> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
@@ -1078,29 +1108,44 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
 
 <select_rdf_1_1/neg_053> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
     mf:name "Corrupt layout: an extension varint of 2^32 - 1 (a run far longer than the frame)." ;
-    rdfs:comment "Consumers must check the run length against row_count before writing any cells." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#column-layouts> ;
+    rdfs:comment "Consumers should check the run length against row_count before writing any cells (see the security considerations)." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#sequence-layout> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/neg_053/in.jellys> .
 
 <select_rdf_1_1/neg_054> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "A trailer with an error. The rows before it are valid, but the result set is incomplete and the consumer must report it." ;
+    mf:name "A trailer with an error. The rows before it are valid, but the result set is incomplete and the consumer must signal an error." ;
     rdfs:comment "Implementations may deliver the two rows before the error, but must signal the error to the caller." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-trailer> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/neg_054/in.jellys> .
 
 <select_rdf_1_1/neg_055> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "A frame without the stream options after a frame with a trailer." ;
+    mf:name "Concatenated streams: the first segment ends with an error trailer, the second with a trailer without an error. Repeating the stream options does not cancel the error." ;
+    rdfs:comment "Implementations may deliver the rows, but must signal the error to the caller." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-trailer> ;
     rdft:approval rdft:Proposed ;
     mf:action <select_rdf_1_1/neg_055/in.jellys> .
 
 <select_rdf_1_1/neg_056> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
+    mf:name "A frame without the stream options after a frame with a trailer." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-trailer> ;
+    rdft:approval rdft:Proposed ;
+    mf:notable jellyt:featureShouldLevel ;
+    mf:action <select_rdf_1_1/neg_056/in.jellys> .
+
+<select_rdf_1_1/neg_057> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
     mf:name "A boolean result in the second frame of a stream of solutions." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#boolean-results> ;
     rdft:approval rdft:Proposed ;
-    mf:action <select_rdf_1_1/neg_056/in.jellys> .
+    mf:notable jellyt:featureShouldLevel ;
+    mf:action <select_rdf_1_1/neg_057/in.jellys> .
+
+<select_rdf_1_1/neg_058> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
+    mf:name "An unknown stream_type value." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-types> ;
+    rdft:approval rdft:Proposed ;
+    mf:action <select_rdf_1_1/neg_058/in.jellys> .
 
 <ask/pos_001> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
     mf:name "Boolean result true." ;
@@ -1167,6 +1212,7 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
 
 <ask/neg_006> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
     mf:name "A boolean result with an error trailer." ;
+    rdfs:comment "Implementations may deliver the boolean value, but must signal the error to the caller." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-trailer> ;
     rdft:approval rdft:Proposed ;
     mf:action <ask/neg_006/in.jellys> .
@@ -1220,47 +1266,33 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
     mf:result <select_rdf_1_2_basic/pos_006/out.srj> .
 
 <select_rdf_1_2_basic/neg_001> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "A directional literal in a stream that declares RDF 1.1." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#rdf-version> ;
+    mf:name "langtag_directions with 2 entries for 1 language tag." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literal-columns> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12Basic ;
     mf:action <select_rdf_1_2_basic/neg_001/in.jellys> .
 
 <select_rdf_1_2_basic/neg_002> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "A directional literal in the literals sub-column of a polymorphic column, in a stream that declares RDF 1.1." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#rdf-version> ;
+    mf:name "langtag_directions set in a column with no language tags." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literal-columns> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12Basic ;
     mf:action <select_rdf_1_2_basic/neg_002/in.jellys> .
 
 <select_rdf_1_2_basic/neg_003> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "langtag_directions with 2 entries for 1 language tag." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literal-columns> ;
+    mf:name "langtag_directions with an unknown direction value (7)." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#base-direction> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12Basic ;
     mf:action <select_rdf_1_2_basic/neg_003/in.jellys> .
 
 <select_rdf_1_2_basic/neg_004> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "langtag_directions set in a column with no language tags." ;
+    mf:name "A literal kind refers to a datatype entry holding rdf:dirLangString." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literal-columns> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12Basic ;
-    mf:action <select_rdf_1_2_basic/neg_004/in.jellys> .
-
-<select_rdf_1_2_basic/neg_005> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "langtag_directions with an unknown direction value (7)." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#base-direction> ;
-    rdft:approval rdft:Proposed ;
-    mf:requires jellyt:requirementRdf12Basic ;
-    mf:action <select_rdf_1_2_basic/neg_005/in.jellys> .
-
-<select_rdf_1_2_basic/neg_006> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "A literal kind refers to a datatype entry holding rdf:dirLangString." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#base-direction> ;
-    rdft:approval rdft:Proposed ;
-    mf:requires jellyt:requirementRdf12Basic ;
     mf:notable jellyt:featureShouldLevel ;
-    mf:action <select_rdf_1_2_basic/neg_006/in.jellys> .
+    mf:action <select_rdf_1_2_basic/neg_004/in.jellys> .
 
 <select_rdf_1_2/pos_001> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
     mf:name "A triple term of three IRIs in a polymorphic column." ;
@@ -1288,7 +1320,7 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
 
 <select_rdf_1_2/pos_004> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
     mf:name "The IRIs inside the triple terms of a polymorphic column have their own IRI inference state, separate from the iris sub-column." ;
-    rdfs:comment "All name_ids are 0. The iris sub-column gives names 1 and 2. The triple term starts from name 0 and no prefix again: its subject, predicate, and object are names 1, 2, and 3." ;
+    rdfs:comment "All name_ids are 0. The iris sub-column gives names 1 and 2. The triple term starts from name 0 again: its subject, predicate, and object are names 1, 2, and 3." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#triple-terms> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
@@ -1305,7 +1337,8 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
     mf:result <select_rdf_1_2/pos_005/out.srj> .
 
 <select_rdf_1_2/pos_006> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "A blank node inside a triple term and the same label in a blank node column are the same blank node." ;
+    mf:name "The IRI inference state of the triple terms resets at the start of every column and every frame." ;
+    rdfs:comment "All name_ids are 0. Without the reset, the second column and the second frame would go on from name 4 (d, e, f)." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#triple-terms> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
@@ -1313,15 +1346,16 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
     mf:result <select_rdf_1_2/pos_006/out.srj> .
 
 <select_rdf_1_2/pos_007> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "A triple term in a stream that declares no RDF version (allowed: no version is announced)." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#rdf-version> ;
+    mf:name "The name_id inference of the triple terms goes on into a nested triple term." ;
+    rdfs:comment "All name_ids are 0: subject and predicate of the outer triple term are names 1 and 2, then the nested triple term gives names 3, 4, and 5." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#triple-terms> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
     mf:action <select_rdf_1_2/pos_007/in.jellys> ;
     mf:result <select_rdf_1_2/pos_007/out.srj> .
 
 <select_rdf_1_2/pos_008> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "The same triple term in consecutive rows, as a repeat run." ;
+    mf:name "A triple term with a blank node object." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#triple-terms> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
@@ -1329,110 +1363,308 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
     mf:result <select_rdf_1_2/pos_008/out.srj> .
 
 <select_rdf_1_2/pos_009> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Concatenated streams: the first segment declares RDF 1.1, the second declares RDF 1.2 and has a triple term." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#repeating-the-stream-options> ;
+    mf:name "A prefix_id of 0 in the first IRI of the triple terms of a column means no prefix, even after the iris sub-column used a prefix." ;
+    rdfs:comment "The iris sub-column uses prefix 1. The triple terms have their own state, so the subject, with prefix_id 0, has no prefix: its name holds the whole IRI." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#triple-terms> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
     mf:action <select_rdf_1_2/pos_009/in.jellys> ;
     mf:result <select_rdf_1_2/pos_009/out.srj> .
 
 <select_rdf_1_2/pos_010> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Common usage: an annotation query returning statements as triple terms, with IRIs, literals, and nested triple terms, over several frames." ;
+    mf:name "A blank node inside a triple term and the same label in a blank node column are the same blank node." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#triple-terms> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
     mf:action <select_rdf_1_2/pos_010/in.jellys> ;
     mf:result <select_rdf_1_2/pos_010/out.srj> .
 
-<select_rdf_1_2/neg_001> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "A triple term in a stream that declares RDF 1.1." ;
+<select_rdf_1_2/pos_011> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "A triple term in a stream that declares no RDF version (allowed: no version is announced)." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#rdf-version> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementRdf12 ;
+    mf:action <select_rdf_1_2/pos_011/in.jellys> ;
+    mf:result <select_rdf_1_2/pos_011/out.srj> .
+
+<select_rdf_1_2/pos_012> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "The same triple term in consecutive rows, as a repeat run." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#triple-terms> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementRdf12 ;
+    mf:action <select_rdf_1_2/pos_012/in.jellys> ;
+    mf:result <select_rdf_1_2/pos_012/out.srj> .
+
+<select_rdf_1_2/pos_013> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "Concatenated streams: the first segment declares RDF 1.1, the second declares RDF 1.2 and has a triple term." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#rdf-version> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementRdf12 ;
+    mf:action <select_rdf_1_2/pos_013/in.jellys> ;
+    mf:result <select_rdf_1_2/pos_013/out.srj> .
+
+<select_rdf_1_2/pos_014> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "Common usage: an annotation query returning statements as triple terms, with IRIs, literals, and nested triple terms, over several frames." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#triple-terms> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementRdf12 ;
+    mf:action <select_rdf_1_2/pos_014/in.jellys> ;
+    mf:result <select_rdf_1_2/pos_014/out.srj> .
+
+<select_rdf_1_2/neg_001> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
+    mf:name "A triple term without a subject." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#triple-terms> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
     mf:action <select_rdf_1_2/neg_001/in.jellys> .
 
 <select_rdf_1_2/neg_002> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "A triple term in a stream that declares RDF 1.2 Basic." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#rdf-version> ;
+    mf:name "A triple term without a predicate." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#triple-terms> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
     mf:action <select_rdf_1_2/neg_002/in.jellys> .
 
 <select_rdf_1_2/neg_003> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "A triple term without a subject." ;
+    mf:name "A triple term without an object." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#triple-terms> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
     mf:action <select_rdf_1_2/neg_003/in.jellys> .
 
 <select_rdf_1_2/neg_004> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "A triple term without a predicate." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#triple-terms> ;
+    mf:name "A literal in a triple term with datatype 0, which is invalid." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literals-in-triple-terms> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
     mf:action <select_rdf_1_2/neg_004/in.jellys> .
 
 <select_rdf_1_2/neg_005> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "A triple term without an object." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#triple-terms> ;
+    mf:name "A literal in a triple term with a direction but no language tag." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literals-in-triple-terms> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
     mf:action <select_rdf_1_2/neg_005/in.jellys> .
 
 <select_rdf_1_2/neg_006> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "Concatenated streams: the second segment declares RDF 1.1 and has a triple term." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#repeating-the-stream-options> ;
+    mf:name "A literal in a triple term with a direction and a datatype." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literals-in-triple-terms> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
     mf:action <select_rdf_1_2/neg_006/in.jellys> .
 
 <select_rdf_1_2/neg_007> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "A literal in a triple term with datatype 0, which is invalid." ;
+    mf:name "A literal in a triple term with an unknown direction value (3)." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#base-direction> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
     mf:action <select_rdf_1_2/neg_007/in.jellys> .
 
 <select_rdf_1_2/neg_008> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "A literal in a triple term with a direction but no language tag." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#base-direction> ;
+    mf:name "A literal in a triple term whose datatype is rdf:langString." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literals-in-triple-terms> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
+    mf:notable jellyt:featureShouldLevel ;
     mf:action <select_rdf_1_2/neg_008/in.jellys> .
 
 <select_rdf_1_2/neg_009> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "A literal in a triple term with a direction and a datatype." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#base-direction> ;
+    mf:name "A literal in a triple term whose datatype is rdf:dirLangString." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#literals-in-triple-terms> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
+    mf:notable jellyt:featureShouldLevel ;
     mf:action <select_rdf_1_2/neg_009/in.jellys> .
 
 <select_rdf_1_2/neg_010> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "A literal in a triple term with an unknown direction value (3)." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#base-direction> ;
-    rdft:approval rdft:Proposed ;
-    mf:requires jellyt:requirementRdf12 ;
-    mf:action <select_rdf_1_2/neg_010/in.jellys> .
-
-<select_rdf_1_2/neg_011> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "A literal in a triple term whose datatype is rdf:langString." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#base-direction> ;
-    rdft:approval rdft:Proposed ;
-    mf:requires jellyt:requirementRdf12 ;
-    mf:notable jellyt:featureShouldLevel ;
-    mf:action <select_rdf_1_2/neg_011/in.jellys> .
-
-<select_rdf_1_2/neg_012> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
-    mf:name "A literal in a triple term whose datatype is rdf:dirLangString." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#base-direction> ;
-    rdft:approval rdft:Proposed ;
-    mf:requires jellyt:requirementRdf12 ;
-    mf:notable jellyt:featureShouldLevel ;
-    mf:action <select_rdf_1_2/neg_012/in.jellys> .
-
-<select_rdf_1_2/neg_013> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
     mf:name "A triple term in a polymorphic column whose kinds do not refer to it: triple_terms has a value, but kinds is empty." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#polymorphic-columns> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
-    mf:action <select_rdf_1_2/neg_013/in.jellys> .
+    mf:action <select_rdf_1_2/neg_010/in.jellys> .
+
+<punctuated/pos_001> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "A single result set in a PUNCTUATED stream." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-types> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/pos_001/in.jellys> ;
+    mf:result (
+        <punctuated/pos_001/out_000.srj>
+    ) .
+
+<punctuated/pos_002> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "Two result sets with different variables. The second one starts without the stream options and refers to names defined in the first one: the lookups are kept between result sets." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-types> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/pos_002/in.jellys> ;
+    mf:result (
+        <punctuated/pos_002/out_000.srj>
+        <punctuated/pos_002/out_001.srj>
+    ) .
+
+<punctuated/pos_003> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "A result set over three frames, with the header restated in its last frame, followed by another result set." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-types> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/pos_003/in.jellys> ;
+    mf:result (
+        <punctuated/pos_003/out_000.srj>
+        <punctuated/pos_003/out_001.srj>
+    ) .
+
+<punctuated/pos_004> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "Boolean results and a solution sequence mixed in one stream." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-types> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/pos_004/in.jellys> ;
+    mf:result (
+        <punctuated/pos_004/out_000.srj>
+        <punctuated/pos_004/out_001.srj>
+        <punctuated/pos_004/out_002.srj>
+    ) .
+
+<punctuated/pos_005> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "A frame with a boolean result also has lookup entries, which the next result set uses." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#prefix-name-and-datatype-lookup-entries> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/pos_005/in.jellys> ;
+    mf:result (
+        <punctuated/pos_005/out_000.srj>
+        <punctuated/pos_005/out_001.srj>
+    ) .
+
+<punctuated/pos_006> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "The same blank node label in two result sets." ;
+    rdfs:comment "Blank node labels are scoped to a single result set, so the two cells are different blank nodes. Result sets are compared one at a time, so this test does not check that a consumer keeps them apart." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#blank-node-columns> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/pos_006/in.jellys> ;
+    mf:result (
+        <punctuated/pos_006/out_000.srj>
+        <punctuated/pos_006/out_001.srj>
+    ) .
+
+<punctuated/pos_007> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "Stream options repeated in the first frame of a result set: the lookups are emptied, and their identifiers restart from 1." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#repeating-the-stream-options> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/pos_007/in.jellys> ;
+    mf:result (
+        <punctuated/pos_007/out_000.srj>
+        <punctuated/pos_007/out_001.srj>
+    ) .
+
+<punctuated/pos_008> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "A zero-variable result set and an empty result set between two others. An empty header in the first frame of a result set declares zero variables." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#zero-variable-result-sets> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/pos_008/in.jellys> ;
+    mf:result (
+        <punctuated/pos_008/out_000.srj>
+        <punctuated/pos_008/out_001.srj>
+        <punctuated/pos_008/out_002.srj>
+        <punctuated/pos_008/out_003.srj>
+    ) .
+
+<punctuated/pos_009> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "The last result set has no trailer." ;
+    rdfs:comment "Consumers may report the last result set as possibly truncated, but must not fail this test." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-trailer> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/pos_009/in.jellys> ;
+    mf:result (
+        <punctuated/pos_009/out_000.srj>
+        <punctuated/pos_009/out_001.srj>
+    ) .
+
+<punctuated/pos_010> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "Links in two result sets: each applies only to its own result set." ;
+    rdfs:comment "The equivalence of result sets does not cover links. Implementations that expose links should check that each result set has only its own link." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#well-known-metadata-keys> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/pos_010/in.jellys> ;
+    mf:result (
+        <punctuated/pos_010/out_000.srj>
+        <punctuated/pos_010/out_001.srj>
+    ) .
+
+<punctuated/pos_011> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "Two PUNCTUATED streams concatenated: the result sets of both, in order." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-types> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/pos_011/in.jellys> ;
+    mf:result (
+        <punctuated/pos_011/out_000.srj>
+        <punctuated/pos_011/out_001.srj>
+        <punctuated/pos_011/out_002.srj>
+    ) .
+
+<punctuated/neg_001> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
+    mf:name "The stream options in a frame that is not the first frame of a result set." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-types> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/neg_001/in.jellys> .
+
+<punctuated/neg_002> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
+    mf:name "The first frame of the second result set has a column, but no header. An empty header there declares zero variables." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#zero-variable-result-sets> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/neg_002/in.jellys> .
+
+<punctuated/neg_003> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
+    mf:name "A boolean result in the second frame of a result set." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#boolean-results> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:notable jellyt:featureShouldLevel ;
+    mf:action <punctuated/neg_003/in.jellys> .
+
+<punctuated/neg_004> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
+    mf:name "A frame follows a boolean result that has no trailer." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#boolean-results> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:notable jellyt:featureShouldLevel ;
+    mf:action <punctuated/neg_004/in.jellys> .
+
+<punctuated/neg_005> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
+    mf:name "A restated header in the second result set declares other variables than the first header of that result set." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#restating-the-header> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/neg_005/in.jellys> .
+
+<punctuated/neg_006> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
+    mf:name "The stream type changes from FLAT to PUNCTUATED when the stream options are repeated." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-types> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/neg_006/in.jellys> .
+
+<punctuated/neg_007> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
+    mf:name "The stream type changes from PUNCTUATED to FLAT when the stream options are repeated." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-types> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/neg_007/in.jellys> .
+
+<punctuated/neg_008> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
+    mf:name "An error trailer in the first of two result sets." ;
+    rdfs:comment "The error applies only to the first result set. Implementations may go on with the next result set, but must signal the error to the caller." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#stream-trailer> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementPunctuated ;
+    mf:action <punctuated/neg_008/in.jellys> .

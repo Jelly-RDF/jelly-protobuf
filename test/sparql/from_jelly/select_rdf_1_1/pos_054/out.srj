@@ -1,12 +1,23 @@
 {
   "head": {
-    "vars": []
+    "vars": [
+      "v"
+    ]
   },
   "results": {
     "bindings": [
-      {},
-      {},
-      {}
+      {
+        "v": {
+          "type": "literal",
+          "value": "x"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "y"
+        }
+      }
     ]
   }
 }

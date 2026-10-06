@@ -19,8 +19,21 @@
               "value": "http://example.org/b"
             },
             "object": {
-              "type": "uri",
-              "value": "http://example.org/c"
+              "type": "triple",
+              "value": {
+                "subject": {
+                  "type": "uri",
+                  "value": "http://example.org/c"
+                },
+                "predicate": {
+                  "type": "uri",
+                  "value": "http://example.org/d"
+                },
+                "object": {
+                  "type": "uri",
+                  "value": "http://example.org/e"
+                }
+              }
             }
           }
         }

@@ -1,0 +1,20 @@
+{
+  "head": {
+    "vars": [
+      "v"
+    ],
+    "link": [
+      "http://example.org/l1"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "v": {
+          "type": "literal",
+          "value": "x"
+        }
+      }
+    ]
+  }
+}

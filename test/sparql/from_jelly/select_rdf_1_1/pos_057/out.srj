@@ -9,22 +9,22 @@
       {
         "v": {
           "type": "literal",
-          "value": "1",
-          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+          "value": "cat",
+          "xml:lang": "en"
         }
       },
       {
         "v": {
           "type": "literal",
-          "value": "-20",
-          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+          "value": "dog",
+          "xml:lang": "en"
         }
       },
       {
         "v": {
           "type": "literal",
-          "value": "2024-01-01T00:00:00Z",
-          "datatype": "http://www.w3.org/2001/XMLSchema#dateTime"
+          "value": "cat",
+          "xml:lang": "en"
         }
       }
     ]

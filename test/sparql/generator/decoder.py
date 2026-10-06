@@ -23,6 +23,7 @@ from model import (
 MAX_ROW_COUNT = (1 << 27) - 1
 DIRECTIONS = {0: None, 1: "ltr", 2: "rtl"}
 V_UNSPECIFIED, V_1_1, V_1_2_BASIC, V_1_2 = 0, 1, 2, 3
+ST_FLAT, ST_PUNCTUATED = 0, 1
 SUB_NAMES = ["iris", "literals", "bnodes", "triple_terms"]
 
 
@@ -86,13 +87,24 @@ def decode(data: bytes, limits: Limits = Limits()):
 class _Decoder:
     def __init__(self, limits: Limits):
         self.limits = limits
+        self.stream_type = None  # FLAT or PUNCTUATED, set by the first options
+        self.results = []  # finished result sets (PUNCTUATED)
+        self.new_result_set()
+        self.trailer_seen = False
+
+    def new_result_set(self):
+        self.first = True  # the next frame is the first frame of a result set
         self.kind = None  # "select" or "ask"
         self.header = None  # variable names of the first header
         self.mapping = None  # column index per variable, header in effect
         self.rows = []
         self.links = []
         self.ask_value = None
-        self.trailer_seen = False
+
+    def result(self):
+        if self.kind == "ask":
+            return AskResult(self.ask_value)
+        return ResultSet(self.header, self.rows, self.links)
 
     def run(self, data: bytes):
         frames = pb.split_delimited(data)
@@ -100,18 +112,25 @@ class _Decoder:
             fail("the stream contains no frames")
         for index, raw in enumerate(frames):
             self.frame(index, pb.Fields(raw))
-        if self.kind == "ask":
-            return AskResult(self.ask_value)
-        return ResultSet(self.header, self.rows, self.links)
+        if self.stream_type == ST_FLAT:
+            return self.result()
+        if not self.first:
+            # The last result set has no trailer: possibly truncated, but valid.
+            self.results.append(self.result())
+        return self.results
 
     # --- frames --------------------------------------------------------------
 
     def frame(self, index: int, f: pb.Fields):
         opts = f.msg(1)
-        if self.kind == "ask":
+        first = self.first
+        self.first = False
+        if self.kind == "ask" and not first:
             fail("a frame follows the frame with the boolean result")
-        if self.trailer_seen and opts is None:
+        if self.stream_type == ST_FLAT and self.trailer_seen and opts is None:
             fail("a frame without the stream options follows a trailer")
+        if self.stream_type == ST_PUNCTUATED and opts is not None and not first:
+            fail("stream options in a frame other than the first frame of a result set")
 
         if opts is not None:
             self.options(opts)
@@ -128,9 +147,15 @@ class _Decoder:
         )
         ask = f.msg(11)
 
+        # Lookup entries are applied before any column is decoded. A frame with a
+        # boolean result may also have them, for the next result set to use.
+        self.names.apply(f.msgs(4))
+        self.prefixes.apply(f.msgs(5))
+        self.datatypes.apply(f.msgs(6))
+
         if ask is not None:
-            if index != 0:
-                fail("a boolean result in a frame other than the first")
+            if not first:
+                fail("a boolean result in a frame other than the first frame of a result set")
             if variables:
                 fail("the frame with a boolean result declares variables")
             if columns:
@@ -140,13 +165,9 @@ class _Decoder:
             self.kind = "ask"
             self.ask_value = ask.bool(1)
         else:
-            if index == 0:
+            if first:
                 self.kind = "select"
-            # Lookup entries are applied before any column is decoded.
-            self.names.apply(f.msgs(4))
-            self.prefixes.apply(f.msgs(5))
-            self.datatypes.apply(f.msgs(6))
-            self.header_of(opts is not None, variables)
+            self.header_of(first or opts is not None, variables)
             self.body(row_count, columns)
 
         self.metadata(f)
@@ -156,6 +177,9 @@ class _Decoder:
             error = trailer.string(1)
             if error:
                 fail(f"error trailer: {error}")
+            if self.stream_type == ST_PUNCTUATED:
+                self.results.append(self.result())
+                self.new_result_set()
 
     def options(self, o: pb.Fields):
         version = o.uint32(15)
@@ -163,6 +187,11 @@ class _Decoder:
             fail("version tag is 0")
         if version > self.limits.supported_version:
             fail(f"version tag {version} is newer than supported")
+        stream_type = o.uint32(2)
+        if stream_type > ST_PUNCTUATED:
+            fail(f"unknown stream_type {stream_type}")
+        if self.stream_type is not None and stream_type != self.stream_type:
+            fail(f"stream_type {stream_type} differs from the stream_type {self.stream_type} of the stream")
         rdf_version = o.uint32(5)
         if rdf_version > V_1_2:
             fail(f"unknown rdf_version {rdf_version}")
@@ -175,6 +204,7 @@ class _Decoder:
             fail(f"max_prefix_table_size {prefix} is larger than the consumer accepts")
         if dt > self.limits.max_datatype:
             fail(f"max_datatype_table_size {dt} is larger than the consumer accepts")
+        self.stream_type = stream_type
         self.rdf_version = rdf_version
         # A repeated options message resets the stream state.
         self.names = Lookup("name", name)
@@ -183,9 +213,9 @@ class _Decoder:
         self.mapping = None
         self.trailer_seen = False
 
-    def header_of(self, has_options: bool, variables):
+    def header_of(self, declares: bool, variables):
         names = [n for n, _ in variables]
-        if has_options:
+        if declares:
             # An empty header here declares a zero-variable result set.
             if self.header is None:
                 self.header = names
@@ -350,10 +380,7 @@ class _Decoder:
     def direction(self, value: int):
         if value not in DIRECTIONS:
             fail(f"unknown base direction {value}")
-        d = DIRECTIONS[value]
-        if d is not None and self.rdf_version == V_1_1:
-            fail("a base direction in a stream that declares RDF 1.1")
-        return d
+        return DIRECTIONS[value]
 
     def poly_iri(self, i: pb.Fields, state) -> Iri:
         """RdfIri with the triple terms' shared inference state [prev_prefix, prev_name]."""
@@ -363,8 +390,6 @@ class _Decoder:
         return Iri(self.resolve_iri(pid, nid))
 
     def triple(self, t: pb.Fields, state, depth: int) -> Triple:
-        if self.rdf_version in (V_1_1, V_1_2_BASIC):
-            fail("a triple term in a stream that declares RDF 1.1 or RDF 1.2 Basic")
         if depth > self.limits.max_nesting:
             fail("triple terms nested too deeply")
         if t.has(1):

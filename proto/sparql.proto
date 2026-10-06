@@ -1,8 +1,6 @@
 syntax = "proto3";
 package eu.ostrzyciel.jelly.core.proto.v1.sparql;
 
-// EXPERIMENTAL FEATURE -- the API and format may change.
-
 // Jelly-SPARQL: binary serialization for SPARQL query results
 // (solution sequences and boolean ASK results), based on the Jelly-RDF term
 // encoding (rdf.proto).
@@ -18,8 +16,12 @@ package eu.ostrzyciel.jelly.core.proto.v1.sparql;
 // variable names to columns. The header (except the options) may be restated
 // in a later frame to change the column layout mid-stream – for example,
 // when a variable that so far held only IRIs encounters a literal and needs
-// to move to a polymorphic column. The stream ends with an optional trailer,
-// which says whether the result set is complete.
+// to move to a polymorphic column. The stream ends with a trailer, which says
+// whether the result set is complete.
+//
+// By default, a stream contains one result set (SPARQL_STREAM_TYPE_FLAT). A
+// stream of type SPARQL_STREAM_TYPE_PUNCTUATED contains a sequence of result
+// sets instead, each ended by a trailer.
 
 import "rdf2.proto";
 
@@ -28,6 +30,10 @@ message SparqlResultsOptions {
   // Name of the stream (completely optional).
   // This may be used for, e.g., topic names in a pub/sub system.
   string stream_name = 1;
+  // Type of the stream: one result set, or a sequence of result sets.
+  // Optional. Defaults to SPARQL_STREAM_TYPE_FLAT.
+  // Must be the same in every options message of the stream.
+  SparqlStreamType stream_type = 2;
   // Version of RDF whose terms may occur in the stream.
   //   RDF_VERSION_1_1       – no triple terms, no base directions
   //   RDF_VERSION_1_2_BASIC – base directions, no triple terms
@@ -50,9 +56,23 @@ message SparqlResultsOptions {
   uint32 version = 15;
 }
 
+// Type of a SPARQL result stream.
+enum SparqlStreamType {
+  // The entire stream is a single result set. This is the default.
+  // protolint:disable:next ENUM_FIELD_NAMES_ZERO_VALUE_END_WITH
+  SPARQL_STREAM_TYPE_FLAT = 0;
+  // The stream is a sequence of result sets, each ended by a frame with a
+  // trailer. A result set may span multiple frames, and each frame belongs to
+  // exactly one result set. The result sets are independent of each other
+  // (they may have different variables, and mix solution sequences with
+  // boolean results), but the lookup tables are kept from one to the next.
+  // Blank node labels are scoped to one result set.
+  SPARQL_STREAM_TYPE_PUNCTUATED = 1;
+}
+
 // Header entry mapping one result variable to one column.
 message SparqlVariable {
-  // Name of the variable, without the leading "?" or "$".
+  // Name of the variable, without the leading "?" or "$". Must not be empty.
   string name = 1;
   // 0-based index of the column that holds this variable's values.
   //
@@ -247,11 +267,15 @@ message SparqlPolyColumn {
   repeated RdfTripleTerm triple_terms = 6;
 }
 
-// End-of-stream marker, saying whether the result set is complete.
+// End-of-result-set marker, saying whether the result set is complete.
 //
-// A frame containing a trailer must not be followed by any frame that does not
-// include the stream options. Producers should write a trailer in the last
-// frame of the stream.
+// Producers must write a trailer in the last frame of every result set,
+// unless they cannot write anything more at all (for example, because the
+// process died).
+//
+// In a FLAT stream, the trailer ends the stream: a frame containing a trailer
+// must not be followed by any frame that does not include the stream options.
+// In a PUNCTUATED stream, the frame after a trailer starts a new result set.
 message SparqlResultsTrailer {
   // Empty (the default) means the result set is complete.
   // A non-empty value is a human-readable explanation of why the producer
@@ -277,26 +301,30 @@ message SparqlResultsFrame {
   // Stream options.
   // Must be set in the first frame of the stream.
   //
-  // May be set again in a later frame. Doing so resets the state of the
-  // stream: the lookup tables are emptied (identifier numbering restarts at 1)
-  // and the header ceases to be in effect, so the same frame must restate it,
-  // with the same variables as the first frame. Blank node labels are not
-  // reset. This is intended only for concatenating result streams of the same
-  // query.
+  // May be set again in a later frame. Doing so empties the lookup tables
+  // (identifier numbering restarts at 1).
+  //
+  // In a FLAT stream, it also makes the header cease to be in effect, so the
+  // same frame must restate it, with the same variables as the first frame.
+  // Blank node labels are not reset. This is intended only for concatenating
+  // result streams of the same query.
+  //
+  // In a PUNCTUATED stream, the options may be set again only in the first
+  // frame of a result set.
   SparqlResultsOptions options = 1;
   // Result set header: the variables of the result set, in projection
   // (SELECT clause) order, each mapped to one column.
   //
-  // Must be set in the first frame of the stream. A later frame may restate
-  // the header to change the column layout mid-stream (e.g., to move a
-  // variable from a monomorphic column to a polymorphic one). A restated
-  // header must list exactly the same variables in the same order – only
-  // the column assignments (and thus the number of columns of each type)
-  // may change. It takes effect for the frame it appears in and for all
-  // subsequent frames, until restated again.
-  // An empty variables list in a frame that contains the options declares a
-  // zero-variable result set (row_count then conveys the number of empty
-  // solutions).
+  // Must be set in the first frame of every result set with a solution
+  // sequence. A later frame of the same result set may restate the header to
+  // change the column layout (e.g., to move a variable from a monomorphic
+  // column to a polymorphic one). A restated header must list exactly the
+  // same variables in the same order – only the column assignments (and thus
+  // the number of columns of each type) may change. It takes effect for the
+  // frame it appears in and for all subsequent frames, until restated again.
+  // An empty variables list in the first frame of a result set, or in a frame
+  // that contains the options, declares a zero-variable result set (row_count
+  // then conveys the number of empty solutions).
   repeated SparqlVariable variables = 2;
   // Number of rows (solutions) in this frame (required).
   // Must not be greater than 2^27 - 1, the largest number of cells the
@@ -327,12 +355,12 @@ message SparqlResultsFrame {
   // Polymorphic columns.
   repeated SparqlPolyColumn poly_columns = 10;
   // Boolean (ASK) result.
-  // If set, the stream has a boolean result instead of a solution
-  // sequence. It must be set in the first frame of the stream, which must
-  // include no variables, no columns, and row_count = 0. No further result
-  // content may follow in the stream.
+  // If set, the result set is a boolean result instead of a solution
+  // sequence. It may be set only in the first frame of a result set, which
+  // must include no variables, no columns, and row_count = 0. A boolean
+  // result is always the only frame of its result set.
   SparqlAskResult ask_result = 11;
-  // End-of-stream marker. See SparqlResultsTrailer.
+  // End-of-result-set marker. See SparqlResultsTrailer.
   SparqlResultsTrailer trailer = 12;
   // Arbitrary metadata
   // The keys are UTF-8 encoded strings, the values are byte arrays.

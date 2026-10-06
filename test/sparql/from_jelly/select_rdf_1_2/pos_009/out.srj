@@ -9,7 +9,7 @@
       {
         "t": {
           "type": "uri",
-          "value": "http://example.org/a"
+          "value": "http://example.org/p"
         }
       },
       {
@@ -18,15 +18,15 @@
           "value": {
             "subject": {
               "type": "uri",
-              "value": "http://example.org/a"
+              "value": "https://other.org/x"
             },
             "predicate": {
               "type": "uri",
-              "value": "http://example.org/b"
+              "value": "http://example.org/p"
             },
             "object": {
               "type": "uri",
-              "value": "http://example.org/c"
+              "value": "http://example.org/o"
             }
           }
         }

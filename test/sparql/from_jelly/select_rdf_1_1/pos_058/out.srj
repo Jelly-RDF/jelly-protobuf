@@ -9,22 +9,28 @@
       {
         "v": {
           "type": "literal",
-          "value": "cat",
+          "value": "a"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "1",
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "b",
           "xml:lang": "en"
         }
       },
       {
         "v": {
           "type": "literal",
-          "value": "dog",
-          "xml:lang": "en"
-        }
-      },
-      {
-        "v": {
-          "type": "literal",
-          "value": "cat",
-          "xml:lang": "en"
+          "value": "c",
+          "xml:lang": "de"
         }
       }
     ]

@@ -1,0 +1,71 @@
+{
+  "head": {
+    "vars": [
+      "v"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/n0"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/n1"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/n2"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/n3"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/n4"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/n5"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/n6"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/n7"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/n8"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/n9"
+        }
+      }
+    ]
+  }
+}

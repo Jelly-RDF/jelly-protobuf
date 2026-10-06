@@ -9,21 +9,13 @@
       {
         "v": {
           "type": "literal",
-          "value": "x",
-          "xml:lang": "en"
+          "value": "x"
         }
       },
       {
         "v": {
-          "type": "uri",
-          "value": "http://example.org/a"
-        }
-      },
-      {
-        "v": {
-          "type": "literal",
-          "value": "1",
-          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+          "type": "bnode",
+          "value": "n"
         }
       }
     ]

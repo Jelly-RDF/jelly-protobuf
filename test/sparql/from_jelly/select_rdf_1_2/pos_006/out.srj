@@ -1,31 +1,80 @@
 {
   "head": {
     "vars": [
-      "b",
-      "t"
+      "t",
+      "u"
     ]
   },
   "results": {
     "bindings": [
       {
-        "b": {
-          "type": "bnode",
-          "value": "n"
-        },
         "t": {
           "type": "triple",
           "value": {
             "subject": {
-              "type": "bnode",
-              "value": "n"
-            },
-            "predicate": {
               "type": "uri",
               "value": "http://example.org/a"
             },
-            "object": {
+            "predicate": {
               "type": "uri",
               "value": "http://example.org/b"
+            },
+            "object": {
+              "type": "uri",
+              "value": "http://example.org/c"
+            }
+          }
+        },
+        "u": {
+          "type": "triple",
+          "value": {
+            "subject": {
+              "type": "uri",
+              "value": "http://example.org/a"
+            },
+            "predicate": {
+              "type": "uri",
+              "value": "http://example.org/b"
+            },
+            "object": {
+              "type": "uri",
+              "value": "http://example.org/c"
+            }
+          }
+        }
+      },
+      {
+        "t": {
+          "type": "triple",
+          "value": {
+            "subject": {
+              "type": "uri",
+              "value": "http://example.org/a"
+            },
+            "predicate": {
+              "type": "uri",
+              "value": "http://example.org/b"
+            },
+            "object": {
+              "type": "uri",
+              "value": "http://example.org/c"
+            }
+          }
+        },
+        "u": {
+          "type": "triple",
+          "value": {
+            "subject": {
+              "type": "uri",
+              "value": "http://example.org/a"
+            },
+            "predicate": {
+              "type": "uri",
+              "value": "http://example.org/b"
+            },
+            "object": {
+              "type": "uri",
+              "value": "http://example.org/c"
             }
           }
         }

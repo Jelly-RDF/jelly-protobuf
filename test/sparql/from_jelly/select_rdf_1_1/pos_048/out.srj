@@ -9,22 +9,22 @@
     "bindings": [
       {
         "x": {
-          "type": "uri",
-          "value": "http://example.org/a"
+          "type": "literal",
+          "value": "1"
         },
         "y": {
-          "type": "uri",
-          "value": "http://example.org/a"
+          "type": "literal",
+          "value": "2"
         }
       },
       {
         "x": {
-          "type": "uri",
-          "value": "http://example.org/b"
+          "type": "literal",
+          "value": "3"
         },
         "y": {
-          "type": "uri",
-          "value": "http://example.org/a"
+          "type": "literal",
+          "value": "4"
         }
       }
     ]

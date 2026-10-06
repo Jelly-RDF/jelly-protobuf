@@ -53,7 +53,8 @@ SELECT_1_1 = "select_rdf_1_1"
 ASK = "ask"
 SELECT_1_2_BASIC = "select_rdf_1_2_basic"
 SELECT_1_2 = "select_rdf_1_2"
-CATEGORIES = [SELECT_1_1, ASK, SELECT_1_2_BASIC, SELECT_1_2]
+PUNCTUATED = "punctuated"
+CATEGORIES = [SELECT_1_1, ASK, SELECT_1_2_BASIC, SELECT_1_2, PUNCTUATED]
 
 
 @dataclass
@@ -246,7 +247,7 @@ from_pos_encoded(C, "Blank nodes whose labels repeat across rows and across fram
                  "blank-node-columns", BNODES, Opts(), max_rows=5)
 
 from_pos_encoded(C, "An empty result set with three variables: one frame with the options and the header, no rows.",
-                 "frames-with-no-rows", RS(["s", "p", "o"]), Opts())
+                 "result-set-header", RS(["s", "p", "o"]), Opts())
 
 from_pos_encoded(C, "2000 rows of a single integer variable, in frames of 256 rows. Literal columns with a single literal kind.",
                  "literal-columns", RS(["n"], *[row(n=L(str(i), "integer")) for i in range(2000)]),
@@ -311,7 +312,7 @@ from_pos(C, "Tokens that take more than one byte: skip = 4 and skip = 300.",
          ResultSet(["v"], [{"v": L(str(i))} for i in range(4)] + [{}]
                    + [{"v": L(str(i))} for i in range(4, 304)] + [{}, {}]
                    + [{"v": L(str(i))} for i in range(304, 306)]))
-from_pos(C, "The sequence layout in every column type: blank node, literal (no literal kinds), literal (a literal kind per value), and polymorphic columns.",
+from_pos(C, "The sequence layout in blank node, literal (no literal kinds), literal (a literal kind per value), and polymorphic columns.",
          "sequence-layout",
          [F(options=O(prefix=8), vars=[("b", 0), ("l", 1), ("f", 2), ("p", 3)], rows=6,
             prefixes=[N(E)], names=[N("a")],
@@ -333,7 +334,8 @@ from_pos(C, "The sequence layout in every column type: blank node, literal (no l
 from_pos(C, "Equal values in consecutive rows stored as separate run values, without a repeat run. Both rows must be kept – consumers must not deduplicate.",
          "ordering",
          ex_frame_1var(iri_col([1, 1, 1, 2], [], [1]), 4),
-         rs_v(IRI_ABC, "aaab"))
+         rs_v(IRI_ABC, "aaab"),
+         comment="A conforming producer merges equal adjacent run values into one run, so it does not write this. The consumer must still decode it.")
 from_pos(C, "Duplicate solutions within a frame and across frames are all preserved, in order.",
          "ordering",
          [F(options=O(prefix=8), vars=[("s", 0), ("o", 1)], rows=3, prefixes=[N(E)],
@@ -431,7 +433,7 @@ from_pos(C, "Lookup table sizes at the recommended default consumer limits: 1638
          [F(options=O(name=16384, prefix=4096, datatype=256), vars=[("v", 0)], rows=1,
             prefixes=[N(E, id=4096)], names=[N("a", id=16384)], datatypes=[N(XSD + "int", id=256)],
             iri=[iri_col([16384], [], [4096])]),
-          F(vars=[("v", 0)], rows=1, literal=[lit_col(lex=["7"], kinds=[k_dt(256)])], trailer="")],
+          F(rows=1, literal=[lit_col(lex=["7"], kinds=[k_dt(256)])], trailer="")],
          RS(["v"], row(v=I("a")), row(v=L("7", "int"))))
 
 # --- header and columns ----------------------------------------------------------------
@@ -459,17 +461,18 @@ from_pos(C, "Variables unbound in every row, each encoded as an empty column mes
             iri=[iri_col()], bnode=[bnode_col()], literal=[lit_col()],
             poly=[poly_col(), poly_col([P_IRI], rep(0, 2), iris=iri_col([1], None, [1]))], trailer="")],
          RS(["v", "i", "b", "l", "p"], row(v=I("a")), row(v=I("a"))))
-from_pos(C, "Header restated to move a variable from an IRI column to a polymorphic column. A later frame without a header keeps the restated layout.",
+from_pos(C, "Header restated to move a variable from an IRI column to a polymorphic column, which changes the column indices. A later frame without a header keeps the restated layout.",
          "restating-the-header",
-         [F(options=O(prefix=8), vars=[("s", 0), ("o", 1)], rows=1, prefixes=[N(E)], names=[N("a", "b")],
-            iri=[iri_col([1], [], [1]), iri_col([2], [], [1])]),
-          F(vars=[("s", 0), ("o", 1)], rows=1,
-            iri=[iri_col([1], [], [1])], poly=[poly_col([P_LIT], literals=lit_col(lex=["x"]))]),
-          F(rows=2, iri=[iri_col([1], rep(0, 2), [1])],
+         [F(options=O(prefix=8), vars=[("s", 0), ("o", 1), ("t", 2)], rows=1, prefixes=[N(E)], names=[N("a", "b", "c")],
+            iri=[iri_col([1], [], [1]), iri_col([2], [], [1]), iri_col([3], [], [1])]),
+          F(vars=[("s", 0), ("o", 2), ("t", 1)], rows=1,
+            iri=[iri_col([1], [], [1]), iri_col([3], [], [1])], poly=[poly_col([P_LIT], literals=lit_col(lex=["x"]))]),
+          F(rows=2, iri=[iri_col([1], rep(0, 2), [1]), iri_col([3], rep(0, 2), [1])],
             poly=[poly_col([P_IRI, P_LIT], iris=iri_col([2], None, [1]), literals=lit_col(lex=["y"]))],
             trailer="")],
-         RS(["s", "o"], row(s=I("a"), o=I("b")), row(s=I("a"), o=L("x")),
-            row(s=I("a"), o=I("b")), row(s=I("a"), o=L("y"))))
+         RS(["s", "o", "t"], row(s=I("a"), o=I("b"), t=I("c")), row(s=I("a"), o=L("x"), t=I("c")),
+            row(s=I("a"), o=I("b"), t=I("c")), row(s=I("a"), o=L("y"), t=I("c"))),
+         comment="Columns are indexed IRI columns first, then polymorphic columns. When o moves to a polymorphic column, t takes index 1 and o takes index 2.")
 from_pos(C, "Header restated with only the column indices changed (the columns of the same type swap places).",
          "restating-the-header",
          [F(options=O(), vars=[("x", 0), ("y", 1)], rows=1, literal=[lit_col(lex=["x1"]), lit_col(lex=["y1"])]),
@@ -480,28 +483,24 @@ from_pos(C, "Header restated identically to the one in effect (allowed, producer
          [F(options=O(), vars=[("x", 0)], rows=1, literal=[lit_col(lex=["1"])]),
           F(vars=[("x", 0)], rows=1, literal=[lit_col(lex=["2"])], trailer="")],
          RS(["x"], row(x=L("1")), row(x=L("2"))))
-from_pos(C, "A variable with an empty name (allowed, not recommended).",
-         "result-set-header",
-         [F(options=O(), vars=[("", 0), ("x", 1)], rows=1, literal=[lit_col(lex=["a"]), lit_col(lex=["b"])], trailer="")],
-         RS(["", "x"], {"": L("a"), "x": L("b")}))
 
 # --- frames with no rows ------------------------------------------------------------
 
 from_pos(C, "A frame with no rows and no columns in the middle of a stream, with only lookup entries for the next frame.",
-         "frames-with-no-rows",
+         "column-indices",
          [F(options=O(prefix=8), vars=[("x", 0), ("y", 1)], rows=1, prefixes=[N(E)], names=[N("a")],
             iri=[iri_col([1], [], [1]), iri_col([1], [], [1])]),
           F(names=[N("b")]),
           F(rows=1, iri=[iri_col([2], [], [1]), iri_col([1], [], [1])], trailer="")],
          RS(["x", "y"], row(x=I("a"), y=I("a")), row(x=I("b"), y=I("a"))))
-from_pos(C, "A frame with no rows and one empty column per variable (allowed, producers should omit the columns).",
-         "frames-with-no-rows",
+from_pos(C, "A frame with no rows and one empty column per variable.",
+         "column-indices",
          [F(options=O(), vars=[("x", 0), ("y", 1)], rows=1, literal=[lit_col(lex=["1"]), lit_col(lex=["2"])]),
           F(literal=[lit_col(), lit_col()]),
           F(rows=1, literal=[lit_col(lex=["3"]), lit_col(lex=["4"])], trailer="")],
          RS(["x", "y"], row(x=L("1"), y=L("2")), row(x=L("3"), y=L("4"))))
 from_pos(C, "An empty result set whose first frame has one empty column per variable.",
-         "frames-with-no-rows",
+         "column-indices",
          [F(options=O(), vars=[("x", 0), ("y", 1)], iri=[iri_col(), iri_col()], trailer="")],
          RS(["x", "y"]))
 
@@ -568,12 +567,12 @@ from_pos(C, "Literal kind values: 0 is a simple literal, odd values 1, 3, 5 are 
 from_pos(C, "Empty lexical forms, with a single literal kind and with one literal kind per value.",
          "literal-columns",
          [F(options=O(), vars=[("x", 0), ("y", 1)], rows=2,
-            literal=[lit_col(lex=["", ""], kinds=[k_lang(0)], langtags=["en"]),
+            literal=[lit_col(lex=[""], layouts=rep(0, 2), kinds=[k_lang(0)], langtags=["en"]),
                      lit_col(lex=["", ""], kinds=[K_SIMPLE, k_lang(0)], langtags=["fr"])],
             trailer="")],
          RS(["x", "y"], row(x=L("", lang="en"), y=L("")), row(x=L("", lang="en"), y=L("", lang="fr"))))
 from_pos(C, "langtag_directions with only 0 entries (no base direction) in a stream that declares RDF 1.1.",
-         "base-direction",
+         "literal-columns",
          [F(options=O(rdf_version=msgs.RDF_VERSION_1_1), vars=[("v", 0)], rows=2,
             literal=[lit_col(lex=["a", "b"], kinds=[k_lang(0), k_lang(1)], langtags=["en", "de"],
                              dirs=[msgs.DIR_UNSPECIFIED, msgs.DIR_UNSPECIFIED])], trailer="")],
@@ -644,7 +643,7 @@ from_pos(C, "The well-known link metadata key with two IRIs, mapped to head.link
             metadata={"link": f"{E}doc1\n{E}doc2".encode()}, trailer="")],
          RS(["v"], row(v=L("x")), links=[E + "doc1", E + "doc2"]),
          comment="The equivalence of result sets does not cover links. Implementations that expose links should check them against head.link.")
-from_pos(C, "Metadata with an implementation-defined key whose value is not valid UTF-8. It must be ignored.",
+from_pos(C, "Metadata with an implementation-defined key whose value is not valid UTF-8. Consumers must not fail on it, and should ignore it.",
          "frame-metadata",
          [F(options=O(), vars=[("v", 0)], rows=1, literal=[lit_col(lex=["x"])],
             metadata={"com.example.binary": b"\xff\xfe\x00\x80"}, trailer="")],
@@ -692,6 +691,31 @@ from_pos(C, "Options repeated without a trailer before them (a producer that did
          [F(options=O(), vars=[("a", 0)], rows=1, literal=[lit_col(lex=["1"])]),
           F(options=O(), vars=[("a", 0)], rows=1, literal=[lit_col(lex=["2"])], trailer="")],
          RS(["a"], row(a=L("1")), row(a=L("2"))))
+from_pos(C, "Five streams of the same query concatenated: different table sizes, column layouts, and frame counts in each segment, an empty segment, and a segment without a trailer.",
+         "repeating-the-stream-options",
+         [
+             # segment 1: two frames, s in an IRI column, o in a blank node column
+             F(options=O(prefix=8), vars=[("s", 0), ("o", 1)], rows=1, prefixes=[N(E)], names=[N("a", "b")],
+               iri=[iri_col([0], [], [1])], bnode=[bnode_col(["x"])]),
+             F(rows=1, iri=[iri_col([2], [], [1])], bnode=[bnode_col(["y"])], trailer=""),
+             # segment 2: other table sizes, s in a literal column, no trailer
+             F(options=O(name=256, prefix=4), vars=[("s", 1), ("o", 0)], rows=1,
+               bnode=[bnode_col(["z"])], literal=[lit_col(lex=["1"])]),
+             # segment 3: no solutions
+             F(options=O(), vars=[("s", 0), ("o", 1)], rows=0, iri=[iri_col()], bnode=[bnode_col()], trailer=""),
+             # segment 4: s in a polymorphic column, o in a literal column
+             F(options=O(prefix=8), vars=[("s", 1), ("o", 0)], rows=2,
+               prefixes=[N("https://b.org/")], names=[N("c")],
+               literal=[lit_col(lex=["2", "4"])],
+               poly=[poly_col([P_IRI, P_LIT], iris=iri_col([0], [], [1]), literals=lit_col(lex=["3"]))],
+               trailer=""),
+             # segment 5: the same layout as segment 1, and the blank node label x again
+             F(options=O(prefix=8), vars=[("s", 0), ("o", 1)], rows=1, prefixes=[N(E)], names=[N("a")],
+               iri=[iri_col([0], [], [1])], bnode=[bnode_col(["x"])], trailer=""),
+         ],
+         RS(["s", "o"], row(s=I("a"), o=B("x")), row(s=I("b"), o=B("y")), row(s=L("1"), o=B("z")),
+            row(s=Iri("https://b.org/c"), o=L("2")), row(s=L("3"), o=L("4")), row(s=I("a"), o=B("x"))),
+         comment="Lookup identifiers restart from 1 in every segment. The label x in the first and last segments is one blank node.")
 
 # --- negative ---------------------------------------------------------------------------
 
@@ -700,31 +724,31 @@ ONE = dict(vars=[("v", 0)], rows=1, literal=[lit_col(lex=["x"])], trailer="")
 from_neg(C, "An empty file: a result stream must contain at least one frame.",
          "result-frames", [], "no frames")
 from_neg(C, "The last frame is truncated: the length prefix promises more bytes than the file has.",
-         "framing", [], "truncated",
+         "delimited", [], "truncated",
          raw=pb.varint(50) + F(options=O(), **ONE).encode())
 from_neg(C, "Version tag 0.", "stream-options", [F(options=O(version=0), **ONE)], "version tag is 0",
          should=True)
 from_neg(C, "Version tag 2, newer than version 1 of the format.", "stream-options",
          [F(options=O(version=2), **ONE)], "newer than supported", should=True)
 from_neg(C, "max_name_table_size 127, below the minimum of 128.", "stream-options",
-         [F(options=O(name=127), **ONE)], "below the minimum")
+         [F(options=O(name=127), **ONE)], "below the minimum", should=True)
 from_neg(C, "max_name_table_size not set (0).", "stream-options",
-         [F(options=O(name=None), **ONE)], "below the minimum")
-from_neg(C, "max_name_table_size 10000000. Consumers must limit the lookup sizes they accept (recommended default 16384).",
-         "overly-large-lookup-tables", [F(options=O(name=10_000_000), **ONE)], "larger than the consumer accepts",
+         [F(options=O(name=None), **ONE)], "below the minimum", should=True)
+from_neg(C, "max_name_table_size 10000000. Consumers should reject lookup sizes larger than their limit (recommended default 16384).",
+         "stream-options", [F(options=O(name=10_000_000), **ONE)], "larger than the consumer accepts",
          should=True)
-from_neg(C, "max_prefix_table_size 10000000. Consumers must limit the lookup sizes they accept (recommended default 4096).",
-         "overly-large-lookup-tables", [F(options=O(prefix=10_000_000), **ONE)], "larger than the consumer accepts",
+from_neg(C, "max_prefix_table_size 10000000. Consumers should reject lookup sizes larger than their limit (recommended default 4096).",
+         "stream-options", [F(options=O(prefix=10_000_000), **ONE)], "larger than the consumer accepts",
          should=True)
-from_neg(C, "max_datatype_table_size 10000000. Consumers must limit the lookup sizes they accept (recommended default 256).",
-         "overly-large-lookup-tables", [F(options=O(datatype=10_000_000), **ONE)], "larger than the consumer accepts",
+from_neg(C, "max_datatype_table_size 10000000. Consumers should reject lookup sizes larger than their limit (recommended default 256).",
+         "stream-options", [F(options=O(datatype=10_000_000), **ONE)], "larger than the consumer accepts",
          should=True)
 from_neg(C, "Unknown rdf_version value 4.", "rdf-version",
          [F(options=O(rdf_version=4), **ONE)], "unknown rdf_version")
 from_neg(C, "A prefix lookup entry when the prefix lookup is disabled (max_prefix_table_size 0).",
-         "stream-options", [F(options=O(), prefixes=[N(E)], **ONE)], "prefix lookup is disabled")
+         "stream-options", [F(options=O(), prefixes=[N(E)], **ONE)], "prefix lookup is disabled", should=True)
 from_neg(C, "A datatype lookup entry when the datatype lookup is disabled (max_datatype_table_size 0).",
-         "stream-options", [F(options=O(), datatypes=[N(XSD + "int")], **ONE)], "datatype lookup is disabled")
+         "stream-options", [F(options=O(), datatypes=[N(XSD + "int")], **ONE)], "datatype lookup is disabled", should=True)
 from_neg(C, "A name lookup entry with an identifier larger than the table size.",
          "stream-options", [F(options=O(), names=[N("a", id=129)], **ONE)], "outside of the table")
 from_neg(C, "A packed name entry whose last value falls outside the table (ids 127, 128, 129 in a table of 128).",
@@ -867,7 +891,7 @@ from_neg(C, "The repeated stream options are not valid on their own (max_name_ta
          "repeating-the-stream-options",
          [F(options=O(), vars=[("x", 0)], rows=1, literal=[lit_col(lex=["a"])], trailer=""),
           F(options=O(name=10), vars=[("x", 0)], rows=1, literal=[lit_col(lex=["b"])], trailer="")],
-         "below the minimum")
+         "below the minimum", should=True)
 from_neg(C, "After the options are repeated, a column refers to a name defined only before the reset. The lookups are emptied by the reset.",
          "repeating-the-stream-options",
          [F(options=O(prefix=8), vars=[("x", 0)], rows=1, prefixes=[N(E)], names=[N("a")],
@@ -887,23 +911,29 @@ from_neg(C, "Corrupt layout: an unbound run makes the column longer than row_cou
 from_neg(C, "A column with more run values than row_count, and no layouts.",
          "sequence-layout", ex_frame_1var(iri_col([0, 0, 0], [], [1]), 2), "more than row_count")
 from_neg(C, "Corrupt layout: an extension varint of 2^32 - 1 (a run far longer than the frame).",
-         "column-layouts", ex_frame_1var(iri_col([0], [15, 0xFFFFFFFF], [1]), 4), "more than row_count",
-         comment="Consumers must check the run length against row_count before writing any cells.")
-from_neg(C, "A trailer with an error. The rows before it are valid, but the result set is incomplete and the consumer must report it.",
+         "sequence-layout", ex_frame_1var(iri_col([0], [15, 0xFFFFFFFF], [1]), 4), "more than row_count",
+         comment="Consumers should check the run length against row_count before writing any cells (see the security considerations).")
+from_neg(C, "A trailer with an error. The rows before it are valid, but the result set is incomplete and the consumer must signal an error.",
          "stream-trailer",
          [F(options=O(), vars=[("v", 0)], rows=2, literal=[lit_col(lex=["x", "y"])]),
           F(trailer="Query timed out after 30 seconds")],
          "error trailer",
          comment="Implementations may deliver the two rows before the error, but must signal the error to the caller.")
+from_neg(C, "Concatenated streams: the first segment ends with an error trailer, the second with a trailer without an error. Repeating the stream options does not cancel the error.",
+         "stream-trailer",
+         [F(options=O(), vars=[("v", 0)], rows=1, literal=[lit_col(lex=["x"])], trailer="Query timed out after 30 seconds"),
+          F(options=O(), vars=[("v", 0)], rows=1, literal=[lit_col(lex=["y"])], trailer="")],
+         "error trailer",
+         comment="Implementations may deliver the rows, but must signal the error to the caller.")
 from_neg(C, "A frame without the stream options after a frame with a trailer.",
          "stream-trailer",
          [F(options=O(), vars=[("v", 0)], rows=1, literal=[lit_col(lex=["x"])], trailer=""),
           F(rows=1, literal=[lit_col(lex=["y"])])],
-         "follows a trailer")
+         "follows a trailer", should=True)
 from_neg(C, "A boolean result in the second frame of a stream of solutions.",
          "boolean-results",
          [F(options=O(), vars=[("v", 0)], rows=1, literal=[lit_col(lex=["x"])]), F(ask=True, trailer="")],
-         "other than the first")
+         "other than the first", should=True)
 
 
 # =============================================================================
@@ -933,7 +963,8 @@ from_neg(C, "A second boolean result stream concatenated after the first. Boolea
          [F(options=O(), ask=True, trailer=""), F(options=O(), ask=True, trailer="")],
          "follows the frame with the boolean result", should=True)
 from_neg(C, "A boolean result with an error trailer.", "stream-trailer",
-         [F(options=O(), ask=True, trailer="Service unavailable")], "error trailer")
+         [F(options=O(), ask=True, trailer="Service unavailable")], "error trailer",
+         comment="Implementations may deliver the boolean value, but must signal the error to the caller.")
 
 
 # =============================================================================
@@ -983,17 +1014,6 @@ from_pos_encoded(C, "Common usage: labels in several languages and directions, o
                      for i in range(40)]),
                  Opts(prefix=8, rdf_version=V12B), max_rows=6)
 
-from_neg(C, "A directional literal in a stream that declares RDF 1.1.", "rdf-version",
-         [F(options=O(rdf_version=msgs.RDF_VERSION_1_1), vars=[("v", 0)], rows=1,
-            literal=[lit_col(lex=["x"], kinds=[k_lang(0)], langtags=["en"], dirs=[msgs.DIR_RTL])], trailer="")],
-         "declares RDF 1.1")
-from_neg(C, "A directional literal in the literals sub-column of a polymorphic column, in a stream that declares RDF 1.1.",
-         "rdf-version",
-         [F(options=O(rdf_version=msgs.RDF_VERSION_1_1), vars=[("v", 0)], rows=2,
-            poly=[poly_col([P_BNODE, P_LIT], bnodes=bnode_col(["n"]),
-                           literals=lit_col(lex=["x"], kinds=[k_lang(0)], langtags=["en"], dirs=[msgs.DIR_LTR]))],
-            trailer="")],
-         "declares RDF 1.1")
 from_neg(C, "langtag_directions with 2 entries for 1 language tag.", "literal-columns",
          [F(options=O(rdf_version=V12B), vars=[("v", 0)], rows=1,
             literal=[lit_col(lex=["x"], kinds=[k_lang(0)], langtags=["en"], dirs=[msgs.DIR_LTR, msgs.DIR_RTL])],
@@ -1007,7 +1027,7 @@ from_neg(C, "langtag_directions with an unknown direction value (7).", "base-dir
          [F(options=O(rdf_version=V12B), vars=[("v", 0)], rows=1,
             literal=[lit_col(lex=["x"], kinds=[k_lang(0)], langtags=["en"], dirs=[7])], trailer="")],
          "unknown base direction")
-from_neg(C, "A literal kind refers to a datatype entry holding rdf:dirLangString.", "base-direction",
+from_neg(C, "A literal kind refers to a datatype entry holding rdf:dirLangString.", "literal-columns",
          [F(options=O(rdf_version=V12B, datatype=4), vars=[("v", 0)], rows=1, datatypes=[N(RDF_DIR_LANG_STRING)],
             literal=[lit_col(lex=["x"], kinds=[k_dt(1)])], trailer="")],
          "needs a language tag", should=True)
@@ -1047,7 +1067,7 @@ from_pos(C, "The IRIs inside the triple terms of a polymorphic column have their
                            triples=[triple(s_iri=iri(1, None), p_iri=iri(), o_iri=iri())])],
             trailer="")],
          RS(["t"], row(t=I("a")), row(t=T(I("a"), I("b"), I("c"))), row(t=I("b"))),
-         comment="All name_ids are 0. The iris sub-column gives names 1 and 2. The triple term starts from name 0 and no prefix again: its subject, predicate, and object are names 1, 2, and 3.")
+         comment="All name_ids are 0. The iris sub-column gives names 1 and 2. The triple term starts from name 0 again: its subject, predicate, and object are names 1, 2, and 3.")
 from_pos(C, "The IRI inference state of the triple terms runs through all triple terms of the column, in subject, predicate, object order.",
          "triple-terms",
          [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=2, **ABC_FRAME,
@@ -1057,6 +1077,39 @@ from_pos(C, "The IRI inference state of the triple terms runs through all triple
             trailer="")],
          RS(["t"], row(t=T(I("a"), I("b"), I("c"))), row(t=T(I("d"), I("e"), I("f")))),
          comment="All name_ids are 0: the second triple term continues from name 3, and keeps the prefix of the first.")
+from_pos(C, "The IRI inference state of the triple terms resets at the start of every column and every frame.",
+         "triple-terms",
+         [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0), ("u", 1)], rows=1, **ABC_FRAME,
+            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, None), p_iri=iri(), o_iri=iri())]),
+                  poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, None), p_iri=iri(), o_iri=iri())])]),
+          F(rows=1,
+            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, None), p_iri=iri(), o_iri=iri())]),
+                  poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, None), p_iri=iri(), o_iri=iri())])],
+            trailer="")],
+         RS(["t", "u"], *[row(t=T(I("a"), I("b"), I("c")), u=T(I("a"), I("b"), I("c")))] * 2),
+         comment="All name_ids are 0. Without the reset, the second column and the second frame would go on from name 4 (d, e, f).")
+from_pos(C, "The name_id inference of the triple terms goes on into a nested triple term.",
+         "triple-terms",
+         [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
+            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, None), p_iri=iri(),
+                                                       o_triple=triple(s_iri=iri(), p_iri=iri(), o_iri=iri()))])],
+            trailer="")],
+         RS(["t"], row(t=T(I("a"), I("b"), T(I("c"), I("d"), I("e"))))),
+         comment="All name_ids are 0: subject and predicate of the outer triple term are names 1 and 2, then the nested triple term gives names 3, 4, and 5.")
+from_pos(C, "A triple term with a blank node object.", "triple-terms",
+         [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
+            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_bnode="n")])],
+            trailer="")],
+         RS(["t"], row(t=T(I("a"), I("b"), B("n")))))
+from_pos(C, "A prefix_id of 0 in the first IRI of the triple terms of a column means no prefix, even after the iris sub-column used a prefix.",
+         "triple-terms",
+         [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=2, prefixes=[N(E)],
+            names=[N("https://other.org/x", "p", "o")],
+            poly=[poly_col([P_IRI, P_TRIPLE], iris=iri_col([2], None, [1]),
+                           triples=[triple(s_iri=iri(None, 1), p_iri=iri(1, 2), o_iri=iri(None, 3))])],
+            trailer="")],
+         RS(["t"], row(t=I("p")), row(t=T(Iri("https://other.org/x"), I("p"), I("o")))),
+         comment="The iris sub-column uses prefix 1. The triple terms have their own state, so the subject, with prefix_id 0, has no prefix: its name holds the whole IRI.")
 from_pos(C, "A blank node inside a triple term and the same label in a blank node column are the same blank node.",
          "triple-terms",
          [F(options=O(rdf_version=V12, prefix=8), vars=[("b", 0), ("t", 1)], rows=1, **ABC_FRAME,
@@ -1077,7 +1130,7 @@ from_pos(C, "The same triple term in consecutive rows, as a repeat run.", "tripl
             trailer="")],
          RS(["t"], *[row(t=T(I("a"), I("b"), L("v")))] * 3))
 from_pos(C, "Concatenated streams: the first segment declares RDF 1.1, the second declares RDF 1.2 and has a triple term.",
-         "repeating-the-stream-options",
+         "rdf-version",
          [F(options=O(rdf_version=msgs.RDF_VERSION_1_1, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
             iri=[iri_col([1], [], [1])], trailer=""),
           F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
@@ -1093,16 +1146,6 @@ from_pos_encoded(C, "Common usage: an annotation query returning statements as t
                      for i in range(30)]),
                  Opts(prefix=8, datatype=4, rdf_version=V12), max_rows=8)
 
-from_neg(C, "A triple term in a stream that declares RDF 1.1.", "rdf-version",
-         [F(options=O(rdf_version=msgs.RDF_VERSION_1_1, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
-            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3))])],
-            trailer="")],
-         "declares RDF 1.1 or RDF 1.2 Basic")
-from_neg(C, "A triple term in a stream that declares RDF 1.2 Basic.", "rdf-version",
-         [F(options=O(rdf_version=V12B, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
-            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3))])],
-            trailer="")],
-         "declares RDF 1.1 or RDF 1.2 Basic")
 from_neg(C, "A triple term without a subject.", "triple-terms",
          [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
             poly=[poly_col([P_TRIPLE], triples=[triple(p_iri=iri(1, 2), o_iri=iri(None, 3))])], trailer="")],
@@ -1115,15 +1158,6 @@ from_neg(C, "A triple term without an object.", "triple-terms",
          [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
             poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2))])], trailer="")],
          "no object")
-from_neg(C, "Concatenated streams: the second segment declares RDF 1.1 and has a triple term.",
-         "repeating-the-stream-options",
-         [F(options=O(rdf_version=V12, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
-            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3))])],
-            trailer=""),
-          F(options=O(rdf_version=msgs.RDF_VERSION_1_1, prefix=8), vars=[("t", 0)], rows=1, **ABC_FRAME,
-            poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3))])],
-            trailer="")],
-         "declares RDF 1.1 or RDF 1.2 Basic")
 
 
 def tt_lit(literal, datatypes=None):
@@ -1134,17 +1168,17 @@ def tt_lit(literal, datatypes=None):
               trailer="")]
 
 
-from_neg(C, "A literal in a triple term with datatype 0, which is invalid.", "base-direction",
+from_neg(C, "A literal in a triple term with datatype 0, which is invalid.", "literals-in-triple-terms",
          tt_lit(lit("1", datatype=0), [N(XSD + "int")]), "datatype 0")
-from_neg(C, "A literal in a triple term with a direction but no language tag.", "base-direction",
+from_neg(C, "A literal in a triple term with a direction but no language tag.", "literals-in-triple-terms",
          tt_lit(lit("x", direction=msgs.DIR_LTR)), "direction without langtag")
-from_neg(C, "A literal in a triple term with a direction and a datatype.", "base-direction",
+from_neg(C, "A literal in a triple term with a direction and a datatype.", "literals-in-triple-terms",
          tt_lit(lit("1", datatype=1, direction=msgs.DIR_LTR), [N(XSD + "int")]), "direction without langtag")
 from_neg(C, "A literal in a triple term with an unknown direction value (3).", "base-direction",
          tt_lit(lit("x", "en", direction=3)), "unknown base direction")
-from_neg(C, "A literal in a triple term whose datatype is rdf:langString.", "base-direction",
+from_neg(C, "A literal in a triple term whose datatype is rdf:langString.", "literals-in-triple-terms",
          tt_lit(lit("x", datatype=1), [N(RDF_LANG_STRING)]), "needs a language tag", should=True)
-from_neg(C, "A literal in a triple term whose datatype is rdf:dirLangString.", "base-direction",
+from_neg(C, "A literal in a triple term whose datatype is rdf:dirLangString.", "literals-in-triple-terms",
          tt_lit(lit("x", datatype=1), [N(RDF_DIR_LANG_STRING)]), "needs a language tag", should=True)
 from_neg(C, "A triple term in a polymorphic column whose kinds do not refer to it: triple_terms has a value, but kinds is empty.",
          "polymorphic-columns",
@@ -1152,6 +1186,118 @@ from_neg(C, "A triple term in a polymorphic column whose kinds do not refer to i
             poly=[poly_col(None, triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3))])],
             trailer="")],
          "kinds has 0 bytes for 1 values")
+
+
+# =============================================================================
+# From Jelly – PUNCTUATED streams (sequences of result sets)
+# =============================================================================
+
+C = SELECT_1_1
+from_neg(C, "An unknown stream_type value.", "stream-types",
+         [F(options=O(stream_type=2), **ONE)], "unknown stream_type")
+
+C = PUNCTUATED
+PS = msgs.STREAM_TYPE_PUNCTUATED
+
+
+def OP(**kw):
+    return O(stream_type=PS, **kw)
+
+
+V = [("v", 0)]
+
+from_pos(C, "A single result set in a PUNCTUATED stream.", "stream-types",
+         [F(options=OP(), **ONE)], [RS(["v"], row(v=L("x")))])
+from_pos(C, "Two result sets with different variables. The second one starts without the stream options and refers to names defined in the first one: the lookups are kept between result sets.",
+         "stream-types",
+         [F(options=OP(prefix=8), vars=[("s", 0)], rows=2, prefixes=[N(E)], names=[N("a", "b")],
+            iri=[iri_col([0, 0], [], [1])], trailer=""),
+          F(vars=[("x", 0), ("y", 1)], rows=1, names=[N("c")],
+            iri=[iri_col([2], [], [1]), iri_col([3], [], [1])], trailer="")],
+         [RS(["s"], row(s=I("a")), row(s=I("b"))), RS(["x", "y"], row(x=I("b"), y=I("c")))])
+from_pos(C, "A result set over three frames, with the header restated in its last frame, followed by another result set.",
+         "stream-types",
+         [F(options=OP(), vars=V, rows=1, literal=[lit_col(lex=["1"])]),
+          F(rows=1, literal=[lit_col(lex=["2"])]),
+          F(vars=V, rows=1, bnode=[bnode_col(["x"])], trailer=""),
+          F(vars=V, rows=1, literal=[lit_col(lex=["3"])], trailer="")],
+         [RS(["v"], row(v=L("1")), row(v=L("2")), row(v=B("x"))), RS(["v"], row(v=L("3")))])
+from_pos(C, "Boolean results and a solution sequence mixed in one stream.", "stream-types",
+         [F(options=OP(), ask=True, trailer=""),
+          F(vars=V, rows=1, literal=[lit_col(lex=["x"])], trailer=""),
+          F(ask=False, trailer="")],
+         [AskResult(True), RS(["v"], row(v=L("x"))), AskResult(False)])
+from_pos(C, "A frame with a boolean result also has lookup entries, which the next result set uses.",
+         "prefix-name-and-datatype-lookup-entries",
+         [F(options=OP(prefix=8), ask=True, prefixes=[N(E)], names=[N("a")], trailer=""),
+          F(vars=V, rows=1, iri=[iri_col([1], [], [1])], trailer="")],
+         [AskResult(True), RS(["v"], row(v=I("a")))])
+from_pos(C, "The same blank node label in two result sets.", "blank-node-columns",
+         [F(options=OP(), vars=[("b", 0)], rows=1, bnode=[bnode_col(["x"])], trailer=""),
+          F(vars=[("b", 0)], rows=1, bnode=[bnode_col(["x"])], trailer="")],
+         [RS(["b"], row(b=B("x"))), RS(["b"], row(b=B("x")))],
+         comment="Blank node labels are scoped to a single result set, so the two cells are different blank nodes. Result sets are compared one at a time, so this test does not check that a consumer keeps them apart.")
+from_pos(C, "Stream options repeated in the first frame of a result set: the lookups are emptied, and their identifiers restart from 1.",
+         "repeating-the-stream-options",
+         [F(options=OP(prefix=8), vars=[("s", 0)], rows=1, prefixes=[N(E)], names=[N("a")],
+            iri=[iri_col([0], [], [1])], trailer=""),
+          F(options=OP(prefix=8), vars=[("s", 0)], rows=1, prefixes=[N("https://b.org/")], names=[N("c")],
+            iri=[iri_col([0], [], [1])], trailer="")],
+         [RS(["s"], row(s=I("a"))), RS(["s"], row(s=Iri("https://b.org/c")))])
+from_pos(C, "A zero-variable result set and an empty result set between two others. An empty header in the first frame of a result set declares zero variables.",
+         "zero-variable-result-sets",
+         [F(options=OP(), vars=V, rows=1, literal=[lit_col(lex=["1"])], trailer=""),
+          F(rows=2, trailer=""),
+          F(vars=V, trailer=""),
+          F(vars=V, rows=1, literal=[lit_col(lex=["2"])], trailer="")],
+         [RS(["v"], row(v=L("1"))), RS([], {}, {}), RS(["v"]), RS(["v"], row(v=L("2")))])
+from_pos(C, "The last result set has no trailer.", "stream-trailer",
+         [F(options=OP(), vars=V, rows=1, literal=[lit_col(lex=["1"])], trailer=""),
+          F(vars=V, rows=1, literal=[lit_col(lex=["2"])])],
+         [RS(["v"], row(v=L("1"))), RS(["v"], row(v=L("2")))],
+         comment="Consumers may report the last result set as possibly truncated, but must not fail this test.")
+from_pos(C, "Links in two result sets: each applies only to its own result set.", "well-known-metadata-keys",
+         [F(options=OP(), metadata={"link": b"http://example.org/l1"}, **ONE),
+          F(metadata={"link": b"http://example.org/l2"}, **ONE)],
+         [RS(["v"], row(v=L("x")), links=[E + "l1"]), RS(["v"], row(v=L("x")), links=[E + "l2"])],
+         comment="The equivalence of result sets does not cover links. Implementations that expose links should check that each result set has only its own link.")
+from_pos(C, "Two PUNCTUATED streams concatenated: the result sets of both, in order.", "stream-types",
+         [F(options=OP(), **ONE),
+          F(vars=[("w", 0)], rows=1, literal=[lit_col(lex=["y"])], trailer=""),
+          F(options=OP(name=256, rdf_version=msgs.RDF_VERSION_1_1), ask=True, trailer="")],
+         [RS(["v"], row(v=L("x"))), RS(["w"], row(w=L("y"))), AskResult(True)])
+
+from_neg(C, "The stream options in a frame that is not the first frame of a result set.", "stream-types",
+         [F(options=OP(), vars=V, rows=1, literal=[lit_col(lex=["1"])]),
+          F(options=OP(), vars=V, rows=1, literal=[lit_col(lex=["2"])], trailer="")],
+         "stream options in a frame other than the first frame of a result set")
+from_neg(C, "The first frame of the second result set has a column, but no header. An empty header there declares zero variables.",
+         "zero-variable-result-sets",
+         [F(options=OP(), **ONE), F(rows=1, literal=[lit_col(lex=["y"])], trailer="")],
+         "the frame has 1 columns, but the header declares 0 variables")
+from_neg(C, "A boolean result in the second frame of a result set.", "boolean-results",
+         [F(options=OP(), vars=V, rows=1, literal=[lit_col(lex=["1"])]), F(ask=True, trailer="")],
+         "a boolean result in a frame other than the first", should=True)
+from_neg(C, "A frame follows a boolean result that has no trailer.", "boolean-results",
+         [F(options=OP(), ask=True), F(**ONE)],
+         "follows the frame with the boolean result", should=True)
+from_neg(C, "A restated header in the second result set declares other variables than the first header of that result set.",
+         "restating-the-header",
+         [F(options=OP(), **ONE),
+          F(vars=[("w", 0)], rows=1, literal=[lit_col(lex=["1"])]),
+          F(vars=V, rows=1, literal=[lit_col(lex=["2"])], trailer="")],
+         "a restated header declares different variables")
+from_neg(C, "The stream type changes from FLAT to PUNCTUATED when the stream options are repeated.", "stream-types",
+         [F(options=O(), **ONE), F(options=OP(), **ONE)],
+         "differs from the stream_type")
+from_neg(C, "The stream type changes from PUNCTUATED to FLAT when the stream options are repeated.", "stream-types",
+         [F(options=OP(), **ONE), F(options=O(), **ONE)],
+         "differs from the stream_type")
+from_neg(C, "An error trailer in the first of two result sets.", "stream-trailer",
+         [F(options=OP(), vars=V, rows=1, literal=[lit_col(lex=["1"])], trailer="Window evaluation timed out"),
+          F(**ONE)],
+         "error trailer",
+         comment="The error applies only to the first result set. Implementations may go on with the next result set, but must signal the error to the caller.")
 
 
 # =============================================================================
@@ -1179,7 +1325,7 @@ to_pos(C, "Sparse result with unbound cells and repeated values (OPTIONAL).", "s
        OPTIONAL, Opts(prefix=16))
 to_pos(C, "A variable whose values mix IRIs, blank nodes, and literals.", "polymorphic-columns",
        MIXED, Opts(prefix=16), max_rows=5)
-to_pos(C, "An empty result set with three variables.", "frames-with-no-rows",
+to_pos(C, "An empty result set with three variables.", "result-set-header",
        RS(["s", "p", "o"]), Opts())
 to_pos(C, "A zero-variable result set with one empty solution.", "zero-variable-result-sets",
        RS([], {}), Opts())
@@ -1212,6 +1358,8 @@ to_neg(C, "A typed literal, with the datatype lookup disabled.", "stream-options
 to_neg(C, "One row with two different datatypes, with a datatype lookup of one entry.",
        "the-working-set-of-a-frame",
        RS(["a", "b"], row(a=L("1", "integer"), b=L("1.0", "decimal"))), Opts(datatype=1), "does not fit")
+to_neg(C, "A variable with an empty name.", "result-set-header",
+       RS(["", "x"], row(**{"": L("1"), "x": L("2")})), Opts(), "empty name")
 
 C = ASK
 to_pos(C, "Boolean result true.", "boolean-results", AskResult(True), Opts())
@@ -1228,9 +1376,6 @@ to_pos(C, "One language tag and direction for a whole variable (a single literal
        "literal-columns",
        RS(["label"], *[row(label=L(f"שורה {i}", lang="he", d="rtl")) for i in range(5)]),
        Opts(rdf_version=V12B))
-to_neg(C, "A directional language-tagged string, stream options declaring RDF 1.1.", "rdf-version",
-       DIR_RS, Opts(rdf_version=msgs.RDF_VERSION_1_1), "declares RDF 1.1",
-       comment="A producer may instead apply a documented fallback encoding (for example, dropping the direction); such a producer does not pass this test.")
 
 C = SELECT_1_2
 TT_RS = RS(["t", "o"],
@@ -1241,9 +1386,20 @@ to_pos(C, "Triple terms, including nested ones, stream options declaring RDF 1.2
        TT_RS, Opts(prefix=8, datatype=4, rdf_version=V12))
 to_pos(C, "Triple terms, stream options declaring no RDF version.", "rdf-version",
        TT_RS, Opts(prefix=8, datatype=4))
-to_neg(C, "A triple term, stream options declaring RDF 1.1.", "rdf-version",
-       TT_RS, Opts(prefix=8, datatype=4, rdf_version=msgs.RDF_VERSION_1_1), "declares RDF 1.1",
-       comment="A producer may instead apply a documented fallback encoding; such a producer does not pass this test.")
-to_neg(C, "A triple term, stream options declaring RDF 1.2 Basic.", "rdf-version",
-       TT_RS, Opts(prefix=8, datatype=4, rdf_version=V12B), "declares RDF 1.1 or 1.2 Basic",
-       comment="A producer may instead apply a documented fallback encoding; such a producer does not pass this test.")
+
+
+C = PUNCTUATED
+to_pos(C, "Three result sets: a solution sequence, a boolean result, and a solution sequence that uses the IRIs of the first one again.",
+       "stream-types",
+       [RS(["s", "o"], row(s=I("a"), o=I("b")), row(s=I("c"), o=L("1", "integer"))),
+        AskResult(True),
+        RS(["s"], row(s=I("a")), row(s=I("c")))],
+       Opts(prefix=8, datatype=4, stream_type=PS))
+to_pos(C, "Result sets with different variables, and the same blank node label in two of them.", "stream-types",
+       [RS(["b"], row(b=B("x")), row(b=B("y"))),
+        RS(["x", "y"], row(x=B("x"), y=L("z", lang="en"))),
+        RS([], {})],
+       Opts(stream_type=PS))
+to_pos(C, "A result set larger than one frame, followed by a small one.", "stream-types",
+       [RS(["v"], *[row(v=I(f"n{i}")) for i in range(10)]), RS(["v"], row(v=I("n3")))],
+       Opts(prefix=8, stream_type=PS), max_rows=4)

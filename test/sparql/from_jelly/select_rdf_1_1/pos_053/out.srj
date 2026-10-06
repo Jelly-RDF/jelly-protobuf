@@ -3,6 +3,10 @@
     "vars": []
   },
   "results": {
-    "bindings": []
+    "bindings": [
+      {},
+      {},
+      {}
+    ]
   }
 }

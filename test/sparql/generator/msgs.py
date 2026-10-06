@@ -7,6 +7,9 @@ the builders can produce any frame, valid or not.
 from pb import Msg
 
 # RdfVersion
+STREAM_TYPE_FLAT = 0
+STREAM_TYPE_PUNCTUATED = 1
+
 RDF_VERSION_UNSPECIFIED = 0
 RDF_VERSION_1_1 = 1
 RDF_VERSION_1_2_BASIC = 2
@@ -19,11 +22,18 @@ DIR_RTL = 2
 
 
 def options(
-    name=128, prefix=None, datatype=None, version=1, rdf_version=None, stream_name=None
+    name=128,
+    prefix=None,
+    datatype=None,
+    version=1,
+    rdf_version=None,
+    stream_name=None,
+    stream_type=None,
 ):
     return (
         Msg()
         .string(1, stream_name)
+        .uint(2, stream_type)
         .uint(5, rdf_version)
         .uint(9, name)
         .uint(10, prefix)

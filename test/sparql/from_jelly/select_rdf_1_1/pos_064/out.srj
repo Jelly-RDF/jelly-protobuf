@@ -8,14 +8,14 @@
     "bindings": [
       {
         "v": {
-          "type": "literal",
-          "value": "x"
+          "type": "uri",
+          "value": "http://example.org/a"
         }
       },
       {
         "v": {
-          "type": "bnode",
-          "value": "n"
+          "type": "literal",
+          "value": "x"
         }
       },
       {
@@ -26,8 +26,8 @@
       },
       {
         "v": {
-          "type": "literal",
-          "value": "y"
+          "type": "uri",
+          "value": "http://example.org/b"
         }
       }
     ]

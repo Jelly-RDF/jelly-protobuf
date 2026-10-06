@@ -11,6 +11,12 @@
           "type": "literal",
           "value": "x"
         }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "y"
+        }
       }
     ]
   }
