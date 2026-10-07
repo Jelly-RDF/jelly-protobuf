@@ -1,0 +1,30 @@
+{
+  "head": {
+    "vars": [
+      "t"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "t": {
+          "type": "triple",
+          "value": {
+            "subject": {
+              "type": "uri",
+              "value": "http://example.org/a"
+            },
+            "predicate": {
+              "type": "uri",
+              "value": "http://example.org/b"
+            },
+            "object": {
+              "type": "bnode",
+              "value": "n"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

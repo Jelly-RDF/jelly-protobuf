@@ -1,0 +1,59 @@
+{
+  "head": {
+    "vars": [
+      "v"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "v": {
+          "type": "literal",
+          "value": "s"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "1",
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "2.5",
+          "datatype": "http://www.w3.org/2001/XMLSchema#decimal"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "true",
+          "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "en",
+          "xml:lang": "en"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "de",
+          "xml:lang": "de"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "pl",
+          "xml:lang": "pl"
+        }
+      }
+    ]
+  }
+}

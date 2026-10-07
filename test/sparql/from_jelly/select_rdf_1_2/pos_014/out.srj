@@ -1,0 +1,19 @@
+{
+  "head": {
+    "vars": [
+      "v"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "v": {
+          "type": "literal",
+          "value": "x",
+          "xml:lang": "en",
+          "its:dir": "rtl"
+        }
+      }
+    ]
+  }
+}

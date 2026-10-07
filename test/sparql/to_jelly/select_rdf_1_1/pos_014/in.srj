@@ -1,0 +1,36 @@
+{
+  "head": {
+    "vars": [
+      "never",
+      "always"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "always": {
+          "type": "literal",
+          "value": "0"
+        }
+      },
+      {
+        "always": {
+          "type": "literal",
+          "value": "1"
+        }
+      },
+      {
+        "always": {
+          "type": "literal",
+          "value": "2"
+        }
+      },
+      {
+        "always": {
+          "type": "literal",
+          "value": "3"
+        }
+      }
+    ]
+  }
+}

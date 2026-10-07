@@ -1,0 +1,17 @@
+{
+  "head": {
+    "vars": [
+      "s"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "s": {
+          "type": "uri",
+          "value": "https://b.org/c"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "head": {
+    "vars": [
+      "v"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "v": {
+          "type": "literal",
+          "value": "hello",
+          "xml:lang": "en",
+          "its:dir": "ltr"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "مرحبا",
+          "xml:lang": "ar",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "hello",
+          "xml:lang": "en"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "head": {
+    "vars": [
+      "x",
+      "y"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "x": {
+          "type": "bnode",
+          "value": "b0"
+        },
+        "y": {
+          "type": "bnode",
+          "value": "shared"
+        }
+      },
+      {
+        "x": {
+          "type": "bnode",
+          "value": "b0"
+        },
+        "y": {
+          "type": "bnode",
+          "value": "shared"
+        }
+      },
+      {
+        "x": {
+          "type": "bnode",
+          "value": "b1"
+        },
+        "y": {
+          "type": "bnode",
+          "value": "shared"
+        }
+      },
+      {
+        "x": {
+          "type": "bnode",
+          "value": "b1"
+        },
+        "y": {
+          "type": "bnode",
+          "value": "shared"
+        }
+      },
+      {
+        "x": {
+          "type": "bnode",
+          "value": "b2"
+        },
+        "y": {
+          "type": "bnode",
+          "value": "shared"
+        }
+      },
+      {
+        "x": {
+          "type": "bnode",
+          "value": "b2"
+        },
+        "y": {
+          "type": "bnode",
+          "value": "shared"
+        }
+      },
+      {
+        "x": {
+          "type": "bnode",
+          "value": "b3"
+        },
+        "y": {
+          "type": "bnode",
+          "value": "shared"
+        }
+      },
+      {
+        "x": {
+          "type": "bnode",
+          "value": "b3"
+        },
+        "y": {
+          "type": "bnode",
+          "value": "shared"
+        }
+      },
+      {
+        "x": {
+          "type": "bnode",
+          "value": "b4"
+        },
+        "y": {
+          "type": "bnode",
+          "value": "shared"
+        }
+      },
+      {
+        "x": {
+          "type": "bnode",
+          "value": "b4"
+        },
+        "y": {
+          "type": "bnode",
+          "value": "shared"
+        }
+      }
+    ]
+  }
+}

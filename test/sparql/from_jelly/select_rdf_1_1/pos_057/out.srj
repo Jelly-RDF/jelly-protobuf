@@ -1,0 +1,32 @@
+{
+  "head": {
+    "vars": [
+      "v"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "v": {
+          "type": "literal",
+          "value": "cat",
+          "xml:lang": "en"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "dog",
+          "xml:lang": "en"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "cat",
+          "xml:lang": "en"
+        }
+      }
+    ]
+  }
+}

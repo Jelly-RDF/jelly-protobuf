@@ -1,0 +1,49 @@
+{
+  "head": {
+    "vars": [
+      "v"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "v": {
+          "type": "literal",
+          "value": "A"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "B"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "B"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "B"
+        }
+      },
+      {},
+      {},
+      {
+        "v": {
+          "type": "literal",
+          "value": "C"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "C"
+        }
+      }
+    ]
+  }
+}

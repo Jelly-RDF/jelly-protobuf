@@ -1,0 +1,25 @@
+{
+  "head": {
+    "vars": [
+      "v"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "v": {
+          "type": "literal",
+          "value": "a",
+          "xml:lang": "en"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "b",
+          "xml:lang": "de"
+        }
+      }
+    ]
+  }
+}

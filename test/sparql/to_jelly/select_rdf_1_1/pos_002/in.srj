@@ -1,0 +1,92 @@
+{
+  "head": {
+    "vars": [
+      "s",
+      "o"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s0"
+        },
+        "o": {
+          "type": "uri",
+          "value": "urn:x:0"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s1"
+        },
+        "o": {
+          "type": "uri",
+          "value": "urn:x:1"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s2"
+        },
+        "o": {
+          "type": "uri",
+          "value": "urn:x:2"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s3"
+        },
+        "o": {
+          "type": "uri",
+          "value": "urn:x:3"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s4"
+        },
+        "o": {
+          "type": "uri",
+          "value": "urn:x:4"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s5"
+        },
+        "o": {
+          "type": "uri",
+          "value": "urn:x:5"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s6"
+        },
+        "o": {
+          "type": "uri",
+          "value": "urn:x:6"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s7"
+        },
+        "o": {
+          "type": "uri",
+          "value": "urn:x:7"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "head": {
+    "vars": [
+      "v"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "v": {
+          "type": "literal",
+          "value": "a"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "1",
+          "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "b",
+          "xml:lang": "en"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "c",
+          "xml:lang": "de"
+        }
+      }
+    ]
+  }
+}

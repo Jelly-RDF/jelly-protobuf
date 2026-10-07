@@ -1,0 +1,59 @@
+{
+  "head": {
+    "vars": [
+      "x"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "x": {
+          "type": "literal",
+          "value": "same"
+        }
+      },
+      {
+        "x": {
+          "type": "literal",
+          "value": "same"
+        }
+      },
+      {
+        "x": {
+          "type": "literal",
+          "value": "same"
+        }
+      },
+      {
+        "x": {
+          "type": "literal",
+          "value": "same"
+        }
+      },
+      {
+        "x": {
+          "type": "literal",
+          "value": "same"
+        }
+      },
+      {
+        "x": {
+          "type": "literal",
+          "value": "other"
+        }
+      },
+      {
+        "x": {
+          "type": "literal",
+          "value": "same"
+        }
+      },
+      {
+        "x": {
+          "type": "literal",
+          "value": "same"
+        }
+      }
+    ]
+  }
+}

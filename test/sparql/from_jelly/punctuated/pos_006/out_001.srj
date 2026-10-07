@@ -1,0 +1,17 @@
+{
+  "head": {
+    "vars": [
+      "b"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "b": {
+          "type": "bnode",
+          "value": "x"
+        }
+      }
+    ]
+  }
+}

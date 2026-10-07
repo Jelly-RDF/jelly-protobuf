@@ -1,0 +1,112 @@
+{
+  "head": {
+    "vars": [
+      "s",
+      "o"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s0"
+        },
+        "o": {
+          "type": "literal",
+          "value": "0"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s1"
+        },
+        "o": {
+          "type": "literal",
+          "value": "1"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s2"
+        },
+        "o": {
+          "type": "literal",
+          "value": "2"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s3"
+        },
+        "o": {
+          "type": "literal",
+          "value": "3"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s4"
+        },
+        "o": {
+          "type": "literal",
+          "value": "4"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s5"
+        },
+        "o": {
+          "type": "literal",
+          "value": "5"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s6"
+        },
+        "o": {
+          "type": "literal",
+          "value": "6"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s7"
+        },
+        "o": {
+          "type": "literal",
+          "value": "7"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s8"
+        },
+        "o": {
+          "type": "literal",
+          "value": "8"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "http://example.org/s9"
+        },
+        "o": {
+          "type": "literal",
+          "value": "9"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "head": {
+    "vars": [
+      "v"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/n5"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/n6"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/n7"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/n2"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "http://example.org/n3"
+        }
+      }
+    ]
+  }
+}

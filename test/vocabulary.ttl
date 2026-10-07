@@ -102,6 +102,73 @@ jellyt:TestRdfFromJelly a rdfs:Class ;
     """ ;
     rdfs:subClassOf jellyt:Test .
 
+# Classes -- Jelly-SPARQL test cases
+
+jellyt:TestSparql a rdfs:Class ;
+    rdfs:label "Jelly-SPARQL test" ;
+    rdfs:comment """A test case for the Jelly-SPARQL query results format.
+
+    All test cases use the delimited variant of Jelly-SPARQL. Result sets are given in the
+    SPARQL Query Results JSON Format (.srj), in its SPARQL 1.2 form: "its:dir" for base directions
+    and {"type": "triple", ...} for triple terms.
+
+    Two results are equivalent when they are both boolean results with the same value, or when
+    they have the same variables in the same order, the same number of solutions in the same order,
+    and there is a bijection between their blank node labels under which the solutions are pairwise
+    equal. A simple literal and an xsd:string literal are the same term. Links (head.link) are not
+    part of the comparison.
+    """ ;
+    rdfs:subClassOf jellyt:Test .
+
+jellyt:TestSparqlFromJelly a rdfs:Class ;
+    rdfs:label "From Jelly-SPARQL to SPARQL results test" ;
+    rdfs:comment """A test for parsing Jelly-SPARQL. The goal of the test is to read the Jelly-SPARQL
+    file specified in mf:action.
+
+    The input (mf:action) MUST be an RDF IRI pointing to a .jellys file.
+
+    If the test is positive, the output (mf:result) MUST be an RDF IRI pointing to a .srj file
+    with the expected result. For a stream with a sequence of result sets (PUNCTUATED stream type),
+    it MUST instead be an rdf:List of RDF IRIs pointing to .srj files, one per result set, in order.
+    If the test is negative, mf:result is not set.
+
+    This class MUST be combined with either jellyt:TestPositive or jellyt:TestNegative.
+    When combined with jellyt:TestPositive, the test succeeds when the implementation reads the
+    file without an error, and the result is equivalent to the expected one (see
+    jellyt:TestSparql). For a sequence of result sets, the implementation must read the same
+    number of result sets, and each must be equivalent to the expected one at the same position. When combined with jellyt:TestNegative, the test succeeds when the
+    implementation reports an error.
+    """ ;
+    rdfs:subClassOf jellyt:TestSparql .
+
+jellyt:TestSparqlToJelly a rdfs:Class ;
+    rdfs:label "From SPARQL results to Jelly-SPARQL test" ;
+    rdfs:comment """A test for writing Jelly-SPARQL. The goal of the test is to serialize the result in
+    mf:action to a Jelly-SPARQL file.
+
+    The input (mf:action) MUST be an rdf:List of two or more elements. The first element is a
+    .jellys file with a single frame, in which only the stream options are set: the options the
+    producer must use. This file is not a valid Jelly-SPARQL stream on its own: it only holds the
+    options, and implementations should read the SparqlResultsOptions message from it directly.
+    The remaining elements are .srj files with the results to serialize: one
+    file for a single result set, or one file per result set, in order, for a sequence of result
+    sets (PUNCTUATED stream type).
+
+    If the test is positive, the output (mf:result) MUST be an RDF IRI pointing to a .jellys file
+    with one valid serialization of the result. Jelly-SPARQL is not byte-level canonical, so the
+    implementation's output is not expected to be identical to it. If the test is negative,
+    mf:result is not set.
+
+    This class MUST be combined with either jellyt:TestPositive or jellyt:TestNegative.
+    When combined with jellyt:TestPositive, the test succeeds when the implementation's output is a
+    valid Jelly-SPARQL file, its first frame has the given stream options, its last frame has a
+    trailer without an error, and reading it gives a result equivalent to the input (see jellyt:TestSparql). For a PUNCTUATED stream,
+    reading it must give the same number of result sets, each equivalent to the input at the
+    same position. When combined with
+    jellyt:TestNegative, the test succeeds when the implementation reports an error.
+    """ ;
+    rdfs:subClassOf jellyt:TestSparql .
+
 # Instances -- requirements
 
 jellyt:requirementPhysicalTypeTriples a mf:Requirement ;
@@ -128,7 +195,26 @@ jellyt:requirementGeneralizedRdf a mf:Requirement ;
     most RDF implementations.
     """ .
 
+jellyt:requirementRdf12Basic a mf:Requirement ;
+    rdfs:label "Requirement: RDF 1.2 Basic" ;
+    rdfs:comment "The test requires supporting RDF 1.2 Basic, that is, directional language-tagged strings (literals with a base direction)." .
+
+jellyt:requirementPunctuated a mf:Requirement ;
+    rdfs:label "Requirement: PUNCTUATED Jelly-SPARQL streams" ;
+    rdfs:comment "The test requires supporting Jelly-SPARQL streams of the PUNCTUATED stream type, that is, streams with a sequence of result sets." .
+
+jellyt:requirementRdf12 a mf:Requirement ;
+    rdfs:label "Requirement: RDF 1.2" ;
+    rdfs:comment "The test requires supporting full RDF 1.2: triple terms and directional language-tagged strings." .
+
 # Instances -- notable features
+
+jellyt:featureShouldLevel a mf:Notable ;
+    rdfs:label "Notable feature: SHOULD-level rule" ;
+    rdfs:comment """The test checks a rule that the specification states with SHOULD, not MUST (for
+    example, "the consumer SHOULD throw an error"). An implementation may fail this test and still
+    conform, but it should document why.
+    """ .
 
 jellyt:featureNonDelimited a mf:Notable ;
     rdfs:label "Notable feature: non-delimited" ;

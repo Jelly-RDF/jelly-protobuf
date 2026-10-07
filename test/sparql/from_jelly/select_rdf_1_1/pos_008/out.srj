@@ -1,0 +1,252 @@
+{
+  "head": {
+    "vars": [
+      "s",
+      "o"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b0"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c0"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b0"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c1"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b0"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c2"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b1"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c3"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b1"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c0"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b1"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c1"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b2"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c2"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b2"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c3"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b2"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c0"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b3"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c1"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b3"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c2"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b3"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c3"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b4"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c0"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b4"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c1"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b4"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c2"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b5"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c3"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b5"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c0"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b5"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c1"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b6"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c2"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b6"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c3"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b6"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c0"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b7"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c1"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b7"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c2"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "b7"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "c3"
+        }
+      }
+    ]
+  }
+}
