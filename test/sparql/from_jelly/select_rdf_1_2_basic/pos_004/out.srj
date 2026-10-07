@@ -8,10 +8,16 @@
     "bindings": [
       {
         "v": {
+          "type": "uri",
+          "value": "http://example.org/a"
+        }
+      },
+      {
+        "v": {
           "type": "literal",
           "value": "x",
           "xml:lang": "en",
-          "its:dir": "rtl"
+          "its:dir": "ltr"
         }
       }
     ]

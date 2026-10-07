@@ -994,11 +994,6 @@ from_pos(C, "Directional literals in a stream that declares no RDF version (allo
          [F(options=O(), vars=[("v", 0)], rows=1,
             literal=[lit_col(lex=["x"], kinds=[k_lang(0)], langtags=["en"], dirs=[msgs.DIR_LTR])], trailer="")],
          RS(["v"], row(v=L("x", lang="en", d="ltr"))))
-from_pos(C, "Directional literals in a stream that declares RDF 1.2.",
-         "rdf-version",
-         [F(options=O(rdf_version=msgs.RDF_VERSION_1_2), vars=[("v", 0)], rows=1,
-            literal=[lit_col(lex=["x"], kinds=[k_lang(0)], langtags=["en"], dirs=[msgs.DIR_RTL])], trailer="")],
-         RS(["v"], row(v=L("x", lang="en", d="rtl"))))
 from_pos(C, "A directional literal in the literals sub-column of a polymorphic column.",
          "base-direction",
          [F(options=O(rdf_version=V12B, prefix=8), vars=[("v", 0)], rows=2, prefixes=[N(E)], names=[N("a")],
@@ -1137,6 +1132,11 @@ from_pos(C, "Concatenated streams: the first segment declares RDF 1.1, the secon
             poly=[poly_col([P_TRIPLE], triples=[triple(s_iri=iri(1, 1), p_iri=iri(None, 2), o_iri=iri(None, 3))])],
             trailer="")],
          RS(["t"], row(t=I("a")), row(t=T(I("a"), I("b"), I("c")))))
+from_pos(C, "Directional literals in a stream that declares RDF 1.2 (which includes RDF 1.2 Basic).",
+         "rdf-version",
+         [F(options=O(rdf_version=msgs.RDF_VERSION_1_2), vars=[("v", 0)], rows=1,
+            literal=[lit_col(lex=["x"], kinds=[k_lang(0)], langtags=["en"], dirs=[msgs.DIR_RTL])], trailer="")],
+         RS(["v"], row(v=L("x", lang="en", d="rtl"))))
 from_pos_encoded(C, "Common usage: an annotation query returning statements as triple terms, with IRIs, literals, and nested triple terms, over several frames.",
                  "triple-terms",
                  RS(["stmt", "source", "confidence"], *[

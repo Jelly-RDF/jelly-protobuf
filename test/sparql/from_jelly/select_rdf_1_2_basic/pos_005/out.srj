@@ -1,21 +1,478 @@
 {
   "head": {
     "vars": [
-      "v"
+      "item",
+      "label"
     ]
   },
   "results": {
     "bindings": [
       {
-        "v": {
+        "item": {
           "type": "uri",
-          "value": "http://example.org/a"
+          "value": "http://example.org/item0"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 0",
+          "xml:lang": "en"
         }
       },
       {
-        "v": {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item1"
+        },
+        "label": {
           "type": "literal",
-          "value": "x",
+          "value": "label 1",
+          "xml:lang": "ar",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item2"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 2",
+          "xml:lang": "he",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item3"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 3",
+          "xml:lang": "en",
+          "its:dir": "ltr"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item4"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 4",
+          "xml:lang": "ar"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item5"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 5",
+          "xml:lang": "he",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item6"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 6",
+          "xml:lang": "en",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item7"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 7",
+          "xml:lang": "ar",
+          "its:dir": "ltr"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item8"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 8",
+          "xml:lang": "he"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item9"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 9",
+          "xml:lang": "en",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item10"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 10",
+          "xml:lang": "ar",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item11"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 11",
+          "xml:lang": "he",
+          "its:dir": "ltr"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item12"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 12",
+          "xml:lang": "en"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item13"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 13",
+          "xml:lang": "ar",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item14"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 14",
+          "xml:lang": "he",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item15"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 15",
+          "xml:lang": "en",
+          "its:dir": "ltr"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item16"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 16",
+          "xml:lang": "ar"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item17"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 17",
+          "xml:lang": "he",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item18"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 18",
+          "xml:lang": "en",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item19"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 19",
+          "xml:lang": "ar",
+          "its:dir": "ltr"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item20"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 20",
+          "xml:lang": "he"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item21"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 21",
+          "xml:lang": "en",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item22"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 22",
+          "xml:lang": "ar",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item23"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 23",
+          "xml:lang": "he",
+          "its:dir": "ltr"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item24"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 24",
+          "xml:lang": "en"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item25"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 25",
+          "xml:lang": "ar",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item26"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 26",
+          "xml:lang": "he",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item27"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 27",
+          "xml:lang": "en",
+          "its:dir": "ltr"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item28"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 28",
+          "xml:lang": "ar"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item29"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 29",
+          "xml:lang": "he",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item30"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 30",
+          "xml:lang": "en",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item31"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 31",
+          "xml:lang": "ar",
+          "its:dir": "ltr"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item32"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 32",
+          "xml:lang": "he"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item33"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 33",
+          "xml:lang": "en",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item34"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 34",
+          "xml:lang": "ar",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item35"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 35",
+          "xml:lang": "he",
+          "its:dir": "ltr"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item36"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 36",
+          "xml:lang": "en"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item37"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 37",
+          "xml:lang": "ar",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item38"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 38",
+          "xml:lang": "he",
+          "its:dir": "rtl"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://example.org/item39"
+        },
+        "label": {
+          "type": "literal",
+          "value": "label 39",
           "xml:lang": "en",
           "its:dir": "ltr"
         }

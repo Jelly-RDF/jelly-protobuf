@@ -166,7 +166,6 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
         <select_rdf_1_2_basic/pos_003>
         <select_rdf_1_2_basic/pos_004>
         <select_rdf_1_2_basic/pos_005>
-        <select_rdf_1_2_basic/pos_006>
         <select_rdf_1_2_basic/neg_001>
         <select_rdf_1_2_basic/neg_002>
         <select_rdf_1_2_basic/neg_003>
@@ -187,6 +186,7 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
         <select_rdf_1_2/pos_012>
         <select_rdf_1_2/pos_013>
         <select_rdf_1_2/pos_014>
+        <select_rdf_1_2/pos_015>
         <select_rdf_1_2/neg_001>
         <select_rdf_1_2/neg_002>
         <select_rdf_1_2/neg_003>
@@ -1242,28 +1242,20 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
     mf:result <select_rdf_1_2_basic/pos_003/out.srj> .
 
 <select_rdf_1_2_basic/pos_004> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Directional literals in a stream that declares RDF 1.2." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#rdf-version> ;
+    mf:name "A directional literal in the literals sub-column of a polymorphic column." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#base-direction> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12Basic ;
     mf:action <select_rdf_1_2_basic/pos_004/in.jellys> ;
     mf:result <select_rdf_1_2_basic/pos_004/out.srj> .
 
 <select_rdf_1_2_basic/pos_005> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "A directional literal in the literals sub-column of a polymorphic column." ;
+    mf:name "Common usage: labels in several languages and directions, over several frames." ;
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#base-direction> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12Basic ;
     mf:action <select_rdf_1_2_basic/pos_005/in.jellys> ;
     mf:result <select_rdf_1_2_basic/pos_005/out.srj> .
-
-<select_rdf_1_2_basic/pos_006> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Common usage: labels in several languages and directions, over several frames." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#base-direction> ;
-    rdft:approval rdft:Proposed ;
-    mf:requires jellyt:requirementRdf12Basic ;
-    mf:action <select_rdf_1_2_basic/pos_006/in.jellys> ;
-    mf:result <select_rdf_1_2_basic/pos_006/out.srj> .
 
 <select_rdf_1_2_basic/neg_001> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
     mf:name "langtag_directions with 2 entries for 1 language tag." ;
@@ -1404,12 +1396,20 @@ BASE           <https://w3id.org/jelly/dev/tests/sparql/from_jelly/>
     mf:result <select_rdf_1_2/pos_013/out.srj> .
 
 <select_rdf_1_2/pos_014> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
-    mf:name "Common usage: an annotation query returning statements as triple terms, with IRIs, literals, and nested triple terms, over several frames." ;
-    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#triple-terms> ;
+    mf:name "Directional literals in a stream that declares RDF 1.2 (which includes RDF 1.2 Basic)." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#rdf-version> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementRdf12 ;
     mf:action <select_rdf_1_2/pos_014/in.jellys> ;
     mf:result <select_rdf_1_2/pos_014/out.srj> .
+
+<select_rdf_1_2/pos_015> a jellyt:TestPositive, jellyt:TestSparqlFromJelly ;
+    mf:name "Common usage: an annotation query returning statements as triple terms, with IRIs, literals, and nested triple terms, over several frames." ;
+    rdfs:seeAlso <https://w3id.org/jelly/dev/specification/sparql/#triple-terms> ;
+    rdft:approval rdft:Proposed ;
+    mf:requires jellyt:requirementRdf12 ;
+    mf:action <select_rdf_1_2/pos_015/in.jellys> ;
+    mf:result <select_rdf_1_2/pos_015/out.srj> .
 
 <select_rdf_1_2/neg_001> a jellyt:TestNegative, jellyt:TestSparqlFromJelly ;
     mf:name "A triple term without a subject." ;
