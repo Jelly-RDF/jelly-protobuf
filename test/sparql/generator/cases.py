@@ -434,7 +434,9 @@ from_pos(C, "Lookup table sizes at the recommended default consumer limits: 1638
             prefixes=[N(E, id=4096)], names=[N("a", id=16384)], datatypes=[N(XSD + "int", id=256)],
             iri=[iri_col([16384], [], [4096])]),
           F(rows=1, literal=[lit_col(lex=["7"], kinds=[k_dt(256)])], trailer="")],
-         RS(["v"], row(v=I("a")), row(v=L("7", "int"))))
+         RS(["v"], row(v=I("a")), row(v=L("7", "int"))),
+         comment="Consumers may set lower limits than the recommended defaults, and then reject this stream.",
+         should=True)
 
 # --- header and columns ----------------------------------------------------------------
 
@@ -768,7 +770,7 @@ from_neg(C, "An IRI column refers to a name identifier outside the name table.",
 from_neg(C, "An IRI column uses prefix_ids while the prefix lookup is disabled.",
          "stream-options",
          [F(options=O(), vars=[("v", 0)], rows=1, names=[N("a")], iri=[iri_col([1], [], [1])], trailer="")],
-         "prefix id 1 outside")
+         "prefix id 1 outside", should=True)
 from_neg(C, "prefix_ids with 2 entries for 3 values. The length must be 0, 1, or the number of values.",
          "iri-columns",
          ex_frame_1var(iri_col([0, 0, 0], [], [1, 1]), 3), "prefix_ids has 2 entries")
@@ -779,7 +781,7 @@ from_neg(C, "A literal kind refers to a datatype identifier outside the datatype
 from_neg(C, "A literal kind refers to a datatype while the datatype lookup is disabled.",
          "stream-options",
          [F(options=O(), vars=[("v", 0)], rows=1, literal=[lit_col(lex=["1"], kinds=[k_dt(1)])], trailer="")],
-         "datatype id 1 outside")
+         "datatype id 1 outside", should=True)
 from_neg(C, "A literal kind refers to a datatype entry holding rdf:langString.",
          "literal-columns",
          [F(options=O(datatype=8), vars=[("v", 0)], rows=1, datatypes=[N(RDF_LANG_STRING)],
