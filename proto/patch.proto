@@ -145,11 +145,11 @@ message RdfPatchRow {
     // Transaction abort (TA)
     RdfPatchTransactionAbort transaction_abort = 8;
     // Entry in the name lookup table.
-    RdfLookupEntry name = 11;
+    RdfNameEntry name = 11;
     // Entry in the prefix lookup table.
-    RdfLookupEntry prefix = 12;
+    RdfPrefixEntry prefix = 12;
     // Entry in the datatype lookup table.
-    RdfLookupEntry datatype = 13;
+    RdfDatatypeEntry datatype = 13;
     // Header entry (H)
     RdfPatchHeader header = 14;
     // Punctuation mark, only used in stream type PUNCTUATED

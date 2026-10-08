@@ -669,20 +669,47 @@ message RdfGraphStart {
 message RdfGraphEnd {
 }
 
-// Entry in a lookup table (name, prefix, or datatype)
-//
-// The same message is used for all three lookup tables. It has the same wire
-// format as the RdfNameEntry, RdfPrefixEntry, and RdfDatatypeEntry messages
-// of earlier versions.
+// Entry in the name lookup table
 //
 // (ONLY Jelly-RDF 1.0.x and 1.1.x)
-message RdfLookupEntry {
+message RdfNameEntry {
   // 1-based identifier
   // If id=0, it should be interpreted as previous_id + 1.
-  // If id=0 appears in the first entry of a given lookup table in the stream,
-  // it should be interpreted as 1.
+  // If id=0 appears in the first RdfNameEntry of the stream, it should be
+  // interpreted as 1.
   uint32 id = 1;
-  // Value of the entry (UTF-8 encoded)
+  // Value of the name (UTF-8 encoded)
+  string value = 2;
+}
+
+// Entry in the prefix lookup table
+//
+// Note: the prefixes in the lookup table can be arbitrary strings, and are
+// NOT meant to be user-facing. They are only used for IRI compression.
+// To transmit user-facing namespace declarations for cosmetic purposes, use
+// RdfNamespaceDeclaration.
+//
+// (ONLY Jelly-RDF 1.0.x and 1.1.x)
+message RdfPrefixEntry {
+  // 1-based identifier
+  // If id=0, it should be interpreted as previous_id + 1.
+  // If id=0 appears in the first RdfPrefixEntry of the stream, it should be
+  // interpreted as 1.
+  uint32 id = 1;
+  // Value of the prefix (UTF-8 encoded)
+  string value = 2;
+}
+
+// Entry in the datatype lookup table
+//
+// (ONLY Jelly-RDF 1.0.x and 1.1.x)
+message RdfDatatypeEntry {
+  // 1-based identifier
+  // If id=0, it should be interpreted as previous_id + 1.
+  // If id=0 appears in the first RdfDatatypeEntry of the stream, it should be
+  // interpreted as 1.
+  uint32 id = 1;
+  // Value of the datatype (UTF-8 encoded)
   string value = 2;
 }
 
@@ -761,15 +788,10 @@ message RdfStreamRow {
     // Explicit namespace declaration.
     RdfNamespaceDeclaration namespace = 6;
     // Entry in the name lookup table.
-    RdfLookupEntry name = 9;
+    RdfNameEntry name = 9;
     // Entry in the prefix lookup table.
-    //
-    // Note: the prefixes in the lookup table can be arbitrary strings, and are
-    // NOT meant to be user-facing. They are only used for IRI compression.
-    // To transmit user-facing namespace declarations for cosmetic purposes, use
-    // RdfNamespaceDeclaration.
-    RdfLookupEntry prefix = 10;
+    RdfPrefixEntry prefix = 10;
     // Entry in the datatype lookup table.
-    RdfLookupEntry datatype = 11;
+    RdfDatatypeEntry datatype = 11;
   }
 }
