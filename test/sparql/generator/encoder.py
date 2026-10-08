@@ -3,9 +3,9 @@
 Used to build the expected outputs of the "to Jelly" tests, and the inputs of
 "from Jelly" tests that exercise common usage patterns. It follows the
 producer-side rules of the specification: least-recently-used lookup tables,
-frames that end before their working set would overflow the tables, the most
-specific column type for each variable in each frame, a header restated only
-when the column layout changes, and a trailer in the last frame.
+frames that end before their working set would overflow the tables, columns
+with no term types when all their values are of one type, and a trailer in
+the last frame.
 """
 
 from collections import OrderedDict
@@ -138,10 +138,6 @@ def split_iri(iri: str):
     return ("", iri) if i < 0 else (iri[: i + 1], iri[i + 1 :])
 
 
-def term_kind(t) -> str:
-    return {Iri: "iri", Bnode: "bnode", Lit: "literal", Triple: "triple"}[type(t)]
-
-
 def runs(cells):
     """Split cells into run values and a sequence layout."""
     values, layouts = [], []
@@ -232,7 +228,6 @@ class Encoder:
             raise EncodeError("a variable with an empty name")
         self.vars = result.vars
         self.start = start
-        self.mapping = None
         rows = []
         for row in result.rows:
             needed = []
@@ -268,43 +263,34 @@ class Encoder:
         }
         if not self.frames:
             f["options"] = self.opts.msg()
-        first = len(self.frames) == self.start  # the first frame of the result set
-        columns = {"iri": [], "bnode": [], "literal": [], "poly": []}
-        placement = []
+        if len(self.frames) == self.start:  # the first frame of the result set
+            f["vars"] = self.vars
         if rows and self.vars:
-            for v in self.vars:
-                cells = [row.get(v) for row in rows]
-                kinds = {term_kind(c) for c in cells if c is not None}
-                kind = kinds.pop() if len(kinds) == 1 else ("poly" if kinds else "iri")
-                if kind == "triple":
-                    kind = "poly"
-                values, layouts = runs(cells)
-                placement.append((kind, len(columns[kind])))
-                columns[kind].append(getattr(self, "col_" + kind)(values, layouts))
-            offsets = {}
-            offset = 0
-            for kind in ("iri", "bnode", "literal", "poly"):
-                offsets[kind] = offset
-                offset += len(columns[kind])
-            mapping = [offsets[kind] + pos for kind, pos in placement]
-            f.update(columns)
-            need_header = first or mapping != self.mapping
-        elif first:
-            # No columns: an empty or a zero-variable result set.
-            mapping = list(range(len(self.vars)))
-            need_header = True
-        else:
-            need_header = False
-        if need_header:
-            f["vars"] = list(zip(self.vars, mapping))
-            self.mapping = mapping
+            f["cols"] = [self.column(*runs([row.get(v) for row in rows])) for v in self.vars]
         self.frames.append(f)
         for table in (self.names, self.prefixes, self.datatypes):
             table.end_frame()
 
     # --- columns -----------------------------------------------------------
 
-    def col_iri(self, values, layouts):
+    def column(self, values, layouts):
+        kind_of = {Iri: msgs.T_IRI, Lit: msgs.T_LIT, Bnode: msgs.T_BNODE, Triple: msgs.T_TRIPLE}
+        kinds = [kind_of[type(t)] for t in values]
+        iris, lits, bnodes, triples = [[t for t, k in zip(values, kinds) if k == want] for want in range(4)]
+        name_ids, prefix_ids = self.iri_lists(iris)
+        state = [0, 0]
+        return msgs.col(
+            kinds=kinds if len(set(kinds)) > 1 else None,
+            layouts=layouts,
+            name_ids=name_ids,
+            prefix_ids=prefix_ids,
+            bnodes=[t.label for t in bnodes],
+            triples=[self.triple_term(t, state) for t in triples],
+            **self.literal_lists(lits),
+        )
+
+    def iri_lists(self, values):
+        """The name_ids and prefix_ids lists of the IRIs of a column."""
         ids = [self.iri_ids(t.value) for t in values]
         name_ids, prev = [], 0
         for _, nid in ids:
@@ -320,12 +306,10 @@ class Encoder:
             for p in pids:
                 prefix_ids.append(0 if p == prev else p)
                 prev = p
-        return msgs.iri_col(name_ids, layouts, prefix_ids)
+        return name_ids, prefix_ids
 
-    def col_bnode(self, values, layouts):
-        return msgs.bnode_col([t.label for t in values], layouts)
-
-    def col_literal(self, values, layouts):
+    def literal_lists(self, values):
+        """The lex, literal kind, language tag, and direction lists of the literals of a column."""
         langtags = []  # (tag, direction), in the order of first use
         kinds = []
         for t in values:
@@ -343,27 +327,11 @@ class Encoder:
         elif len(set(kinds)) == 1:
             kinds = kinds[:1]
         dirs = [self.direction(d) for _, d in langtags]
-        return msgs.lit_col(
+        return dict(
             lex=[t.lex for t in values],
-            layouts=layouts,
-            kinds=kinds,
+            lit_kinds=kinds,
             langtags=[tag for tag, _ in langtags],
             dirs=dirs if any(dirs) else None,
-        )
-
-    def col_poly(self, values, layouts):
-        kind_of = {Iri: msgs.P_IRI, Lit: msgs.P_LIT, Bnode: msgs.P_BNODE, Triple: msgs.P_TRIPLE}
-        kinds = [kind_of[type(t)] for t in values]
-        split = [[t for t, k in zip(values, kinds) if k == want] for want in range(4)]
-        iris, lits, bnodes, triples = split
-        state = [0, 0]
-        return msgs.poly_col(
-            kinds=kinds,
-            layouts=layouts,
-            iris=self.col_iri(iris, None) if iris else None,
-            literals=self.col_literal(lits, None) if lits else None,
-            bnodes=self.col_bnode(bnodes, None) if bnodes else None,
-            triples=[self.triple_term(t, state) for t in triples],
         )
 
     def direction(self, d):

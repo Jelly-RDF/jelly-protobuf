@@ -9,22 +9,22 @@
     "bindings": [
       {
         "x": {
-          "type": "literal",
-          "value": "x1"
+          "type": "bnode",
+          "value": "n"
         },
         "y": {
           "type": "literal",
-          "value": "y1"
+          "value": "a"
         }
       },
       {
         "x": {
-          "type": "literal",
-          "value": "x2"
+          "type": "bnode",
+          "value": "m"
         },
         "y": {
           "type": "literal",
-          "value": "y2"
+          "value": "b"
         }
       }
     ]

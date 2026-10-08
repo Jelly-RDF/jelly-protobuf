@@ -9,13 +9,20 @@
       {
         "v": {
           "type": "literal",
-          "value": "a"
+          "value": "a",
+          "xml:lang": "en"
         }
       },
       {
         "v": {
-          "type": "bnode",
-          "value": "n"
+          "type": "uri",
+          "value": "http://example.org/a"
+        }
+      },
+      {
+        "v": {
+          "type": "literal",
+          "value": "b"
         }
       }
     ]

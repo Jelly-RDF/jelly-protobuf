@@ -24,7 +24,7 @@ MAX_ROW_COUNT = (1 << 27) - 1
 DIRECTIONS = {0: None, 1: "ltr", 2: "rtl"}
 V_UNSPECIFIED, V_1_1, V_1_2_BASIC, V_1_2 = 0, 1, 2, 3
 ST_FLAT, ST_PUNCTUATED = 0, 1
-SUB_NAMES = ["iris", "literals", "bnodes", "triple_terms"]
+TYPE_NAMES = ["IRIs", "literals", "blank nodes", "triple terms"]
 
 
 class SparqlDecodeError(Exception):
@@ -95,8 +95,7 @@ class _Decoder:
     def new_result_set(self):
         self.first = True  # the next frame is the first frame of a result set
         self.kind = None  # "select" or "ask"
-        self.header = None  # variable names of the first header
-        self.mapping = None  # column index per variable, header in effect
+        self.header = None  # variable names of the result set
         self.rows = []
         self.links = []
         self.ask_value = None
@@ -137,15 +136,10 @@ class _Decoder:
         elif index == 0:
             fail("the first frame has no stream options")
 
-        variables = [(v.string(1), v.uint32(2)) for v in f.msgs(2)]
+        variables = f.strings(2)
         row_count = f.uint32(3)
-        columns = (
-            [("iri", c) for c in f.msgs(7)]
-            + [("bnode", c) for c in f.msgs(8)]
-            + [("literal", c) for c in f.msgs(9)]
-            + [("poly", c) for c in f.msgs(10)]
-        )
-        ask = f.msg(11)
+        columns = f.msgs(7)
+        ask = f.msg(8)
 
         # Lookup entries are applied before any column is decoded. A frame with a
         # boolean result may also have them, for the next result set to use.
@@ -171,7 +165,7 @@ class _Decoder:
             self.body(row_count, columns)
 
         self.metadata(f)
-        trailer = f.msg(12)
+        trailer = f.msg(9)
         if trailer is not None:
             self.trailer_seen = True
             error = trailer.string(1)
@@ -210,29 +204,22 @@ class _Decoder:
         self.names = Lookup("name", name)
         self.prefixes = Lookup("prefix", prefix)
         self.datatypes = Lookup("datatype", dt)
-        self.mapping = None
         self.trailer_seen = False
 
-    def header_of(self, declares: bool, variables):
-        names = [n for n, _ in variables]
-        if declares:
-            # An empty header here declares a zero-variable result set.
-            if self.header is None:
-                self.header = names
-            elif names != self.header:
-                fail(
-                    "the header in a frame repeating the stream options does not "
-                    f"declare the variables of the first header: {names} != {self.header}"
-                )
-        elif variables:
-            if names != self.header:
-                fail(f"a restated header declares different variables: {names} != {self.header}")
-        else:
-            return  # header not restated, the one in effect stays
-        indices = [i for _, i in variables]
-        if sorted(indices) != list(range(len(indices))):
-            fail(f"column indices {indices} are not a permutation of 0..{len(indices) - 1}")
-        self.mapping = indices
+    def header_of(self, declares: bool, names):
+        if not declares:
+            if names:
+                fail("a header in a frame that is neither the first frame of the result set "
+                     "nor a frame with the stream options")
+            return
+        # An empty header here declares a zero-variable result set.
+        if self.header is None:
+            self.header = names
+        elif names != self.header:
+            fail(
+                "the header in a frame repeating the stream options does not "
+                f"declare the variables of the first header: {names} != {self.header}"
+            )
 
     def body(self, row_count: int, columns):
         n_vars = len(self.header)
@@ -245,11 +232,11 @@ class _Decoder:
             return
         if len(columns) != n_vars:
             fail(f"the frame has {len(columns)} columns, but the header declares {n_vars} variables")
-        cells = [self.column(kind, c, row_count) for kind, c in columns]
+        cells = [self.column(c, row_count) for c in columns]
         for r in range(row_count):
             row = {}
             for v, name in enumerate(self.header):
-                t = cells[self.mapping[v]][r]
+                t = cells[v][r]
                 if t is not None:
                     row[name] = t
             self.rows.append(row)
@@ -267,20 +254,39 @@ class _Decoder:
 
     # --- columns -------------------------------------------------------------
 
-    def column(self, kind: str, c: pb.Fields, n: int):
-        if kind == "iri":
-            values = self.iri_values(c)
-        elif kind == "bnode":
-            values = [Bnode(v) for v in c.strings(1)]
-        elif kind == "literal":
-            values = self.literal_values(c)
-        else:
-            values = self.poly_values(c)
-        return layout(values, c.uint32s(2), n)
+    def column(self, c: pb.Fields, n: int):
+        return layout(self.column_values(c), c.uint32s(2), n)
 
-    def iri_values(self, c: pb.Fields):
-        name_ids = c.uint32s(1)
-        prefix_ids = c.uint32s(3)
+    def column_values(self, c: pb.Fields):
+        """The run values of an RdfColumn, in row order."""
+        state = [0, 0]
+        lists = [
+            self.iri_list(c.uint32s(3), c.uint32s(4)),
+            self.literal_list(c.strings(5), c.uint32s(6), c.strings(7), c.uint32s(8)),
+            [Bnode(v) for v in c.strings(9)],
+            [self.triple(t, state, 1) for t in c.msgs(10)],
+        ]
+        total = sum(len(x) for x in lists)
+        kinds = c.bytes(1, b"")
+        used = [k for k, x in enumerate(lists) if x]
+        if not kinds and len(used) <= 1:
+            # All run values are of one type, so kinds may be empty.
+            return lists[used[0]] if used else []
+        if len(kinds) != (total + 3) // 4:
+            fail(f"kinds has {len(kinds)} bytes for {total} values")
+        if total % 4 and kinds[-1] >> (2 * (total % 4)):
+            fail("the unused bits of the last byte of kinds are not 0")
+        next_of = [0, 0, 0, 0]
+        out = []
+        for j in range(total):
+            k = (kinds[j // 4] >> (2 * (j % 4))) & 3
+            if next_of[k] >= len(lists[k]):
+                fail(f"kinds refers to more {TYPE_NAMES[k]} than the column has")
+            out.append(lists[k][next_of[k]])
+            next_of[k] += 1
+        return out
+
+    def iri_list(self, name_ids, prefix_ids):
         m = len(name_ids)
         if len(prefix_ids) not in (0, 1, m):
             fail(f"prefix_ids has {len(prefix_ids)} entries for {m} values")
@@ -303,11 +309,7 @@ class _Decoder:
         prefix = "" if pid == 0 else self.prefixes.get(pid)
         return prefix + self.names.get(nid)
 
-    def literal_values(self, c: pb.Fields):
-        lex = c.strings(1)
-        kinds = c.uint32s(3)
-        langtags = c.strings(4)
-        dirs = c.uint32s(5)
+    def literal_list(self, lex, kinds, langtags, dirs):
         m = len(lex)
         if len(kinds) not in (0, 1, m):
             fail(f"literal_kinds has {len(kinds)} entries for {m} values")
@@ -328,32 +330,6 @@ class _Decoder:
                     fail(f"literal kind {k} refers to language tag {index}, "
                          f"but the column has {len(langtags)} language tags")
                 out.append(Lit(x, None, langtags[index], self.direction(dirs[index])))
-        return out
-
-    def poly_values(self, c: pb.Fields):
-        # The layouts of the sub-columns are ignored.
-        iris, literals, bnodes = c.msg(3), c.msg(4), c.msg(5)
-        state = [0, 0]
-        subs = [
-            self.iri_values(iris) if iris else [],
-            self.literal_values(literals) if literals else [],
-            [Bnode(v) for v in bnodes.strings(1)] if bnodes else [],
-            [self.triple(t, state, 1) for t in c.msgs(6)],
-        ]
-        total = sum(len(x) for x in subs)
-        kinds = c.bytes(1, b"")
-        if len(kinds) != (total + 3) // 4:
-            fail(f"kinds has {len(kinds)} bytes for {total} values")
-        if total % 4 and kinds[-1] >> (2 * (total % 4)):
-            fail("the unused bits of the last byte of kinds are not 0")
-        next_of = [0, 0, 0, 0]
-        out = []
-        for j in range(total):
-            k = (kinds[j // 4] >> (2 * (j % 4))) & 3
-            if next_of[k] >= len(subs[k]):
-                fail(f"kinds refers past the end of the {SUB_NAMES[k]} sub-column")
-            out.append(subs[k][next_of[k]])
-            next_of[k] += 1
         return out
 
     def literal(self, f: pb.Fields) -> Lit:
@@ -382,7 +358,7 @@ class _Decoder:
             fail(f"unknown base direction {value}")
         return DIRECTIONS[value]
 
-    def poly_iri(self, i: pb.Fields, state) -> Iri:
+    def triple_iri(self, i: pb.Fields, state) -> Iri:
         """RdfIri with the triple terms' shared inference state [prev_prefix, prev_name]."""
         pid = i.uint32(1) or state[0]
         nid = i.uint32(2) or state[1] + 1
@@ -393,16 +369,16 @@ class _Decoder:
         if depth > self.limits.max_nesting:
             fail("triple terms nested too deeply")
         if t.has(1):
-            s = self.poly_iri(t.msg(1), state)
+            s = self.triple_iri(t.msg(1), state)
         elif t.has(2):
             s = Bnode(t.string(2))
         else:
             fail("a triple term has no subject")
         if not t.has(5):
             fail("a triple term has no predicate")
-        p = self.poly_iri(t.msg(5), state)
+        p = self.triple_iri(t.msg(5), state)
         if t.has(9):
-            o = self.poly_iri(t.msg(9), state)
+            o = self.triple_iri(t.msg(9), state)
         elif t.has(10):
             o = Bnode(t.string(10))
         elif t.has(11):

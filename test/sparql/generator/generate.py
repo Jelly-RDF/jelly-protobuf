@@ -144,7 +144,7 @@ def build_to_jelly(case, label):
     diff = equivalent_all(case.input, decoder.decode(data))
     if diff:
         raise CaseError(f"{label}: the reference output does not decode to the input: {diff}")
-    last = pb.Fields(pb.split_delimited(data)[-1]).msg(12)
+    last = pb.Fields(pb.split_delimited(data)[-1]).msg(9)
     if last is None or last.string(1):
         raise CaseError(f"{label}: the last frame of the reference output has no trailer, or an error trailer")
     first_options = pb.Fields(pb.split_delimited(data)[0]).bytes(1)
