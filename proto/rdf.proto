@@ -11,16 +11,11 @@ package eu.ostrzyciel.jelly.core.proto.v1;
 //
 //   - Column layout (protocol version 3, Jelly 1.2.x): the statements of a
 //     frame are stored column by column (subjects, predicates, objects,
-//     graphs) in an RdfColumnBatch. Supports RDF 1.2 and RDF Messages.
+//     graphs) in an RdfColumnBatch. Supports RDF 1.1, 1.2 and RDF Messages.
 //   - Row layout (protocol versions 1 and 2, Jelly 1.0.x and 1.1.x): the
-//     frame is a list of RdfStreamRow messages, one per statement, lookup
-//     entry, or other element. Supports RDF 1.1 and RDF-star. The messages
-//     used only by this layout are in the "Row layout" section at the end of
-//     this file.
-//
-// In both layouts, the stream options are the first row of the first frame,
-// so that consumers that do not know the column layout see the protocol
-// version and reject the stream.
+//     frame is a list of RdfStreamRow messages. Supports RDF 1.1 and 
+//     RDF-star. The messages used only by this layout are in the "Row 
+//     layout" section at the end of this file.
 
 // ---------------------------------------------------------------------------
 // RDF terms
@@ -57,9 +52,6 @@ message RdfIri {
 // Version of RDF that a stream conforms to, following the version labels of
 // RDF 1.2 Concepts:
 // https://www.w3.org/TR/rdf12-concepts/#defined-version-labels
-//
-// Each version includes the ones listed before it: RDF 1.1 data is valid
-// RDF 1.2 Basic data, which is valid RDF 1.2 data.
 enum RdfVersion {
   // Unspecified. Each format that uses this enum defines how to interpret it.
   RDF_VERSION_UNSPECIFIED = 0;
@@ -164,11 +156,8 @@ message RdfTripleTerm {
 //
 // A packed entry with no values at all is a no-op and must not be written.
 //
-// In the row layout (protocol versions 1 and 2), and in Jelly-Patch, every
-// entry must have exactly one value. With one value, the entry has the same
-// wire format as the RdfNameEntry, RdfPrefixEntry, and RdfDatatypeEntry
-// messages of Jelly 1.1, and older consumers would read only the last value
-// of an entry with more.
+// The row layout and Jelly-Patch use RdfLookupEntry instead. A packed entry
+// with one value has the same wire format as an RdfLookupEntry.
 message RdfLookupEntryPacked {
   // 1-based identifier of the first value.
   // If id=0, it should be interpreted as previous_id + 1, as described above.
@@ -552,13 +541,15 @@ message RdfColumn {
 }
 
 // ---------------------------------------------------------------------------
-// Row layout (protocol versions 1 and 2)
+// Row layout (ONLY Jelly-RDF 1.0.x and 1.1.x)
 //
 // The messages below are used by streams in the row layout (Jelly 1.0.x and
 // 1.1.x), and by Jelly-Patch. New Jelly-RDF streams use the column layout.
 // ---------------------------------------------------------------------------
 
 // Empty message indicating the default RDF graph.
+//
+// (ONLY Jelly-RDF 1.0.x and 1.1.x)
 message RdfDefaultGraph {
 }
 
@@ -576,6 +567,8 @@ message RdfDefaultGraph {
 // term – the same as the term in the same position in the previous triple.
 // In the first triple of the stream, all terms must be set.
 // All terms must also be set in quoted triples (RDF-star).
+//
+// (ONLY Jelly-RDF 1.0.x and 1.1.x)
 message RdfTriple {
   // Triple subject
   oneof subject {
@@ -628,6 +621,8 @@ message RdfTriple {
 // If no field in a given oneof is set, the term is interpreted as a repeated
 // term – the same as the term in the same position in the previous quad.
 // In the first quad of the stream, all terms must be set.
+//
+// (ONLY Jelly-RDF 1.0.x and 1.1.x)
 message RdfQuad {
   // Quad subject
   oneof subject {
@@ -685,6 +680,8 @@ message RdfQuad {
 //
 // In contrast to RdfQuad, setting the graph oneof to some value
 // is always required. No repeated terms are allowed.
+//
+// (ONLY Jelly-RDF 1.0.x and 1.1.x)
 message RdfGraphStart {
   oneof graph {
     // IRI
@@ -699,13 +696,34 @@ message RdfGraphStart {
 }
 
 // End of a graph in a GRAPHS stream
+//
+// (ONLY Jelly-RDF 1.0.x and 1.1.x)
 message RdfGraphEnd {
+}
+
+// Entry in a lookup table (name, prefix, or datatype)
+//
+// The same message is used for all three lookup tables. It has the same wire
+// format as the RdfNameEntry, RdfPrefixEntry, and RdfDatatypeEntry messages
+// of earlier versions.
+//
+// (ONLY Jelly-RDF 1.0.x and 1.1.x)
+message RdfLookupEntry {
+  // 1-based identifier
+  // If id=0, it should be interpreted as previous_id + 1.
+  // If id=0 appears in the first entry of a given lookup table in the stream,
+  // it should be interpreted as 1.
+  uint32 id = 1;
+  // Value of the entry (UTF-8 encoded)
+  string value = 2;
 }
 
 // Physical stream type (row layout only)
 // This determines how the data is encoded in the stream, not the logical
 // structure of the data. See LogicalStreamType for the latter.
 // The column layout uses RdfStatementType instead.
+//
+// (ONLY Jelly-RDF 1.0.x and 1.1.x)
 enum PhysicalStreamType {
   // Unspecified stream type – invalid
   PHYSICAL_STREAM_TYPE_UNSPECIFIED = 0;
@@ -736,9 +754,7 @@ enum PhysicalStreamType {
 // RDF-STaX version: 1.1.2
 // https://w3id.org/stax/1.1.2
 //
-// ^ The above URL is used to automatically determine the version of RDF-STaX
-// in the Jelly protocol specification. Please keep it up-to-date and in the
-// same format.
+// (ONLY Jelly-RDF 1.0.x and 1.1.x)
 enum LogicalStreamType {
   // Unspecified stream type – invalid
   LOGICAL_STREAM_TYPE_UNSPECIFIED = 0;
@@ -770,6 +786,9 @@ enum LogicalStreamType {
 // RDF stream row
 //
 // In the column layout, only the `options` field may be used.
+//
+// In Jelly-RDF 1.2.x this is only used to communicate the stream options.
+// Otherwise, this is used only by Jelly-RDF 1.0.x and 1.1.x.
 message RdfStreamRow {
   // Exactly one of these fields must be set.
   oneof row {
@@ -790,16 +809,16 @@ message RdfStreamRow {
     RdfGraphEnd graph_end = 5;
     // Explicit namespace declaration.
     RdfNamespaceDeclaration namespace = 6;
-    // Entry in the name lookup table (exactly one value).
-    RdfLookupEntryPacked name = 9;
-    // Entry in the prefix lookup table (exactly one value).
+    // Entry in the name lookup table.
+    RdfLookupEntry name = 9;
+    // Entry in the prefix lookup table.
     //
     // Note: the prefixes in the lookup table can be arbitrary strings, and are
     // NOT meant to be user-facing. They are only used for IRI compression.
     // To transmit user-facing namespace declarations for cosmetic purposes, use
     // RdfNamespaceDeclaration.
-    RdfLookupEntryPacked prefix = 10;
-    // Entry in the datatype lookup table (exactly one value).
-    RdfLookupEntryPacked datatype = 11;
+    RdfLookupEntry prefix = 10;
+    // Entry in the datatype lookup table.
+    RdfLookupEntry datatype = 11;
   }
 }

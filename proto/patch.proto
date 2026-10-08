@@ -133,12 +133,12 @@ message RdfPatchRow {
     RdfPatchTransactionCommit transaction_commit = 7;
     // Transaction abort (TA)
     RdfPatchTransactionAbort transaction_abort = 8;
-    // Entry in the name lookup table (exactly one value).
-    RdfLookupEntryPacked name = 11;
-    // Entry in the prefix lookup table (exactly one value).
-    RdfLookupEntryPacked prefix = 12;
-    // Entry in the datatype lookup table (exactly one value).
-    RdfLookupEntryPacked datatype = 13;
+    // Entry in the name lookup table.
+    RdfLookupEntry name = 11;
+    // Entry in the prefix lookup table.
+    RdfLookupEntry prefix = 12;
+    // Entry in the datatype lookup table.
+    RdfLookupEntry datatype = 13;
     // Header entry (H)
     RdfPatchHeader header = 14;
     // Punctuation mark, only used in stream type PUNCTUATED
