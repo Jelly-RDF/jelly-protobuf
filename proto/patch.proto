@@ -74,7 +74,7 @@ message RdfPatchPunctuation {
 // RDF Patch stream options
 message RdfPatchOptions {
   // Type of statements in the stream (required)
-  RdfStatementType statement_type = 1;
+  PatchStatementType statement_type = 1;
   // Type of the stream (required)
   PatchStreamType stream_type = 2;
   // Whether the stream may contain generalized triples, quads, or datasets
@@ -94,6 +94,17 @@ message RdfPatchOptions {
   // For Jelly-Patch 1.0.x (based on Jelly-RDF 1.1.x), the value must be 1.
   // For custom extensions, the value must be 10000 or higher.
   uint32 version = 15;
+}
+
+// Type of statements in the stream.
+// This determines whether the statements are interpreted as triples or quads.
+enum PatchStatementType {
+  // Unspecified stream type – invalid
+  PATCH_STATEMENT_TYPE_UNSPECIFIED = 0;
+  // RDF triples
+  PATCH_STATEMENT_TYPE_TRIPLES = 1;
+  // RDF quads
+  PATCH_STATEMENT_TYPE_QUADS = 2;
 }
 
 // Type of the stream.
