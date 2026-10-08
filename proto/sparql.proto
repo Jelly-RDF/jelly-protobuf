@@ -168,4 +168,3 @@ message SparqlResultsFrame {
   // and their values are arbitrary bytes.
   map<string, bytes> metadata = 15;
 }
- 
