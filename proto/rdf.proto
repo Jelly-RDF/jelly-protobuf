@@ -207,6 +207,10 @@ message RdfStreamOptions {
   //   RDF_VERSION_1_2       – base directions and triple terms
   // Unspecified (the default) means that no version is announced: the stream
   // may contain any RDF 1.2 term.
+  //
+  // A restated options row may announce a different version, which applies
+  // from that frame on. Producers should announce the highest version that
+  // the stream may use. If it is not known in advance, leave it unspecified.
   RdfVersion rdf_version = 6;
   // Maximum size of the name lookup table
   // (required, must be >= 8 in the row layout, >= 128 in the column layout)
