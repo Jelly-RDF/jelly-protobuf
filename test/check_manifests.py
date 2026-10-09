@@ -5,7 +5,7 @@ Usage:
 
     python3 test/check_manifests.py <SHACL shapes file or directory>
 
-The SHACL shapes are generated from manifest-schema.yaml with linkml-scala.
+The SHACL shapes are generated from test-manifest.yaml with linkml-scala.
 They check each test case on its own, and this script runs them with pyshacl.
 Then it checks what the shapes cannot:
 

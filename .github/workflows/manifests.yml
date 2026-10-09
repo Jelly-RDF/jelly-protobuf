@@ -14,18 +14,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      - name: Validate the manifest schema
+      - name: Validate the vocabulary schema
         uses: NeverBlink-OSS/linkml-scala-action@v0.16.3
         with:
-          files: test/manifest-schema.yaml
+          files: test/test-manifest.yaml
           strict: true
 
-      - name: Generate SHACL shapes from the manifest schema
+      - name: Generate SHACL shapes from the vocabulary schema
         uses: NeverBlink-OSS/linkml-scala-action@v0.16.3
         with:
           command: generate
           generator: shacl
-          files: test/manifest-schema.yaml
+          files: test/test-manifest.yaml
           output: build/shacl
 
       - name: Set up Python

@@ -1,0 +1,92 @@
+name: Release
+
+# A push to main updates the development build (the "dev" pre-release).
+# A pushed v* tag makes a tagged release.
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Validate the test case vocabulary
+        uses: NeverBlink-OSS/linkml-scala-action@v0.16.3
+        with:
+          files: test/test-manifest.yaml
+          strict: true
+
+      - name: Generate RDFS from the test case vocabulary
+        uses: NeverBlink-OSS/linkml-scala-action@v0.16.3
+        with:
+          command: generate
+          generator: rdfs
+          files: test/test-manifest.yaml
+          output: build/test-manifest
+
+      - name: Generate SHACL from the test case vocabulary
+        uses: NeverBlink-OSS/linkml-scala-action@v0.16.3
+        with:
+          command: generate
+          generator: shacl
+          files: test/test-manifest.yaml
+          output: build/test-manifest
+
+      - name: Add the LinkML schema of the test case vocabulary
+        run: cp test/test-manifest.yaml build/test-manifest/
+
+      - name: Update the development build
+        if: github.ref_type == 'branch'
+        uses: ncipollo/release-action@v1.21.0
+        with:
+          allowUpdates: true
+          prerelease: true
+          draft: false
+          omitDraftDuringUpdate: false
+          makeLatest: false
+          tag: dev
+          name: "Development build"
+          artifacts: 'proto/*.proto,build/test-manifest/*'
+          generateReleaseNotes: true
+
+      - name: Make a tagged release
+        if: github.ref_type == 'tag'
+        uses: ncipollo/release-action@v1.21.0
+        with:
+          prerelease: false
+          draft: false
+          makeLatest: true
+          tag: "${{ github.ref_name }}"
+          name: "${{ github.ref_name }}"
+          artifacts: 'proto/*.proto,build/test-manifest/*'
+          generateReleaseNotes: true
+
+  trigger-doc-update:
+    needs: release
+    name: Trigger documentation update
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger documentation update (dev)
+        if: github.ref_type == 'branch'
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          token: ${{ secrets.PAT_DOC_REPO_HOOKS }}
+          repository: Jelly-RDF/jelly-rdf.github.io
+          event-type: publish-docs-dev
+
+      # Only for actual tagged releases, not beta or alpha releases
+      - name: Trigger documentation update (tagged)
+        if: github.ref_type == 'tag' && !contains(github.ref_name, '-')
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          token: ${{ secrets.PAT_DOC_REPO_HOOKS }}
+          repository: Jelly-RDF/jelly-rdf.github.io
+          event-type: publish-docs-tagged
+          client-payload: '{ "tag": "${{ github.ref_name }}" }'
