@@ -1,0 +1,40 @@
+name: Check test manifests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    name: Check test manifests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Validate the manifest schema
+        uses: NeverBlink-OSS/linkml-scala-action@v0.16.3
+        with:
+          files: test/manifest-schema.yaml
+          strict: true
+
+      - name: Generate SHACL shapes from the manifest schema
+        uses: NeverBlink-OSS/linkml-scala-action@v0.16.3
+        with:
+          command: generate
+          generator: shacl
+          files: test/manifest-schema.yaml
+          output: build/shacl
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install pyshacl
+        run: pip install pyshacl==0.40.1
+
+      - name: Check the manifests
+        run: python test/check_manifests.py build/shacl

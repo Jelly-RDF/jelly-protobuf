@@ -1,0 +1,167 @@
+id: https://w3id.org/jelly/dev/tests/schema
+name: jelly-test-manifest
+title: Jelly test manifest schema
+description: >-
+  Structure of the Jelly test case manifests (test/*/*/manifest.ttl). The
+  classes and terms are described in test/vocabulary.ttl. The SHACL shapes
+  generated from this schema are used to check the manifests in CI.
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  jellyt: https://w3id.org/jelly/dev/tests/vocab#
+  mf: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#
+  rdft: http://www.w3.org/ns/rdftest#
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+default_prefix: jellyt
+
+imports:
+  - linkml:types
+
+classes:
+  Manifest:
+    class_uri: mf:Manifest
+    tree_root: true
+    description: A list of test cases.
+    attributes:
+      id:
+        identifier: true
+        range: uriorcurie
+      label:
+        slot_uri: rdfs:label
+        required: true
+      entries:
+        slot_uri: mf:entries
+        required: true
+        range: Any
+        description: The test cases of the manifest, as an RDF list.
+        notes:
+          - This could use list_elements_ordered. See https://github.com/NeverBlink-OSS/linkml-scala/issues/277
+
+  Test:
+    class_uri: jellyt:Test
+    abstract: true
+    description: A test case involving Jelly.
+    attributes:
+      id:
+        identifier: true
+        range: uriorcurie
+      name:
+        slot_uri: mf:name
+        required: true
+      comment:
+        slot_uri: rdfs:comment
+      see_also:
+        slot_uri: rdfs:seeAlso
+        multivalued: true
+        range: uri
+      approval:
+        slot_uri: rdft:approval
+        required: true
+        range: Approval
+      requires:
+        slot_uri: mf:requires
+        multivalued: true
+        range: Requirement
+      notable:
+        slot_uri: mf:notable
+        multivalued: true
+        range: Notable
+      action:
+        slot_uri: mf:action
+        required: true
+        range: Any
+        description: >-
+          The input: one file (an IRI) or an RDF list of files, depending on
+          the kind of test.
+      result:
+        slot_uri: mf:result
+        range: Any
+        description: >-
+          The expected output: one file (an IRI) or an RDF list of files,
+          depending on the kind of test.
+
+  TestPositive:
+    is_a: Test
+    class_uri: jellyt:TestPositive
+    description: A test case that is expected to succeed.
+    slot_usage:
+      result:
+        required: true
+
+  TestNegative:
+    is_a: Test
+    class_uri: jellyt:TestNegative
+    description: A test case that is expected to fail. It has no result.
+    slot_usage:
+      result:
+        maximum_cardinality: 0
+
+  TestRdfToJelly:
+    is_a: Test
+    class_uri: jellyt:TestRdfToJelly
+    description: >-
+      Converting RDF to Jelly-RDF. The action is a list of files, the result
+      is one file.
+
+  TestRdfFromJelly:
+    is_a: Test
+    class_uri: jellyt:TestRdfFromJelly
+    description: >-
+      Converting Jelly-RDF to RDF. The action is one file, the result is a
+      list of files.
+
+  TestSparqlToJelly:
+    is_a: Test
+    class_uri: jellyt:TestSparqlToJelly
+    description: >-
+      Writing Jelly-SPARQL. The action is a list of files, the result is one
+      file.
+
+  TestSparqlFromJelly:
+    is_a: Test
+    class_uri: jellyt:TestSparqlFromJelly
+    description: >-
+      Reading Jelly-SPARQL. The action is one file, the result is one file or
+      a list of files.
+
+  Any:
+    class_uri: linkml:Any
+    description: >-
+      Any RDF node. Used for values that may be RDF lists, which the SHACL
+      shapes cannot describe. check_manifests.py checks them instead.
+
+enums:
+  Approval:
+    permissible_values:
+      Proposed:
+        meaning: rdft:Proposed
+      Approved:
+        meaning: rdft:Approved
+      Rejected:
+        meaning: rdft:Rejected
+
+  Requirement:
+    permissible_values:
+      PhysicalTypeTriples:
+        meaning: jellyt:requirementPhysicalTypeTriples
+      PhysicalTypeQuads:
+        meaning: jellyt:requirementPhysicalTypeQuads
+      PhysicalTypeGraphs:
+        meaning: jellyt:requirementPhysicalTypeGraphs
+      RdfStar:
+        meaning: jellyt:requirementRdfStar
+      GeneralizedRdf:
+        meaning: jellyt:requirementGeneralizedRdf
+      Rdf12Basic:
+        meaning: jellyt:requirementRdf12Basic
+      Rdf12:
+        meaning: jellyt:requirementRdf12
+      Punctuated:
+        meaning: jellyt:requirementPunctuated
+
+  Notable:
+    permissible_values:
+      ShouldLevel:
+        meaning: jellyt:featureShouldLevel
+      NonDelimited:
+        meaning: jellyt:featureNonDelimited
