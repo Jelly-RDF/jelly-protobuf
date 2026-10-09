@@ -19,15 +19,14 @@ message RdfStreamSubscribe {
 }
 
 // Acknowledgement of receiving a stream sent by the server to the client.
-message RdfStreamReceived {
-}
+message RdfStreamReceived {}
 
 // Pub/Sub service for RDF streams, to be implemented by the server.
 service RdfStreamService {
   // Subscribe to an RDF stream.
-  rpc SubscribeRdf (RdfStreamSubscribe) returns (stream RdfStreamFrame);
+  rpc SubscribeRdf(RdfStreamSubscribe) returns (stream RdfStreamFrame);
   // Publish an RDF stream.
   // In case the server cannot process the stream, it must respond with
   // the INVALID_ARGUMENT error.
-  rpc PublishRdf (stream RdfStreamFrame) returns (RdfStreamReceived);
+  rpc PublishRdf(stream RdfStreamFrame) returns (RdfStreamReceived);
 }

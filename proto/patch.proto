@@ -9,14 +9,11 @@ package eu.ostrzyciel.jelly.core.proto.v1.patch;
 
 import "rdf.proto";
 
-message RdfPatchTransactionStart {
-}
+message RdfPatchTransactionStart {}
 
-message RdfPatchTransactionCommit {
-}
+message RdfPatchTransactionCommit {}
 
-message RdfPatchTransactionAbort {
-}
+message RdfPatchTransactionAbort {}
 
 message RdfPatchNamespace {
   // Short name of the namespace (e.g., "ex")
@@ -38,13 +35,13 @@ message RdfPatchNamespace {
   // The repeated terms are shared between the namespace and statement rows.
   oneof graph {
     // IRI
-    RdfIri           g_iri = 3;
+    RdfIri g_iri = 3;
     // Blank node
-    string           g_bnode = 4;
+    string g_bnode = 4;
     // Default graph
-    RdfDefaultGraph  g_default_graph = 5;
+    RdfDefaultGraph g_default_graph = 5;
     // Literal – only valid for generalized RDF streams
-    RdfLiteral       g_literal = 6;
+    RdfLiteral g_literal = 6;
   }
 }
 
@@ -58,18 +55,17 @@ message RdfPatchHeader {
   // This oneof must always be set to a valid RDF term.
   oneof value {
     // IRI
-    RdfIri        h_iri = 2;
+    RdfIri h_iri = 2;
     // Blank node
-    string        h_bnode = 3;
+    string h_bnode = 3;
     // Literal
-    RdfLiteral    h_literal = 4;
+    RdfLiteral h_literal = 4;
     // RDF-star quoted triple
-    RdfTriple     h_triple_term = 5;
+    RdfTriple h_triple_term = 5;
   }
 }
 
-message RdfPatchPunctuation {
-}
+message RdfPatchPunctuation {}
 
 // RDF Patch stream options
 message RdfPatchOptions {
