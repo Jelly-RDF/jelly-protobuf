@@ -6,24 +6,19 @@ package eu.ostrzyciel.jelly.core.proto.v1.sparql;
 // encoding (rdf.proto).
 //
 // The results are transmitted as a stream of frames. Each frame contains a
-// batch of solutions (rows) in a columnar layout: one column per variable,
-// with columns grouped by term type. In practice most columns hold only one
-// kind of RDF term (e.g., only IRIs), so keeping them in per-type
-// (monomorphic) lists avoids boxing every value in a message with a oneof.
-// Variables whose values mix term types use polymorphic columns.
+// batch of solutions (rows) in a columnar layout: one column per variable.
+// The columns (RdfColumn) and their sequence layout encoding are defined in
+// rdf.proto, and shared with the column layout of Jelly-RDF.
 //
-// The first frame has the header: stream options and the mapping from
-// variable names to columns. The header (except the options) may be restated
-// in a later frame to change the column layout mid-stream – for example,
-// when a variable that so far held only IRIs encounters a literal and needs
-// to move to a polymorphic column. The stream ends with a trailer, which says
-// whether the result set is complete.
+// The first frame has the header: stream options and the variable names, one
+// per column. The stream ends with a trailer, which says whether the result
+// set is complete.
 //
 // By default, a stream contains one result set (SPARQL_STREAM_TYPE_FLAT). A
 // stream of type SPARQL_STREAM_TYPE_PUNCTUATED contains a sequence of result
 // sets instead, each ended by a trailer.
 
-import "rdf2.proto";
+import "rdf.proto";
 
 // Stream options for SPARQL result streams.
 message SparqlResultsOptions {
@@ -70,201 +65,10 @@ enum SparqlStreamType {
   SPARQL_STREAM_TYPE_PUNCTUATED = 1;
 }
 
-// Header entry mapping one result variable to one column.
-message SparqlVariable {
-  // Name of the variable, without the leading "?" or "$". Must not be empty.
-  string name = 1;
-  // 0-based index of the column that holds this variable's values.
-  //
-  // The index points into the virtual concatenation of all column lists of
-  // a frame, in field number order: iri_columns first, then bnode_columns,
-  // literal_columns, and finally poly_columns.
-  //
-  // For example, if a frame has 2 IRI columns, 1 blank node column, and 2
-  // literal columns, the column indices are as follows:
-  //   iri_columns[0]     | column_index = 0
-  //   iri_columns[1]     | column_index = 1
-  //   bnode_columns[0]   | column_index = 2
-  //   literal_columns[0] | column_index = 3
-  //   literal_columns[1] | column_index = 4
-  uint32 column_index = 2;
-}
-
 // Boolean result of a SPARQL ASK query.
 message SparqlAskResult {
   // The boolean value of the result.
   bool value = 1;
-}
-
-// ---------------------------------------------------------------------------
-// Columns
-//
-// A column stores the cells of one variable across all row_count rows of the
-// frame, in row order. A cell is either a bound RDF term or unbound.
-//
-// Columns use a compact sequence layout encoding: the logical sequence of
-// row_count cells is stored as a list of run values (each run of consecutive
-// equal values stored exactly once, unbound cells not stored at all) plus a
-// `layouts` list describing where the cell sequence deviates from "each value
-// appears exactly once". When every cell is bound and no value is repeated
-// consecutively, `layouts` is empty.
-//
-// `layouts` is a flat list of run-length exceptions for values that need to
-// be repeated, or need to have a run of unbound values after them. Each
-// exception is one varint token, optionally followed by one extension varint:
-//
-//   token = (skip << 5) | (kind << 4) | len_code
-//
-//   skip     – number of values emitted exactly once since the previous
-//              exception (or since the start of the column)
-//   kind     – 0 = repeat run, 1 = unbound run
-//   len_code – 0–14: len is this literal value;
-//                15: len = 15 + the next varint in the layouts list
-//
-// A token stays a single byte while skip <= 3. Runs of up to 16 repeats or
-// 15 unbound cells are inlined in the token, without an extension varint.
-//
-// Run lengths (a repeat run of length < 2 makes no sense, hence the offsets):
-//   repeat run  – the value at the current position occurs (len + 2) times
-//   unbound run – (len + 1) consecutive unbound cells
-//
-// An unbound run sits BEFORE the value at the current position (or after the
-// last value, once all values have been consumed), which makes the order of
-// an unbound run and a repeat run at the same position unambiguous.
-//
-// Decoding (m = number of values):
-//
-//   i = 0
-//   for each exception (skip, kind, len):
-//     emit values[i .. i+skip) once each;  i += skip
-//     if kind == 0:  emit values[i] (len + 2) times;  i += 1
-//     else:          emit (len + 1) unbound cells
-//   emit values[i .. m) once each   // implicit tail
-//   pad with unbound cells up to row_count
-//
-// Encoders SHOULD omit trailing unbound runs and rely on the padding rule.
-// A column with no bound cells at all is an empty message. Encoders must
-// merge adjacent runs (e.g., never emit two unbound runs separated by
-// skip == 0).
-//
-// A frame is corrupt if: i + skip > m; a repeat run starts when i == m;
-// len_code == 15 is not followed by an extension varint, or the column
-// decodes to more than row_count cells.
-// ---------------------------------------------------------------------------
-
-// Column of IRI values.
-//
-// The run values are two parallel packed lists of prefix and name identifiers.
-message SparqlIriColumn {
-  // Name identifiers of the run values, in row order. This list defines the
-  // number of run values in the column.
-  //
-  // The name_id inference rule of RdfIri applies along this list: 0 means
-  // "previous name_id + 1", and the state resets at the start of every column
-  // in every frame, where 0 means name_id = 1. Columns can therefore be
-  // decoded independently of each other (given the lookup tables).
-  repeated uint32 name_ids = 1;
-  // Sequence layout, see above. Empty = every cell is bound, no repeats.
-  repeated uint32 layouts = 2;
-  // Prefix identifiers of the run values, in row order.
-  //
-  // The list must have one of three lengths:
-  //   0                 – every value has prefix_id = 0 (no prefix), which is
-  //                       the case when the prefix lookup is disabled
-  //   1                 – every value uses this one prefix, which is the case
-  //                       for a column of IRIs sharing a namespace
-  //   len(name_ids)     – one entry per value
-  //
-  // In the third form the prefix_id inference rule of RdfIri applies along the
-  // list: 0 means "same prefix as the previous IRI", starting from 0.
-  //
-  // This is the last field of the message because it is usually tiny.
-  repeated uint32 prefix_ids = 3;
-}
-
-// Column of blank node values.
-message SparqlBnodeColumn {
-  // Run values (blank node labels), in row order.
-  repeated string values = 1;
-  // Sequence layout, see above.
-  repeated uint32 layouts = 2;
-}
-
-// Column of literal values.
-//
-// Each run value is a lexical form plus a literal kind, which says whether it
-// is a simple literal, a literal with a datatype from the datatype lookup, or a
-// language-tagged string with one of the column's language tags. A column in
-// which every value has the same kind states the kind once, which lets readers
-// keep the column in a string array instead of one object per value.
-message SparqlLiteralColumn {
-  // Lexical forms of the run values, in row order. This list defines the
-  // number of run values in the column.
-  repeated string lex_values = 1;
-  // Sequence layout, see above.
-  repeated uint32 layouts = 2;
-  // Literal kind of each run value, parallel to lex_values:
-  //   0          – simple literal (xsd:string)
-  //   odd v      – literal with the datatype of datatype lookup id (v + 1) / 2
-  //   even v > 0 – language-tagged string with language tag v / 2 - 1, an
-  //                index into langtags
-  //
-  // The list must have one of three lengths:
-  //   0                 – every value is a simple literal
-  //   1                 – every value has this kind
-  //   len(lex_values)   – one entry per value
-  //
-  // A datatype must not be rdf:langString or rdf:dirLangString – use a
-  // language tag instead. Simple literals do not need an xsd:string entry in
-  // the datatype lookup.
-  repeated uint32 literal_kinds = 3;
-  // The language tags referred to by literal_kinds, in the order of first use.
-  // Each should be a valid BCP 47 language tag. The same tag may appear more
-  // than once, with different base directions.
-  repeated string langtags = 4;
-  // Base directions of the language tags (RdfBaseDirection numbers), parallel
-  // to langtags. Empty means no base direction for any tag. A direction other
-  // than RDF_BASE_DIRECTION_UNSPECIFIED is not valid if the stream options
-  // declare RDF_VERSION_1_1.
-  repeated uint32 langtag_directions = 5;
-}
-
-// Polymorphic column: values may be RDF terms of any type.
-// To be used only for variables whose values mix term types – prefer the
-// monomorphic columns whenever possible.
-//
-// The run values are split by term type into typed sub-columns. The `kinds`
-// field says which sub-column contains the next run value. The sub-columns
-// have no layouts of their own: producers must not set `layouts` in them.
-// Consumers should ignore it, and may throw an error if it is set.
-message SparqlPolyColumn {
-  // Term type of each run value, in row order, 2 bits per value, four values
-  // per byte starting from the least significant bits:
-  //   0 – the next value of iris
-  //   1 – the next value of literals
-  //   2 – the next value of bnodes
-  //   3 – the next value of triple_terms
-  // The number of run values is the total number of values in the
-  // sub-columns, and kinds must have exactly ceil(values / 4) bytes. Unused
-  // bits of the last byte must be 0.
-  bytes kinds = 1;
-  // Sequence layout of the whole column, see above.
-  repeated uint32 layouts = 2;
-  // The IRIs of the column.
-  SparqlIriColumn iris = 3;
-  // The literals of the column.
-  SparqlLiteralColumn literals = 4;
-  // The blank nodes of the column.
-  SparqlBnodeColumn bnodes = 5;
-  // The triple terms of the column.
-  // Not valid if the stream options declare RDF_VERSION_1_1 or
-  // RDF_VERSION_1_2_BASIC.
-  //
-  // The IRIs inside the triple terms share one RdfIri inference state, which
-  // advances through them in order – subject, predicate, object, recursively
-  // into nested triple terms. It is separate from the state of the `iris`
-  // sub-column, and resets at the start of every column in every frame.
-  repeated RdfTripleTerm triple_terms = 6;
 }
 
 // End-of-result-set marker, saying whether the result set is complete.
@@ -286,17 +90,16 @@ message SparqlResultsTrailer {
 // SPARQL results frame – base message of a SPARQL result stream.
 //
 // A frame contains a batch of rows (solutions). A frame must contain either
-// exactly the columns established by the most recent header (the same number
-// of columns of each type), or no columns at all. The no-columns form is only
-// valid when row_count is 0 (or the result set has no variables), and is the
-// recommended encoding for a frame with no rows. A column whose cells are all
-// unbound in a frame is encoded as an empty message. Columns must decode to
-// at most row_count cells each (shorter columns are padded with unbound
-// cells – see the layout encoding).
+// exactly one column for each variable of the header, or no columns at all.
+// The no-columns form is only valid when row_count is 0 (or the result set
+// has no variables), and is the recommended encoding for a frame with no
+// rows. A column whose cells are all unbound in a frame is encoded as an
+// empty message. Columns must decode to at most row_count cells each
+// (shorter columns are padded with unbound cells – see the layout encoding).
 //
 // Frames are self-contained except for the lookup tables and the header:
 // a frame can be decoded using only the lookup table state left by the
-// preceding frames and the most recently transmitted header.
+// preceding frames and the header of its result set.
 message SparqlResultsFrame {
   // Stream options.
   // Must be set in the first frame of the stream.
@@ -305,27 +108,24 @@ message SparqlResultsFrame {
   // (identifier numbering restarts at 1).
   //
   // In a FLAT stream, it also makes the header cease to be in effect, so the
-  // same frame must restate it, with the same variables as the first frame.
+  // same frame must repeat it, with the same variables as the first frame.
   // Blank node labels are not reset. This is intended only for concatenating
   // result streams of the same query.
   //
   // In a PUNCTUATED stream, the options may be set again only in the first
   // frame of a result set.
   SparqlResultsOptions options = 1;
-  // Result set header: the variables of the result set, in projection
-  // (SELECT clause) order, each mapped to one column.
+  // Result set header: the names of the variables of the result set, in
+  // projection (SELECT clause) order, without the leading "?" or "$". Names
+  // must not be empty. The i-th column of every frame of the result set holds
+  // the values of the i-th variable.
   //
   // Must be set in the first frame of every result set with a solution
-  // sequence. A later frame of the same result set may restate the header to
-  // change the column layout (e.g., to move a variable from a monomorphic
-  // column to a polymorphic one). A restated header must list exactly the
-  // same variables in the same order – only the column assignments (and thus
-  // the number of columns of each type) may change. It takes effect for the
-  // frame it appears in and for all subsequent frames, until restated again.
-  // An empty variables list in the first frame of a result set, or in a frame
-  // that contains the options, declares a zero-variable result set (row_count
-  // then conveys the number of empty solutions).
-  repeated SparqlVariable variables = 2;
+  // sequence, and in a frame that contains the options (see `options`). Must
+  // not be set in any other frame. An empty variables list in such a frame
+  // declares a zero-variable result set (row_count then conveys the number of
+  // empty solutions).
+  repeated string variables = 2;
   // Number of rows (solutions) in this frame (required).
   // Must not be greater than 2^27 - 1, the largest number of cells the
   // layout encoding can address.
@@ -341,27 +141,19 @@ message SparqlResultsFrame {
   //
   // Note: the prefixes in the lookup table can be arbitrary strings, and are
   // NOT meant to be user-facing. They are only used for IRI compression.
-  // To transmit user-facing namespace declarations for cosmetic purposes, use
-  // RdfNamespaceDeclaration.
   repeated RdfLookupEntryPacked prefixes = 5;
   // Entries in the datatype lookup table. See `names` for ordering rules.
   repeated RdfLookupEntryPacked datatypes = 6;
-  // IRI columns.
-  repeated SparqlIriColumn iri_columns = 7;
-  // Blank node columns.
-  repeated SparqlBnodeColumn bnode_columns = 8;
-  // Literal columns.
-  repeated SparqlLiteralColumn literal_columns = 9;
-  // Polymorphic columns.
-  repeated SparqlPolyColumn poly_columns = 10;
+  // Columns, one per variable, in the order of `variables`.
+  repeated RdfColumn columns = 7;
   // Boolean (ASK) result.
   // If set, the result set is a boolean result instead of a solution
   // sequence. It may be set only in the first frame of a result set, which
   // must include no variables, no columns, and row_count = 0. A boolean
   // result is always the only frame of its result set.
-  SparqlAskResult ask_result = 11;
+  SparqlAskResult ask_result = 8;
   // End-of-result-set marker. See SparqlResultsTrailer.
-  SparqlResultsTrailer trailer = 12;
+  SparqlResultsTrailer trailer = 9;
   // Arbitrary metadata
   // The keys are UTF-8 encoded strings, the values are byte arrays.
   // The metadata does not affect the result data in any way, treat it

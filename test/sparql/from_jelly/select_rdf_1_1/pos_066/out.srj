@@ -8,14 +8,26 @@
     "bindings": [
       {
         "v": {
-          "type": "literal",
-          "value": "x"
+          "type": "uri",
+          "value": "http://example.org/a"
         }
       },
       {
         "v": {
-          "type": "bnode",
-          "value": "n"
+          "type": "literal",
+          "value": "l"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "https://b.org/x"
+        }
+      },
+      {
+        "v": {
+          "type": "uri",
+          "value": "https://b.org/a"
         }
       }
     ]
