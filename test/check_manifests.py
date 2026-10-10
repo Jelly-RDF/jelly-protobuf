@@ -19,6 +19,7 @@ Requires pyshacl (pip install pyshacl).
 
 import re
 import sys
+from enum import Enum
 from pathlib import Path
 
 from pyshacl import validate
@@ -29,13 +30,20 @@ BASE = 'https://w3id.org/jelly/dev/tests/'
 MF = Namespace('http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#')
 JELLYT = Namespace('https://w3id.org/jelly/dev/tests/vocab#')
 
-# Kind of test -> (whether mf:action is a list, whether mf:result is a list).
-# None means that both one file and a list of files are allowed.
+
+class Files(Enum):
+    """The allowed form of a mf:action or mf:result value."""
+    ONE = 'one file IRI'
+    LIST = 'an RDF list of file IRIs'
+    ONE_OR_LIST = 'one file IRI or an RDF list of file IRIs'
+
+
+# Kind of test -> (form of mf:action, form of mf:result).
 KINDS = {
-    JELLYT.TestRdfToJelly: (True, False),
-    JELLYT.TestRdfFromJelly: (False, True),
-    JELLYT.TestSparqlToJelly: (True, False),
-    JELLYT.TestSparqlFromJelly: (False, None),
+    JELLYT.TestRdfToJelly: (Files.LIST, Files.ONE),
+    JELLYT.TestRdfFromJelly: (Files.ONE, Files.LIST),
+    JELLYT.TestSparqlToJelly: (Files.LIST, Files.ONE),
+    JELLYT.TestSparqlFromJelly: (Files.ONE, Files.ONE_OR_LIST),
 }
 OUTCOMES = {JELLYT.TestPositive: 'pos', JELLYT.TestNegative: 'neg'}
 CASE_DIR = re.compile(r'(pos|neg)_\d+')
@@ -69,13 +77,13 @@ def read_list(g: Graph, node) -> list:
     return items
 
 
-def read_files(g: Graph, node, is_list: bool | None) -> list:
+def read_files(g: Graph, node, form: Files) -> list:
     """The file IRIs of a mf:action or mf:result value."""
-    if isinstance(node, URIRef) and is_list is not True:
+    if isinstance(node, URIRef) and form != Files.LIST:
         return [node]
-    if is_list is False:
+    if form == Files.ONE:
         found = 'a list' if isinstance(node, BNode) else node
-        raise CheckError(f'expected one file IRI, found {found}')
+        raise CheckError(f'expected {form.value}, found {found}')
     files = read_list(g, node)
     if not files:
         raise CheckError('the list of files is empty')
@@ -88,16 +96,15 @@ def read_files(g: Graph, node, is_list: bool | None) -> list:
 def check_test(g: Graph, test, kind) -> list[str]:
     """Checks the action and result of one test case."""
     errors = []
-    action_is_list, result_is_list = KINDS[kind]
-    for prop, is_list in ((MF.action, action_is_list),
-                          (MF.result, result_is_list)):
+    action_form, result_form = KINDS[kind]
+    for prop, form in ((MF.action, action_form), (MF.result, result_form)):
         for value in g.objects(test, prop):
             try:
-                files = read_files(g, value, is_list)
+                files = read_files(g, value, form)
             except CheckError as e:
                 errors.append(f'{prop.fragment}: {e}')
                 continue
-            if prop == MF.action and is_list and len(files) < 2:
+            if prop == MF.action and form == Files.LIST and len(files) < 2:
                 errors.append('action: the list must have the stream options '
                               'and at least one input file')
             for f in files:
