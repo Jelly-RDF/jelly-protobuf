@@ -13,7 +13,7 @@ The test categories and instructions for running the tests are on the [Jelly-SPA
 - `to_jelly/` – serialize tests (`jellyt:TestSparqlToJelly`), with a `manifest.ttl`.
 - `generator/` – the script that writes all of the above. **Do not edit the test files by hand.**
 
-The manifests use the vocabulary in [`../vocabulary.ttl`](../vocabulary.ttl). Every test links the rule of the specification it exercises with `rdfs:seeAlso`.
+The manifests use the vocabulary in [`../test-manifest.yaml`](../test-manifest.yaml). Every test links the rule of the specification it exercises with `rdfs:seeAlso`.
 
 ## Regenerating
 

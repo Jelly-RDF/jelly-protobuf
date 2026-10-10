@@ -1,4 +1,4 @@
-[![Website](https://img.shields.io/website?url=https%3A%2F%2Fjelly-rdf.github.io%2Fdev%2F)](https://w3id.org/jelly/dev/) [![pre-release](https://github.com/Jelly-RDF/jelly-protobuf/actions/workflows/pre-release.yml/badge.svg)](https://github.com/Jelly-RDF/jelly-protobuf/actions/workflows/pre-release.yml) ![GitHub License](https://img.shields.io/github/license/Jelly-RDF/jelly-protobuf) [![Discord](https://img.shields.io/discord/1333391881404420179?label=Discord%20chat)](https://discord.gg/A8sN5XwVa5)
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Fjelly-rdf.github.io%2Fdev%2F)](https://w3id.org/jelly/dev/) [![Release](https://github.com/Jelly-RDF/jelly-protobuf/actions/workflows/release.yml/badge.svg)](https://github.com/Jelly-RDF/jelly-protobuf/actions/workflows/release.yml) ![GitHub License](https://img.shields.io/github/license/Jelly-RDF/jelly-protobuf) [![Discord](https://img.shields.io/discord/1333391881404420179?label=Discord%20chat)](https://discord.gg/A8sN5XwVa5)
 
 # jelly-protobuf
 

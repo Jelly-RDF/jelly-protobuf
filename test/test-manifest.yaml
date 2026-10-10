@@ -1,0 +1,360 @@
+id: https://w3id.org/jelly/dev/tests/vocab
+name: jelly-test-manifest
+title: Jelly test case vocabulary
+description: >-
+  Manifest vocabulary for Jelly test cases, and the structure of the test
+  case manifests (test/*/*/manifest.ttl).
+
+  Based on the RDF Manifest vocabulary for test cases and the RDF 1.1 Test
+  Vocabulary. Inspired by the JSON-LD 1.1 Test Vocabulary.
+
+  The SHACL shapes generated from this schema are used to check the manifests
+  in CI.
+see_also:
+  - https://www.w3.org/2001/sw/DataAccess/tests/test-manifest
+  - https://www.w3.org/ns/rdftest
+  - https://w3c.github.io/json-ld-api/tests/vocab.html
+created_by: https://github.com/Ostrzyciel
+license: Apache-2.0
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  jellyt: https://w3id.org/jelly/dev/tests/vocab#
+  mf: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#
+  rdft: http://www.w3.org/ns/rdftest#
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+default_prefix: jellyt
+
+imports:
+  - linkml:types
+
+classes:
+  Manifest:
+    class_uri: mf:Manifest
+    tree_root: true
+    description: A list of test cases.
+    attributes:
+      id:
+        identifier: true
+        range: uriorcurie
+      label:
+        slot_uri: rdfs:label
+        required: true
+      entries:
+        slot_uri: mf:entries
+        required: true
+        range: Any
+        description: The test cases of the manifest, as an RDF list.
+        notes:
+          - This could use list_elements_ordered. See https://github.com/NeverBlink-OSS/linkml-scala/issues/277
+
+  RdftTest:
+    class_uri: rdft:Test
+    abstract: true
+    description: A test case, from the RDF 1.1 Test Vocabulary.
+
+  # Classes -- base
+
+  Test:
+    is_a: RdftTest
+    class_uri: jellyt:Test
+    abstract: true
+    title: Superclass for all Jelly tests
+    description: >-
+      A test case involving Jelly. Depending on the subclass, the
+      inputs/outputs are specified in different forms, but always using
+      mf:action (input) and mf:result (output) properties. mf:requires is used
+      to specify the requirements for the test case.
+    attributes:
+      id:
+        identifier: true
+        range: uriorcurie
+      name:
+        slot_uri: mf:name
+        required: true
+      comment:
+        slot_uri: rdfs:comment
+      see_also:
+        slot_uri: rdfs:seeAlso
+        multivalued: true
+        range: uri
+      approval:
+        slot_uri: rdft:approval
+        required: true
+        range: Approval
+      requires:
+        slot_uri: mf:requires
+        multivalued: true
+        range: Requirement
+      notable:
+        slot_uri: mf:notable
+        multivalued: true
+        range: Notable
+      action:
+        slot_uri: mf:action
+        required: true
+        range: Any
+        description: >-
+          The input: one file (an IRI) or an RDF list of files, depending on
+          the kind of test.
+      result:
+        slot_uri: mf:result
+        range: Any
+        description: >-
+          The expected output: one file (an IRI) or an RDF list of files,
+          depending on the kind of test.
+
+  TestPositive:
+    is_a: Test
+    class_uri: jellyt:TestPositive
+    title: Positive test
+    description: >-
+      A test case that is expected to succeed. The test case is successful
+      when the implementation returns the expected result specified in
+      mf:result.
+
+      This class MUST be combined with another subclass of jellyt:Test, e.g.
+      jellyt:TestRdfToJelly.
+    slot_usage:
+      result:
+        required: true
+
+  TestNegative:
+    is_a: Test
+    class_uri: jellyt:TestNegative
+    title: Negative test
+    description: >-
+      A test case that is expected to fail. The test case is successful when
+      the implementation returns an error. Currently, the test cases do not
+      specify the expected error code, but this will be added in the future.
+
+      This class MUST be combined with another subclass of jellyt:Test, e.g.
+      jellyt:TestRdfToJelly.
+    slot_usage:
+      result:
+        maximum_cardinality: 0
+
+  # Classes -- Jelly-RDF test cases
+
+  TestRdf:
+    is_a: Test
+    class_uri: jellyt:TestRdf
+    abstract: true
+    title: Jelly-RDF test
+    description: >-
+      A test case for the Jelly-RDF serialization format.
+
+      Generally, the test cases use the delimited form of Jelly-RDF. If
+      non-delimited files are used, the test is marked with the
+      jellyt:featureNonDelimited feature (mf:notable property).
+
+  TestRdfToJelly:
+    is_a: TestRdf
+    class_uri: jellyt:TestRdfToJelly
+    title: From RDF to Jelly-RDF test
+    description: >-
+      A test for converting RDF to Jelly-RDF. The goal of the test is to
+      convert the RDF input specified in mf:action to a Jelly-RDF file.
+
+      The input (mf:action) MUST be an rdf:List. The first element of the list
+      is a Jelly-RDF file containing the stream options to be used by the
+      producer. The subsequent elements are the RDF files to be converted to
+      Jelly-RDF. The input files are either in N-Triples or N-Quads format.
+
+      If the test is positive, the output (mf:result) MUST be an RDF IRI
+      pointing to a .jelly file with the expected Jelly-RDF file. If the test
+      is negative, mf:result is not set.
+
+      This class MUST be combined with either jellyt:TestPositive or
+      jellyt:TestNegative. When combined with jellyt:TestPositive, the test
+      succeeds when the resulting Jelly-RDF file has the expected stream
+      options, is syntactically valid, and is equivalent to the expected
+      Jelly-RDF file specified in mf:result, when compared using the ordered
+      RDF dataset isomorphism algorithm. This can be done with the jelly-cli
+      tool:
+
+        jelly-cli rdf validate --compare-to-rdf-file=<output> --compare-ordered=true --compare-frame-indices=<frame-index-to-compare> --options-file=<options-file> <implementation-output>
+
+  TestRdfFromJelly:
+    is_a: TestRdf
+    class_uri: jellyt:TestRdfFromJelly
+    title: From Jelly-RDF to RDF test
+    description: >-
+      A test for converting Jelly-RDF to RDF. The goal of the test is to
+      convert the Jelly-RDF input specified in mf:action to an RDF file or a
+      series of RDF files.
+
+      The input (mf:action) MUST be an RDF IRI pointing to a .jelly file.
+
+      If the test is positive, the output (mf:result) MUST be an rdf:List of
+      RDF IRIs with the expected output files. The output files are either in
+      N-Triples or N-Quads format.
+
+      This class MUST be combined with either jellyt:TestPositive or
+      jellyt:TestNegative. When combined with jellyt:TestPositive, the test
+      succeeds when the resulting RDF file is syntactically valid and is
+      equivalent to the expected RDF file specified in mf:result, when
+      compared using the ordered RDF dataset isomorphism algorithm.
+
+  # Classes -- Jelly-SPARQL test cases
+
+  TestSparql:
+    is_a: Test
+    class_uri: jellyt:TestSparql
+    abstract: true
+    title: Jelly-SPARQL test
+    description: >-
+      A test case for the Jelly-SPARQL query results format.
+
+      All test cases use the delimited variant of Jelly-SPARQL. Result sets
+      are given in the SPARQL Query Results JSON Format (.srj), in its SPARQL
+      1.2 form: "its:dir" for base directions and {"type": "triple", ...} for
+      triple terms.
+
+      Two results are equivalent when they are both boolean results with the
+      same value, or when they have the same variables in the same order, the
+      same number of solutions in the same order, and there is a bijection
+      between their blank node labels under which the solutions are pairwise
+      equal. A simple literal and an xsd:string literal are the same term.
+      Links (head.link) are not part of the comparison.
+
+  TestSparqlFromJelly:
+    is_a: TestSparql
+    class_uri: jellyt:TestSparqlFromJelly
+    title: From Jelly-SPARQL to SPARQL results test
+    description: >-
+      A test for parsing Jelly-SPARQL. The goal of the test is to read the
+      Jelly-SPARQL file specified in mf:action.
+
+      The input (mf:action) MUST be an RDF IRI pointing to a .jellys file.
+
+      If the test is positive, the output (mf:result) MUST be an RDF IRI
+      pointing to a .srj file with the expected result. For a stream with a
+      sequence of result sets (PUNCTUATED stream type), it MUST instead be an
+      rdf:List of RDF IRIs pointing to .srj files, one per result set, in
+      order. If the test is negative, mf:result is not set.
+
+      This class MUST be combined with either jellyt:TestPositive or
+      jellyt:TestNegative. When combined with jellyt:TestPositive, the test
+      succeeds when the implementation reads the file without an error, and
+      the result is equivalent to the expected one (see jellyt:TestSparql).
+      For a sequence of result sets, the implementation must read the same
+      number of result sets, and each must be equivalent to the expected one
+      at the same position. When combined with jellyt:TestNegative, the test
+      succeeds when the implementation reports an error.
+
+  TestSparqlToJelly:
+    is_a: TestSparql
+    class_uri: jellyt:TestSparqlToJelly
+    title: From SPARQL results to Jelly-SPARQL test
+    description: >-
+      A test for writing Jelly-SPARQL. The goal of the test is to serialize
+      the result in mf:action to a Jelly-SPARQL file.
+
+      The input (mf:action) MUST be an rdf:List of two or more elements. The
+      first element is a .jellys file with a single frame, in which only the
+      stream options are set: the options the producer must use. This file is
+      not a valid Jelly-SPARQL stream on its own: it only holds the options,
+      and implementations should read the SparqlResultsOptions message from
+      it directly. The remaining elements are .srj files with the results to
+      serialize: one file for a single result set, or one file per result
+      set, in order, for a sequence of result sets (PUNCTUATED stream type).
+
+      If the test is positive, the output (mf:result) MUST be an RDF IRI
+      pointing to a .jellys file with one valid serialization of the result.
+      Jelly-SPARQL is not byte-level canonical, so the implementation's output
+      is not expected to be identical to it. If the test is negative,
+      mf:result is not set.
+
+      This class MUST be combined with either jellyt:TestPositive or
+      jellyt:TestNegative. When combined with jellyt:TestPositive, the test
+      succeeds when the implementation's output is a valid Jelly-SPARQL file,
+      its first frame has the given stream options, its last frame has a
+      trailer without an error, and reading it gives a result equivalent to
+      the input (see jellyt:TestSparql). For a PUNCTUATED stream, reading it
+      must give the same number of result sets, each equivalent to the input
+      at the same position. When combined with jellyt:TestNegative, the test
+      succeeds when the implementation reports an error.
+
+  Any:
+    class_uri: linkml:Any
+    description: >-
+      Any RDF node. Used for values that may be RDF lists, which the SHACL
+      shapes cannot describe. check_manifests.py checks them instead.
+
+enums:
+  Approval:
+    enum_uri: rdft:Approval
+    permissible_values:
+      Proposed:
+        meaning: rdft:Proposed
+      Approved:
+        meaning: rdft:Approved
+      Rejected:
+        meaning: rdft:Rejected
+
+  # Instances -- requirements
+
+  Requirement:
+    enum_uri: mf:Requirement
+    permissible_values:
+      PhysicalTypeTriples:
+        meaning: jellyt:requirementPhysicalTypeTriples
+        title: "Requirement: physical type TRIPLES"
+        description: The test requires supporting the TRIPLES physical type.
+      PhysicalTypeQuads:
+        meaning: jellyt:requirementPhysicalTypeQuads
+        title: "Requirement: physical type QUADS"
+        description: The test requires supporting the QUADS physical type.
+      PhysicalTypeGraphs:
+        meaning: jellyt:requirementPhysicalTypeGraphs
+        title: "Requirement: physical type GRAPHS"
+        description: The test requires supporting the GRAPHS physical type.
+      RdfStar:
+        meaning: jellyt:requirementRdfStar
+        title: "Requirement: RDF-star support"
+        description: The test requires supporting RDF-star.
+      GeneralizedRdf:
+        meaning: jellyt:requirementGeneralizedRdf
+        title: "Requirement: generalized RDF support"
+        description: >-
+          The test requires supporting generalized RDF.
+
+          Note that for these tests, the input is a generalized RDF file, which
+          is not supported by most RDF implementations.
+      Rdf12Basic:
+        meaning: jellyt:requirementRdf12Basic
+        title: "Requirement: RDF 1.2 Basic"
+        description: >-
+          The test requires supporting RDF 1.2 Basic, that is, directional
+          language-tagged strings (literals with a base direction).
+      Rdf12:
+        meaning: jellyt:requirementRdf12
+        title: "Requirement: RDF 1.2"
+        description: >-
+          The test requires supporting full RDF 1.2: triple terms and
+          directional language-tagged strings.
+      Punctuated:
+        meaning: jellyt:requirementPunctuated
+        title: "Requirement: PUNCTUATED Jelly-SPARQL streams"
+        description: >-
+          The test requires supporting Jelly-SPARQL streams of the PUNCTUATED
+          stream type, that is, streams with a sequence of result sets.
+
+  # Instances -- notable features
+
+  Notable:
+    enum_uri: mf:Notable
+    permissible_values:
+      ShouldLevel:
+        meaning: jellyt:featureShouldLevel
+        title: "Notable feature: SHOULD-level rule"
+        description: >-
+          The test checks a rule that the specification states with SHOULD,
+          not MUST (for example, "the consumer SHOULD throw an error"). An
+          implementation may fail this test and still conform, but it should
+          document why.
+      NonDelimited:
+        meaning: jellyt:featureNonDelimited
+        title: "Notable feature: non-delimited"
+        description: The test uses non-delimited Jelly-RDF files.

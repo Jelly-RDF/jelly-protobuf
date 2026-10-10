@@ -54,7 +54,7 @@ message SparqlResultsOptions {
 // Type of a SPARQL result stream.
 enum SparqlStreamType {
   // The entire stream is a single result set. This is the default.
-  // protolint:disable:next ENUM_FIELD_NAMES_ZERO_VALUE_END_WITH
+  // buf:lint:ignore ENUM_ZERO_VALUE_SUFFIX
   SPARQL_STREAM_TYPE_FLAT = 0;
   // The stream is a sequence of result sets, each ended by a frame with a
   // trailer. A result set may span multiple frames, and each frame belongs to

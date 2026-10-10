@@ -1,0 +1,31 @@
+name: Protobuf checks
+
+on:
+  pull_request:
+    branches: [main]
+    # labeled/unlabeled: rerun when the "buf skip breaking" label changes.
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+permissions:
+  contents: read
+  # For the summary comment on the pull request.
+  pull-requests: write
+
+jobs:
+  buf:
+    name: Lint, format, and breaking changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      # Breaking changes are checked against the base branch. They are only
+      # wire format changes (WIRE rules in buf.yaml). To allow them in a pull
+      # request, add the "buf skip breaking" label.
+      - name: Run buf
+        uses: bufbuild/buf-action@v1.6.0
+        with:
+          version: 1.73.0
+          push: false
+          archive: false
+          breaking_against: "${{ github.event.repository.clone_url }}#format=git,commit=${{ github.event.pull_request.base.sha }},subdir=proto"
