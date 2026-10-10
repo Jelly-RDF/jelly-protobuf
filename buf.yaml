@@ -1,0 +1,23 @@
+version: v2
+modules:
+  - path: proto
+lint:
+  use:
+    - STANDARD
+  except:
+    # All files are in one directory, and the package names have no version
+    # suffix. Changing this would change the generated code in every library.
+    - PACKAGE_DIRECTORY_MATCH
+    - DIRECTORY_SAME_PACKAGE
+    - PACKAGE_VERSION_SUFFIX
+    # The gRPC service uses RdfStreamFrame directly. Renaming the request and
+    # response types would break the gRPC API.
+    - RPC_REQUEST_RESPONSE_UNIQUE
+    - RPC_REQUEST_STANDARD_NAME
+    - RPC_RESPONSE_STANDARD_NAME
+    # RdfLiteral.literalKind: renaming the oneof would change the generated
+    # code in some languages.
+    - ONEOF_LOWER_SNAKE_CASE
+breaking:
+  use:
+    - WIRE

@@ -59,7 +59,7 @@ message SparqlResultsOptions {
 // Type of a SPARQL result stream.
 enum SparqlStreamType {
   // The entire stream is a single result set. This is the default.
-  // protolint:disable:next ENUM_FIELD_NAMES_ZERO_VALUE_END_WITH
+  // buf:lint:ignore ENUM_ZERO_VALUE_SUFFIX
   SPARQL_STREAM_TYPE_FLAT = 0;
   // The stream is a sequence of result sets, each ended by a frame with a
   // trailer. A result set may span multiple frames, and each frame belongs to
@@ -195,7 +195,7 @@ message SparqlBnodeColumn {
 // Each run value is a lexical form plus a literal kind, which says whether it
 // is a simple literal, a literal with a datatype from the datatype lookup, or a
 // language-tagged string with one of the column's language tags. A column in
-// which every value has the same kind states the kind once, which lets readers 
+// which every value has the same kind states the kind once, which lets readers
 // keep the column in a string array instead of one object per value.
 message SparqlLiteralColumn {
   // Lexical forms of the run values, in row order. This list defines the

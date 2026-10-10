@@ -2,7 +2,7 @@ syntax = "proto3";
 package eu.ostrzyciel.jelly.core.proto.v1;
 
 // Jelly RDF serialization with Protocol Buffers.
-// Specification document: 
+// Specification document:
 // https://w3id.org/jelly/1.1.1/specification/serialization
 // Protocol version: 1.1.1
 
@@ -50,8 +50,7 @@ message RdfLiteral {
 }
 
 // Empty message indicating the default RDF graph.
-message RdfDefaultGraph {
-}
+message RdfDefaultGraph {}
 
 // RDF triple
 //
@@ -71,40 +70,40 @@ message RdfTriple {
   // Triple subject
   oneof subject {
     // IRI
-    RdfIri        s_iri = 1;
+    RdfIri s_iri = 1;
     // Blank node
-    string        s_bnode = 2;
+    string s_bnode = 2;
     // Literal
     // Only valid in a generalized RDF stream.
-    RdfLiteral    s_literal = 3;
+    RdfLiteral s_literal = 3;
     // RDF-star quoted triple
-    RdfTriple     s_triple_term = 4;
+    RdfTriple s_triple_term = 4;
   }
 
   // Triple predicate
   oneof predicate {
     // IRI
-    RdfIri        p_iri = 5;
+    RdfIri p_iri = 5;
     // Blank node
     // Only valid in a generalized RDF stream.
-    string        p_bnode = 6;
+    string p_bnode = 6;
     // Literal
     // Only valid in a generalized RDF stream.
-    RdfLiteral    p_literal = 7;
+    RdfLiteral p_literal = 7;
     // RDF-star quoted triple
-    RdfTriple     p_triple_term = 8;
+    RdfTriple p_triple_term = 8;
   }
 
   // Triple object
   oneof object {
     // IRI
-    RdfIri        o_iri = 9;
+    RdfIri o_iri = 9;
     // Blank node
-    string        o_bnode = 10;
+    string o_bnode = 10;
     // Literal
-    RdfLiteral    o_literal = 11;
+    RdfLiteral o_literal = 11;
     // RDF-star quoted triple
-    RdfTriple     o_triple_term = 12;
+    RdfTriple o_triple_term = 12;
   }
 }
 
@@ -123,52 +122,52 @@ message RdfQuad {
   // Quad subject
   oneof subject {
     // IRI
-    RdfIri        s_iri = 1;
+    RdfIri s_iri = 1;
     // Blank node
-    string        s_bnode = 2;
+    string s_bnode = 2;
     // Literal
     // Only valid in a generalized RDF stream.
-    RdfLiteral    s_literal = 3;
+    RdfLiteral s_literal = 3;
     // RDF-star quoted triple
-    RdfTriple     s_triple_term = 4;
+    RdfTriple s_triple_term = 4;
   }
 
   // Quad predicate
   oneof predicate {
     // IRI
-    RdfIri        p_iri = 5;
+    RdfIri p_iri = 5;
     // Blank node
     // Only valid in a generalized RDF stream.
-    string        p_bnode = 6;
+    string p_bnode = 6;
     // Literal
     // Only valid in a generalized RDF stream.
-    RdfLiteral    p_literal = 7;
+    RdfLiteral p_literal = 7;
     // RDF-star quoted triple
-    RdfTriple     p_triple_term = 8;
+    RdfTriple p_triple_term = 8;
   }
 
   // Quad object
   oneof object {
     // IRI
-    RdfIri        o_iri = 9;
+    RdfIri o_iri = 9;
     // Blank node
-    string        o_bnode = 10;
+    string o_bnode = 10;
     // Literal
-    RdfLiteral    o_literal = 11;
+    RdfLiteral o_literal = 11;
     // RDF-star quoted triple
-    RdfTriple     o_triple_term = 12;
+    RdfTriple o_triple_term = 12;
   }
 
   // Quad graph
   oneof graph {
     // IRI
-    RdfIri           g_iri = 13;
+    RdfIri g_iri = 13;
     // Blank node
-    string           g_bnode = 14;
+    string g_bnode = 14;
     // Default graph
-    RdfDefaultGraph  g_default_graph = 15;
+    RdfDefaultGraph g_default_graph = 15;
     // Literal – only valid for generalized RDF streams
-    RdfLiteral       g_literal = 16;
+    RdfLiteral g_literal = 16;
   }
 }
 
@@ -179,19 +178,18 @@ message RdfQuad {
 message RdfGraphStart {
   oneof graph {
     // IRI
-    RdfIri           g_iri = 1;
+    RdfIri g_iri = 1;
     // Blank node
-    string           g_bnode = 2;
+    string g_bnode = 2;
     // Default graph
-    RdfDefaultGraph  g_default_graph = 3;
+    RdfDefaultGraph g_default_graph = 3;
     // Literal – only valid for generalized RDF streams
-    RdfLiteral       g_literal = 4;
+    RdfLiteral g_literal = 4;
   }
 }
 
 // End of a graph in a GRAPHS stream
-message RdfGraphEnd {
-}
+message RdfGraphEnd {}
 
 // Explicit namespace declaration
 //
@@ -267,7 +265,7 @@ message RdfStreamOptions {
   // Maximum size of the prefix lookup table
   // (required if the prefix lookup is used)
   uint32 max_prefix_table_size = 10;
-  // Maximum size of the datatype lookup table 
+  // Maximum size of the datatype lookup table
   // (required if datatype literals are used)
   uint32 max_datatype_table_size = 11;
   // Logical (RDF-STaX-based) stream type
@@ -297,14 +295,14 @@ enum PhysicalStreamType {
 // Logical stream type, according to the RDF Stream Taxonomy (RDF-STaX).
 // Type 0 is reserved for the unspecified stream type.
 // The rest of the type numbers follow the taxonomical structure of RDF-STaX.
-// For example: 1 is a subtype of 0, 13 and 23 are subtypes of 3, 
+// For example: 1 is a subtype of 0, 13 and 23 are subtypes of 3,
 // 114 is a subtype of 14, etc.
-// 
-// Types 1–4 correspond to the four base concrete stream types. Their 
-// subtypes can be in most cases simply processed in the same way as 
+//
+// Types 1–4 correspond to the four base concrete stream types. Their
+// subtypes can be in most cases simply processed in the same way as
 // the base types.
-// Therefore, implementations can take the modulo 10 of the stream 
-// type to determine the base type of the stream and use this information 
+// Therefore, implementations can take the modulo 10 of the stream
+// type to determine the base type of the stream and use this information
 // to select the appropriate processing logic.
 //
 // RDF-STaX version: 1.1.2

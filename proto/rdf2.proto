@@ -104,22 +104,22 @@ message RdfTripleTerm {
   // Subject (required).
   oneof subject {
     // IRI
-    RdfIri        s_iri = 1;
+    RdfIri s_iri = 1;
     // Blank node
-    string        s_bnode = 2;
+    string s_bnode = 2;
   }
 
   // Predicate (required).
-  RdfIri          p_iri = 5;
+  RdfIri p_iri = 5;
 
   // Object (required).
   oneof object {
     // IRI
-    RdfIri        o_iri = 9;
+    RdfIri o_iri = 9;
     // Blank node
-    string        o_bnode = 10;
+    string o_bnode = 10;
     // Literal
-    RdfLiteral2   o_literal = 11;
+    RdfLiteral2 o_literal = 11;
     // Nested triple term
     RdfTripleTerm o_triple_term = 12;
   }
