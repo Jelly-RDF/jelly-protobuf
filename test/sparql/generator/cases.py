@@ -16,8 +16,8 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 import msgs
-import pb
 from encoder import Opts, encode
+from generator_common import pb
 from model import (
     RDF_DIR_LANG_STRING,
     RDF_LANG_STRING,

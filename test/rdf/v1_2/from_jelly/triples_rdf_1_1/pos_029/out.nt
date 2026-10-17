@@ -1,0 +1,3 @@
+<http://example.org/s> <http://example.org/p> <http://example.org/x> .
+<http://example.org/s> <http://example.org/p> <http://example.org/s> .
+<http://example.org/s> <http://example.org/p> <http://example.org/p> .

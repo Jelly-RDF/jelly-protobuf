@@ -1,0 +1,6 @@
+<http://example.org/s> <http://example.org/p> "0" <http://example.org/a> .
+<http://example.org/s> <http://example.org/p> "1" <http://example.org/a> .
+<http://example.org/s> <http://example.org/p> "2" <http://example.org/a> .
+<http://example.org/s> <http://example.org/p> "3" .
+<http://example.org/s> <http://example.org/p> "4" .
+<http://example.org/s> <http://example.org/p> "5" <http://example.org/b> .

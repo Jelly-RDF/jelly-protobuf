@@ -2,9 +2,12 @@
 
 Machine-readable test manifests are in the `manifest.ttl` file of each subdirectory. The manifests follow the test case vocabulary, defined as a [LinkML](https://linkml.io) schema in the `test-manifest.yaml` file. The vocabulary is also published in RDFS and SHACL with every [release](https://github.com/Jelly-RDF/jelly-protobuf/releases).
 
-- `rdf` – tests for the [Jelly RDF serialization format specification](https://w3id.org/jelly/dev/specification/serialization/) (Jelly-RDF).
+- `rdf` – tests for the [Jelly RDF serialization format specification](https://w3id.org/jelly/dev/specification/serialization/) (Jelly-RDF):
+    - `rdf/v1_2` – Jelly-RDF 1.2 streams (version tag 3, the column layout);
+    - `rdf/v1_1` – Jelly-RDF 1.0 and 1.1 streams (version tags 1 and 2, the row layout).
 - `sparql` – tests for the [Jelly SPARQL results format specification](https://w3id.org/jelly/dev/specification/sparql/) (Jelly-SPARQL).
 - `grpc` – tests for the [Jelly gRPC streaming protocol specification](https://w3id.org/jelly/dev/specification/streaming/) (Jelly-RDF gRPC).
+- `generator_common` – code shared by the generators of the Jelly-RDF 1.2 and Jelly-SPARQL test suites.
 
 ## Manifest validation
 

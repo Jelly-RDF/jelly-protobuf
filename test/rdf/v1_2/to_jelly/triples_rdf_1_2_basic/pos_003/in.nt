@@ -1,0 +1,5 @@
+<http://example.org/s0> <http://example.org/label> "שורה 0"@he--rtl .
+<http://example.org/s1> <http://example.org/label> "שורה 1"@he--rtl .
+<http://example.org/s2> <http://example.org/label> "שורה 2"@he--rtl .
+<http://example.org/s3> <http://example.org/label> "שורה 3"@he--rtl .
+<http://example.org/s4> <http://example.org/label> "שורה 4"@he--rtl .

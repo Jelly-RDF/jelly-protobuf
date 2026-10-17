@@ -1,0 +1,6 @@
+<http://example.org/zażółć/gęślą#jaźń> <http://example.org/label> "Zażółć gęślą jaźń" .
+<http://例え.jp/テスト> <http://example.org/label> "日本語のテキスト"@ja .
+<http://example.org/emoji/😀> <http://example.org/label> "emoji 😀🎉 and a combining mark: é" .
+<http://example.org/rtl> <http://example.org/label> "مرحبا بالعالم"@ar .
+<http://example.org/escapes> <http://example.org/label> "quotes \" and ' backslash \\ tab 	 newline \n return \r" .
+<http://example.org/empty> <http://example.org/label> "" .

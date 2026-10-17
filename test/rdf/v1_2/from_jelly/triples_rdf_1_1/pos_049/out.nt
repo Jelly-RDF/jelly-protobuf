@@ -1,0 +1,4 @@
+<http://example.org/s> <http://example.org/p> ""@en .
+<http://example.org/s> <http://example.org/p> ""@en .
+<http://example.org/s> <http://example.org/p> "" .
+<http://example.org/s> <http://example.org/p> ""@fr .

@@ -24,7 +24,7 @@ python3 test/sparql/generator/generate.py          # rewrite the test files
 python3 test/sparql/generator/generate.py --check  # check that the files are up to date
 ```
 
-Before writing anything, the generator checks every case with a reference decoder and encoder written from the specification (`generator/decoder.py`, `generator/encoder.py`):
+Before writing anything, the generator checks every case with a reference decoder and encoder written from the specification (`generator/decoder.py`, `generator/encoder.py`, and the column code they share with the Jelly-RDF 1.2 generator in [`../generator_common`](../generator_common)):
 
 - a positive parse test must decode to its expected result;
 - a negative parse test must fail for the reason given in the case, not for some other one;

@@ -1,0 +1,24 @@
+<http://example.org/obs/0> <http://example.org/value> "0.0"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/obs/0> <http://example.org/label> "Observation 0"@en .
+<http://example.org/obs/1> <http://example.org/value> "1.5"^^<http://www.w3.org/2001/XMLSchema#decimal> <http://example.org/sensors/a> .
+<http://example.org/obs/1> <http://example.org/label> "Observation 1"@en <http://example.org/sensors/a> .
+<http://example.org/obs/2> <http://example.org/value> "3.0"^^<http://www.w3.org/2001/XMLSchema#decimal> <http://example.org/sensors/b> .
+<http://example.org/obs/2> <http://example.org/label> "Observation 2"@en .
+<http://example.org/obs/3> <http://example.org/value> "4.5"^^<http://www.w3.org/2001/XMLSchema#decimal> _:g1 .
+<http://example.org/obs/3> <http://example.org/label> "Observation 3"@en <http://example.org/sensors/a> .
+<http://example.org/obs/4> <http://example.org/value> "6.0"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/obs/4> <http://example.org/label> "Observation 4"@en .
+<http://example.org/obs/5> <http://example.org/value> "7.5"^^<http://www.w3.org/2001/XMLSchema#decimal> <http://example.org/sensors/a> .
+<http://example.org/obs/5> <http://example.org/label> "Observation 5"@en <http://example.org/sensors/a> .
+<http://example.org/obs/6> <http://example.org/value> "9.0"^^<http://www.w3.org/2001/XMLSchema#decimal> <http://example.org/sensors/b> .
+<http://example.org/obs/6> <http://example.org/label> "Observation 6"@en .
+<http://example.org/obs/7> <http://example.org/value> "10.5"^^<http://www.w3.org/2001/XMLSchema#decimal> _:g1 .
+<http://example.org/obs/7> <http://example.org/label> "Observation 7"@en <http://example.org/sensors/a> .
+<http://example.org/obs/8> <http://example.org/value> "12.0"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/obs/8> <http://example.org/label> "Observation 8"@en .
+<http://example.org/obs/9> <http://example.org/value> "13.5"^^<http://www.w3.org/2001/XMLSchema#decimal> <http://example.org/sensors/a> .
+<http://example.org/obs/9> <http://example.org/label> "Observation 9"@en <http://example.org/sensors/a> .
+<http://example.org/obs/10> <http://example.org/value> "15.0"^^<http://www.w3.org/2001/XMLSchema#decimal> <http://example.org/sensors/b> .
+<http://example.org/obs/10> <http://example.org/label> "Observation 10"@en .
+<http://example.org/obs/11> <http://example.org/value> "16.5"^^<http://www.w3.org/2001/XMLSchema#decimal> _:g1 .
+<http://example.org/obs/11> <http://example.org/label> "Observation 11"@en <http://example.org/sensors/a> .

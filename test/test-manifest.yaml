@@ -153,8 +153,10 @@ classes:
     class_uri: jellyt:TestRdfToJelly
     title: From RDF to Jelly-RDF test
     description: >-
-      A test for converting RDF to Jelly-RDF. The goal of the test is to
-      convert the RDF input specified in mf:action to a Jelly-RDF file.
+      A test for converting RDF to Jelly-RDF 1.0 or 1.1 (version tags 1 and
+      2, the row layout). The goal of the test is to convert the RDF input
+      specified in mf:action to a Jelly-RDF file. For Jelly-RDF 1.2, see
+      jellyt:TestRdf12ToJelly.
 
       The input (mf:action) MUST be an rdf:List. The first element of the list
       is a Jelly-RDF file containing the stream options to be used by the
@@ -180,9 +182,10 @@ classes:
     class_uri: jellyt:TestRdfFromJelly
     title: From Jelly-RDF to RDF test
     description: >-
-      A test for converting Jelly-RDF to RDF. The goal of the test is to
-      convert the Jelly-RDF input specified in mf:action to an RDF file or a
-      series of RDF files.
+      A test for converting Jelly-RDF 1.0 or 1.1 (version tags 1 and 2, the
+      row layout) to RDF. The goal of the test is to convert the Jelly-RDF
+      input specified in mf:action to an RDF file or a series of RDF files.
+      For Jelly-RDF 1.2, see jellyt:TestRdf12FromJelly.
 
       The input (mf:action) MUST be an RDF IRI pointing to a .jelly file.
 
@@ -195,6 +198,72 @@ classes:
       succeeds when the resulting RDF file is syntactically valid and is
       equivalent to the expected RDF file specified in mf:result, when
       compared using the ordered RDF dataset isomorphism algorithm.
+
+  TestRdf12FromJelly:
+    is_a: TestRdf
+    class_uri: jellyt:TestRdf12FromJelly
+    title: From Jelly-RDF 1.2 to RDF test
+    description: >-
+      A test for reading a Jelly-RDF 1.2 stream (version tag 3, the column
+      layout). The goal of the test is to convert the Jelly-RDF file specified
+      in mf:action to RDF.
+
+      The input (mf:action) MUST be an RDF IRI pointing to a .jelly file.
+
+      If the test is positive, the output (mf:result) depends on the stream
+      type. For a stream of type FLAT, it MUST be an RDF IRI pointing to one
+      N-Triples or N-Quads file with all statements of the stream. For a
+      stream of RDF Messages (stream type MESSAGES), it MUST be an rdf:List of
+      RDF IRIs pointing to N-Triples or N-Quads files, one per message, in
+      order. The file of an empty message is empty. If the test is negative,
+      mf:result is not set.
+
+      Frames have no meaning of their own in Jelly-RDF 1.2, so the output is
+      not split by frames.
+
+      This class MUST be combined with either jellyt:TestPositive or
+      jellyt:TestNegative. When combined with jellyt:TestPositive, the test
+      succeeds when the implementation reads the file without an error, and
+      its statements are the statements of the expected file, in the same
+      order, with a bijection between their blank node labels (ordered RDF
+      dataset isomorphism). For a stream of RDF Messages, the implementation
+      must read the same number of messages, and each must be equivalent to
+      the expected file at the same position, with its own bijection between
+      blank node labels. When combined with jellyt:TestNegative, the test
+      succeeds when the implementation reports an error.
+
+  TestRdf12ToJelly:
+    is_a: TestRdf
+    class_uri: jellyt:TestRdf12ToJelly
+    title: From RDF to Jelly-RDF 1.2 test
+    description: >-
+      A test for writing a Jelly-RDF 1.2 stream (version tag 3, the column
+      layout). The goal of the test is to convert the RDF input specified in
+      mf:action to a Jelly-RDF file.
+
+      The input (mf:action) MUST be an rdf:List of two or more elements. The
+      first element is a .jelly file with a single frame, in which only the
+      stream options are set: the options the producer must use. The
+      remaining elements are N-Triples or N-Quads files with the statements
+      to serialize: one file for a stream of type FLAT, or one file per
+      message, in order, for a stream of RDF Messages (stream type MESSAGES).
+      The blank node labels of each message file are scoped to that file.
+
+      If the test is positive, the output (mf:result) MUST be an RDF IRI
+      pointing to a .jelly file with one valid serialization of the input.
+      Jelly-RDF is not byte-level canonical, so the implementation's output is
+      not expected to be identical to it. If the test is negative, mf:result
+      is not set.
+
+      This class MUST be combined with either jellyt:TestPositive or
+      jellyt:TestNegative. When combined with jellyt:TestPositive, the test
+      succeeds when the implementation's output is a valid Jelly-RDF 1.2 file,
+      its first non-empty frame has the given stream options, and reading it
+      gives the statements of the input, as described in
+      jellyt:TestRdf12FromJelly. If the input has no statements, an output
+      without any non-empty frame (for example, an empty file) also succeeds. When
+      combined with jellyt:TestNegative, the test succeeds when the
+      implementation reports an error.
 
   # Classes -- Jelly-SPARQL test cases
 
@@ -334,6 +403,12 @@ enums:
         description: >-
           The test requires supporting full RDF 1.2: triple terms and
           directional language-tagged strings.
+      Messages:
+        meaning: jellyt:requirementMessages
+        title: "Requirement: Jelly-RDF streams of RDF Messages"
+        description: >-
+          The test requires supporting Jelly-RDF streams of the MESSAGES
+          stream type, that is, streams with a sequence of RDF Messages.
       Punctuated:
         meaning: jellyt:requirementPunctuated
         title: "Requirement: PUNCTUATED Jelly-SPARQL streams"

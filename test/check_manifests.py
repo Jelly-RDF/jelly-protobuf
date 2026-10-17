@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Checks the test case manifests (test/*/*/manifest.ttl).
+"""Checks the test case manifests (the manifest.ttl files under test/).
 
 Usage:
 
@@ -42,6 +42,8 @@ class Files(Enum):
 KINDS = {
     JELLYT.TestRdfToJelly: (Files.LIST, Files.ONE),
     JELLYT.TestRdfFromJelly: (Files.ONE, Files.LIST),
+    JELLYT.TestRdf12ToJelly: (Files.LIST, Files.ONE),
+    JELLYT.TestRdf12FromJelly: (Files.ONE, Files.ONE_OR_LIST),
     JELLYT.TestSparqlToJelly: (Files.LIST, Files.ONE),
     JELLYT.TestSparqlFromJelly: (Files.ONE, Files.ONE_OR_LIST),
 }
@@ -182,7 +184,7 @@ def main() -> int:
         return 2
 
     failed = False
-    manifests = sorted(TEST_DIR.glob('*/*/manifest.ttl'))
+    manifests = sorted(TEST_DIR.rglob('manifest.ttl'))
     for path in manifests:
         name = path.relative_to(TEST_DIR.parent)
         conforms, _, report = validate(Graph().parse(path),

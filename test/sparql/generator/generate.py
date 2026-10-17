@@ -32,12 +32,13 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(HERE))
+sys.path.insert(1, str(HERE.parent.parent))
 
 import cases  # noqa: E402
 import decoder  # noqa: E402
 import encoder  # noqa: E402
 import msgs  # noqa: E402
-import pb  # noqa: E402
+from generator_common import pb  # noqa: E402
 from model import AskResult, Iri, Lit, Triple, equivalent, from_srj, to_srj  # noqa: E402
 
 SUITE = HERE.parent
@@ -85,7 +86,7 @@ def build_from_jelly(case, label):
     files = {"in.jellys": data}
     try:
         result = decoder.decode(data)
-    except decoder.SparqlDecodeError as e:
+    except decoder.DecodeError as e:
         if case.positive:
             raise CaseError(f"{label}: the reference decoder rejects a positive case: {e}")
         if case.error not in str(e):
