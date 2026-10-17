@@ -274,9 +274,9 @@ message RdfStreamFrame {
   // Row layout: the contents of the frame.
   //
   // Column layout: either empty, or exactly one row with the stream options,
-  // which is processed before `columns`. The first frame of the stream must
-  // have the options row, and later frames may restate it (see
-  // RdfStreamOptions).
+  // which is processed before `columns`. The first non-empty frame of the
+  // stream (the first frame with rows or columns) must have the options row,
+  // and later frames may restate it (see RdfStreamOptions).
   repeated RdfStreamRow rows = 1;
   // Column layout only: the contents of the frame.
   // Must not be set in the row layout.

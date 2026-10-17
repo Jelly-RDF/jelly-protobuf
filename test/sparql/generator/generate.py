@@ -42,7 +42,7 @@ from model import AskResult, Iri, Lit, Triple, equivalent, from_srj, to_srj  # n
 
 SUITE = HERE.parent
 PROTO_DIR = SUITE.parent.parent / "proto"
-SPEC = "https://w3id.org/jelly/dev/specification/sparql/"
+SPEC = "https://w3id.org/jelly/dev/specification/"
 BASE = "https://w3id.org/jelly/dev/tests/sparql"
 FRAME_TYPE = "eu.ostrzyciel.jelly.core.proto.v1.sparql.SparqlResultsFrame"
 ABSOLUTE_IRI = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
@@ -228,7 +228,8 @@ def manifest(direction, entries) -> str:
             comments.append(case.comment)
         if comments:
             lines.append(f"    rdfs:comment {ttl_string(' '.join(comments))} ;")
-        lines.append(f"    rdfs:seeAlso <{SPEC}#{case.see}> ;")
+        page, anchor = case.see.split("#") if "#" in case.see else ("sparql", case.see)
+        lines.append(f"    rdfs:seeAlso <{SPEC}{page}/#{anchor}> ;")
         lines.append("    rdft:approval rdft:Proposed ;")
         if case.category in REQUIREMENTS:
             lines.append(f"    mf:requires {REQUIREMENTS[case.category]} ;")
