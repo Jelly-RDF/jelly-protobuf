@@ -1,0 +1,2 @@
+_:x <http://example.org/p> "0" _:y .
+_:y <http://example.org/p> "1" _:x .

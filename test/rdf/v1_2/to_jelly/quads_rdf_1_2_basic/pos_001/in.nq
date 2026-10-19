@@ -1,0 +1,2 @@
+<http://example.org/s> <http://example.org/label> "hello"@en--ltr <http://example.org/g1> .
+<http://example.org/s> <http://example.org/label> "مرحبا"@ar--rtl .

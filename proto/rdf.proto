@@ -3,53 +3,364 @@ package eu.ostrzyciel.jelly.core.proto.v1;
 
 // Jelly RDF serialization with Protocol Buffers.
 // Specification document:
-// https://w3id.org/jelly/1.1.1/specification/serialization
-// Protocol version: 1.1.1
+// https://w3id.org/jelly/dev/specification/serialization
+// Protocol version: 1.2.0 (in development)
+//
+// A Jelly-RDF stream is a sequence of RdfStreamFrame messages. The contents
+// of the frames use one of two layouts, depending on the protocol version:
+//
+//   - Column layout (version 3, Jelly-RDF 1.2.x): the statements of a frame
+//     are stored column by column in an RdfColumnBatch.
+//   - Row layout (versions 1 and 2, Jelly-RDF 1.0.x and 1.1.x): a frame is a
+//     list of RdfStreamRow messages. The messages used only by this layout
+//     are in the "Row layout" section at the end of this file.
+//
+// Comments starting with "If row layout:" or "If column layout:" apply only
+// to streams in that layout.
 
-// RDF IRIs
-// The IRIs are reconstructed by the consumer using the prefix and name
-// lookup tables.
+// ---------------------------------------------------------------------------
+// RDF terms
+// ---------------------------------------------------------------------------
+
+// RDF IRI, encoded as a prefix and a name from the lookup tables. The IRI is
+// the prefix followed by the name.
 message RdfIri {
-  // 1-based, refers to an entry in the prefix lookup.
-  //
-  // 0 signifies "use the same prefix_id as in the previous IRI".
-  // For this to work, IRIs must be processed strictly in order: firstly by
-  // stream row, then by term (subject, predicate, object, graph). This also
-  // applies recursively to RDF-star quoted triples.
-  //
-  // If 0 appears in the first IRI of the stream (and in any subsequent IRI),
-  // this should be interpreted as an empty ("") prefix. This is for example
-  // used when the prefix lookup table is disabled.
+  // 1-based identifier of the prefix in the prefix lookup.
+  // 0 means "the same prefix as in the previous IRI", or no prefix in the
+  // first IRI. Which IRI is the previous one depends on the layout.
   uint32 prefix_id = 1;
 
-  // 1-based, refers to an entry in the name lookup.
-  //
-  // 0 signifies "use the previous name_id + 1". This requires the same order
-  // guarantees as prefixes.
-  //
-  // If 0 appears in the first IRI of the stream, it should be interpreted as
-  // name_id = 1.
+  // 1-based identifier of the name in the name lookup.
+  // 0 means "the name_id of the previous IRI + 1", or 1 in the first IRI.
   uint32 name_id = 2;
 }
 
-// RDF literals
+// Version of RDF that a stream conforms to, following the version labels of
+// RDF 1.2 Concepts:
+// https://www.w3.org/TR/rdf12-concepts/#defined-version-labels
+enum RdfVersion {
+  // Unspecified. Each format that uses this enum defines how to interpret it.
+  RDF_VERSION_UNSPECIFIED = 0;
+  // RDF 1.1 (version label "1.1"): no triple terms, no base directions.
+  RDF_VERSION_1_1 = 1;
+  // RDF 1.2 Basic (version label "1.2-basic"): base directions are allowed,
+  // triple terms are not.
+  RDF_VERSION_1_2_BASIC = 2;
+  // RDF 1.2 (version label "1.2"): base directions and triple terms are
+  // allowed.
+  RDF_VERSION_1_2 = 3;
+}
+
+// Initial text direction of a language-tagged string (RDF 1.2).
+enum RdfBaseDirection {
+  // No base direction: an ordinary language-tagged string (rdf:langString).
+  RDF_BASE_DIRECTION_UNSPECIFIED = 0;
+  // Left-to-right ("ltr"): a directional language-tagged string
+  // (rdf:dirLangString).
+  RDF_BASE_DIRECTION_LTR = 1;
+  // Right-to-left ("rtl"): a directional language-tagged string
+  // (rdf:dirLangString).
+  RDF_BASE_DIRECTION_RTL = 2;
+}
+
+// RDF literal
 message RdfLiteral {
-  // The lexical form of the literal (required).
+  // The lexical form of the literal.
   string lex = 1;
 
-  // Literal kind – at most one of these field may be set.
-  // If none is set, then it's a simple literal.
+  // Literal kind – at most one of these fields may be set.
+  // If none is set, the literal is a simple literal (xsd:string).
   oneof literalKind {
-    // Language-tagged string.
+    // Language tag of a language-tagged string.
     string langtag = 2;
-    // Typed literal. The datatype is a reference to an entry in the
-    // datatype lookup. This value is 1-based and the value of 0
-    // is invalid (in contrast to prefix_id and name_id in RdfIri).
+    // 1-based identifier of the datatype in the datatype lookup.
+    // 0 is invalid (in contrast to prefix_id and name_id in RdfIri).
+    // If column layout: must not refer to rdf:langString or
+    // rdf:dirLangString.
     uint32 datatype = 3;
+  }
+
+  // Base direction of a language-tagged string (RDF 1.2).
+  // If column layout: may be set only if langtag is set.
+  // If row layout: must not be set.
+  RdfBaseDirection direction = 4;
+}
+
+// RDF 1.2 triple term. All three positions must be set, and only the object
+// may be a nested triple term. The field numbers are the same as in
+// RdfTriple.
+//
+// Used by the column layout and by Jelly-SPARQL.
+message RdfTripleTerm {
+  // Subject
+  oneof subject {
+    // IRI
+    RdfIri s_iri = 1;
+    // Blank node
+    string s_bnode = 2;
+  }
+
+  // Predicate
+  RdfIri p_iri = 5;
+
+  // Object
+  oneof object {
+    // IRI
+    RdfIri o_iri = 9;
+    // Blank node
+    string o_bnode = 10;
+    // Literal
+    RdfLiteral o_literal = 11;
+    // Nested triple term
+    RdfTripleTerm o_triple_term = 12;
   }
 }
 
+// ---------------------------------------------------------------------------
+// Lookup tables
+// ---------------------------------------------------------------------------
+
+// Packed entries of a lookup table (name, prefix, or datatype): the values of
+// a run of consecutive identifiers.
+//
+// Used by the column layout and by Jelly-SPARQL.
+message RdfLookupEntryPacked {
+  // 1-based identifier of the first value.
+  // 0 means "the identifier after the last value of the previous entry of
+  // the same lookup table", or 1 in the first entry of the table.
+  uint32 id = 1;
+  // Values of the entries (UTF-8 encoded), for consecutive identifiers
+  // starting at id.
+  repeated string values = 2;
+}
+
+// ---------------------------------------------------------------------------
+// Stream options
+// ---------------------------------------------------------------------------
+
+// RDF stream options
+//
+// If row layout: the options may occur again later in the stream, but must
+// be identical to the first occurrence.
+// If column layout: a later frame may restate the options, which empties the
+// lookup tables. This makes streams concatenable. physical_type, stream_type,
+// and version must stay the same.
+message RdfStreamOptions {
+  // Name of the stream (completely optional).
+  // This may be used for, e.g., topic names in a pub/sub system.
+  string stream_name = 1;
+  // Type of the stream (required).
+  // If row layout: TRIPLES, QUADS, or GRAPHS.
+  // If column layout: TRIPLES or QUADS.
+  PhysicalStreamType physical_type = 2;
+  // If row layout: whether the stream may contain generalized triples,
+  // quads, or datasets.
+  // If column layout: must not be set.
+  bool generalized_statements = 3;
+  // If row layout: whether the stream may contain RDF-star statements.
+  // If column layout: must not be set – use rdf_version instead.
+  bool rdf_star = 4;
+  // If column layout: whether the stream is one RDF graph or dataset, or a
+  // stream of RDF Messages. Defaults to RDF_STREAM_TYPE_FLAT.
+  // If row layout: must not be set.
+  RdfStreamType stream_type = 5;
+  // If column layout: version of RDF whose terms may occur in the stream.
+  // Unspecified (the default) means that no version is announced, and the
+  // stream may contain any RDF 1.2 term.
+  // If row layout: must not be set.
+  RdfVersion rdf_version = 6;
+  // Maximum size of the name lookup table (required).
+  // If row layout: must be >= 8.
+  // If column layout: must be >= 128.
+  uint32 max_name_table_size = 9;
+  // Maximum size of the prefix lookup table
+  // (required if the prefix lookup is used)
+  uint32 max_prefix_table_size = 10;
+  // Maximum size of the datatype lookup table
+  // (required if datatype literals are used)
+  uint32 max_datatype_table_size = 11;
+  // If row layout: logical (RDF-STaX-based) stream type. In contrast to the
+  // physical type, this field is entirely optional.
+  // If column layout: must not be set – use stream_type instead.
+  LogicalStreamType logical_type = 14;
+  // Protocol version (required)
+  // For Jelly-RDF 1.0.x the value must be 1 (row layout).
+  // For Jelly-RDF 1.1.x the value must be 2 (row layout).
+  // For Jelly-RDF 1.2.x the value must be 3 (column layout).
+  // For custom extensions, the value must be 10000 or higher.
+  uint32 version = 15;
+}
+
+// Physical stream type: whether the stream contains triples or quads.
+enum PhysicalStreamType {
+  // Unspecified stream type – invalid
+  PHYSICAL_STREAM_TYPE_UNSPECIFIED = 0;
+  // RDF triples
+  PHYSICAL_STREAM_TYPE_TRIPLES = 1;
+  // RDF quads
+  PHYSICAL_STREAM_TYPE_QUADS = 2;
+  // RDF triples grouped in graphs.
+  // If column layout: invalid.
+  PHYSICAL_STREAM_TYPE_GRAPHS = 3;
+}
+
+// Type of an RDF stream. Not used in the row layout.
+enum RdfStreamType {
+  // The entire stream is one RDF graph (TRIPLES) or one RDF dataset (QUADS).
+  // This is the default.
+  // buf:lint:ignore ENUM_ZERO_VALUE_SUFFIX
+  RDF_STREAM_TYPE_FLAT = 0;
+  // The stream is a sequence of RDF Messages, each an RDF graph or dataset:
+  // https://w3c-cg.github.io/rsp/spec/messages
+  // The messages are delimited by RdfColumnBatch.message_lengths.
+  RDF_STREAM_TYPE_MESSAGES = 1;
+}
+
+// ---------------------------------------------------------------------------
+// Stream frame
+// ---------------------------------------------------------------------------
+
+// RDF stream frame – base message for RDF streams.
+message RdfStreamFrame {
+  // Stream rows.
+  // If row layout: the contents of the frame.
+  // If column layout: either empty, or exactly one row with the stream
+  // options.
+  repeated RdfStreamRow rows = 1;
+  // If column layout: the contents of the frame.
+  // If row layout: must not be set.
+  RdfColumnBatch columns = 2;
+  // Arbitrary metadata
+  // The keys are UTF-8 encoded strings, the values are byte arrays.
+  // This may be used by implementations in any way they see fit.
+  // The metadata does not affect the RDF data in any way, treat it
+  // as comments in a text file.
+  map<string, bytes> metadata = 15;
+}
+
+// ---------------------------------------------------------------------------
+// Column layout
+// ---------------------------------------------------------------------------
+
+// The contents of a frame in the column layout: a batch of statements, and
+// the lookup entries and namespace declarations they need.
+//
+// Each statement is made up of the cells at the same position in the
+// subjects, predicates, objects, and graphs columns.
+message RdfColumnBatch {
+  // Number of statements in the batch. At most 2^27 - 1.
+  uint32 row_count = 1;
+  // Entries of the name lookup table.
+  repeated RdfLookupEntryPacked names = 2;
+  // Entries of the prefix lookup table.
+  //
+  // Note: the prefixes in the lookup table can be arbitrary strings, and are
+  // NOT meant to be user-facing. They are only used for IRI compression.
+  // To transmit user-facing namespace declarations, use `namespaces`.
+  repeated RdfLookupEntryPacked prefixes = 3;
+  // Entries of the datatype lookup table.
+  repeated RdfLookupEntryPacked datatypes = 4;
+  // Namespace declarations.
+  repeated RdfNamespaceDeclaration namespaces = 5;
+  // Subjects: IRIs or blank nodes. No cell may be unbound.
+  RdfColumn subjects = 6;
+  // Predicates: IRIs. No cell may be unbound.
+  RdfColumn predicates = 7;
+  // Objects: IRIs, blank nodes, literals, or triple terms. No cell may be
+  // unbound.
+  RdfColumn objects = 8;
+  // Graph names: IRIs or blank nodes. An unbound cell is the default graph.
+  // Only valid if the physical type is QUADS. If not set, all statements of
+  // the batch are in the default graph.
+  RdfColumn graphs = 9;
+  // Message boundaries: each value adds that many more statements to the
+  // current RDF Message, and then ends it.
+  // Only valid in streams of type RDF_STREAM_TYPE_MESSAGES.
+  repeated uint32 message_lengths = 15;
+}
+
+// Explicit namespace declaration
+//
+// This is a hint to the consumer that the given IRI (namespace) may be
+// associated with a short name, like in Turtle syntax:
+// PREFIX ex: <http://example.org/>
+//
+// This is a purely cosmetic feature, not part of the RDF data. It has nothing
+// in common with the prefix lookup table. A declaration stays in effect until
+// the same name is declared again.
+message RdfNamespaceDeclaration {
+  // Short name of the namespace (e.g., "ex")
+  // Do NOT include the colon.
+  string name = 1;
+  // IRI of the namespace (e.g., "http://example.org/")
+  RdfIri value = 2;
+}
+
+// ---------------------------------------------------------------------------
+// Columns
+// ---------------------------------------------------------------------------
+
+// Column of RDF terms: the cells of one statement position (Jelly-RDF) or one
+// variable (Jelly-SPARQL) across all rows of a batch, in row order. A cell is
+// either an RDF term or unbound.
+//
+// Each run of consecutive equal terms is stored once, as a run value, and
+// unbound cells are not stored. The run values are split by type into
+// separate lists. `kinds` gives the type of each run value, and `layouts`
+// gives the runs of repeated values and of unbound cells.
+//
+// Used by the column layout and by Jelly-SPARQL.
+message RdfColumn {
+  // Type of each run value, 2 bits per value, four values per byte, starting
+  // from the least significant bits: 0 = IRI, 1 = literal, 2 = blank node,
+  // 3 = triple term.
+  // Should be empty if all run values are of one type.
+  bytes kinds = 1;
+  // Sequence layout: where the run values repeat, and where the unbound cells
+  // are. Each entry is a token (skip << 5) | (kind << 4) | len_code, and a
+  // len_code of 15 is followed by an extension varint.
+  // Empty if every cell is bound and no value repeats.
+  repeated uint32 layouts = 2;
+  // Name identifiers of the IRIs, in row order.
+  // 0 means "previous name_id + 1", or 1 in the first IRI of the column.
+  repeated uint32 name_ids = 3;
+  // Prefix identifiers of the IRIs: none (no prefix), one (the same prefix
+  // for all IRIs), or one per IRI.
+  // 0 means "the same prefix as the previous IRI", or no prefix in the first
+  // IRI of the column.
+  repeated uint32 prefix_ids = 4;
+  // Lexical forms of the literals, in row order.
+  repeated string lex_values = 5;
+  // Literal kinds of the literals: none (all are simple literals), one (the
+  // same kind for all literals), or one per literal.
+  //   0          – simple literal (xsd:string)
+  //   odd v      – literal with the datatype (v + 1) / 2 of the datatype
+  //                lookup
+  //   even v > 0 – language-tagged string with the language tag
+  //                langtags[v / 2 - 1]
+  repeated uint32 literal_kinds = 6;
+  // Language tags referred to by literal_kinds.
+  repeated string langtags = 7;
+  // Base directions of the language tags (RdfBaseDirection values), parallel
+  // to langtags. Empty means no base direction for any tag.
+  repeated uint32 langtag_directions = 8;
+  // Labels of the blank nodes, in row order.
+  repeated string bnodes = 9;
+  // Triple terms, in row order. The IRIs inside the triple terms are
+  // inferred separately from name_ids and prefix_ids.
+  repeated RdfTripleTerm triple_terms = 10;
+}
+
+// ---------------------------------------------------------------------------
+// Row layout (Jelly-RDF 1.0.x and 1.1.x)
+//
+// The messages below are not used in the column layout. They are also used by
+// Jelly-Patch.
+// ---------------------------------------------------------------------------
+
 // Empty message indicating the default RDF graph.
+//
+// Not used in the column layout.
 message RdfDefaultGraph {}
 
 // RDF triple
@@ -66,6 +377,8 @@ message RdfDefaultGraph {}
 // term – the same as the term in the same position in the previous triple.
 // In the first triple of the stream, all terms must be set.
 // All terms must also be set in quoted triples (RDF-star).
+//
+// Not used in the column layout.
 message RdfTriple {
   // Triple subject
   oneof subject {
@@ -118,6 +431,8 @@ message RdfTriple {
 // If no field in a given oneof is set, the term is interpreted as a repeated
 // term – the same as the term in the same position in the previous quad.
 // In the first quad of the stream, all terms must be set.
+//
+// Not used in the column layout.
 message RdfQuad {
   // Quad subject
   oneof subject {
@@ -175,6 +490,8 @@ message RdfQuad {
 //
 // In contrast to RdfQuad, setting the graph oneof to some value
 // is always required. No repeated terms are allowed.
+//
+// Not used in the column layout.
 message RdfGraphStart {
   oneof graph {
     // IRI
@@ -189,28 +506,13 @@ message RdfGraphStart {
 }
 
 // End of a graph in a GRAPHS stream
+//
+// Not used in the column layout.
 message RdfGraphEnd {}
 
-// Explicit namespace declaration
-//
-// This does not correspond to any construct in the RDF Abstract Syntax.
-// Rather, it is a hint to the consumer that the given IRI prefix (namespace)
-// may be associated with a shorter name, like in Turtle syntax:
-// PREFIX ex: <http://example.org/>
-//
-// These short names (here "ex:") are NOT used in the RDF statement encoding.
-// This is a purely cosmetic feature useful in cases where you want to
-// preserve the namespace declarations from the original RDF document.
-// These declarations have nothing in common with the prefix lookup table.
-message RdfNamespaceDeclaration {
-  // Short name of the namespace (e.g., "ex")
-  // Do NOT include the colon.
-  string name = 1;
-  // IRI of the namespace (e.g., "http://example.org/")
-  RdfIri value = 2;
-}
-
 // Entry in the name lookup table
+//
+// Not used in the column layout.
 message RdfNameEntry {
   // 1-based identifier
   // If id=0, it should be interpreted as previous_id + 1.
@@ -227,6 +529,8 @@ message RdfNameEntry {
 // NOT meant to be user-facing. They are only used for IRI compression.
 // To transmit user-facing namespace declarations for cosmetic purposes, use
 // RdfNamespaceDeclaration.
+//
+// Not used in the column layout.
 message RdfPrefixEntry {
   // 1-based identifier
   // If id=0, it should be interpreted as previous_id + 1.
@@ -238,6 +542,8 @@ message RdfPrefixEntry {
 }
 
 // Entry in the datatype lookup table
+//
+// Not used in the column layout.
 message RdfDatatypeEntry {
   // 1-based identifier
   // If id=0, it should be interpreted as previous_id + 1.
@@ -248,51 +554,9 @@ message RdfDatatypeEntry {
   string value = 2;
 }
 
-// RDF stream options
-message RdfStreamOptions {
-  // Name of the stream (completely optional).
-  // This may be used for, e.g., topic names in a pub/sub system.
-  string stream_name = 1;
-  // Type of the stream (required)
-  PhysicalStreamType physical_type = 2;
-  // Whether the stream may contain generalized triples, quads, or datasets
-  bool generalized_statements = 3;
-  // Whether the stream may contain RDF-star statements
-  bool rdf_star = 4;
-  // Maximum size of the name lookup table
-  // (required, must be >= 8)
-  uint32 max_name_table_size = 9;
-  // Maximum size of the prefix lookup table
-  // (required if the prefix lookup is used)
-  uint32 max_prefix_table_size = 10;
-  // Maximum size of the datatype lookup table
-  // (required if datatype literals are used)
-  uint32 max_datatype_table_size = 11;
-  // Logical (RDF-STaX-based) stream type
-  // In contrast to the physical type, this field is entirely optional.
-  LogicalStreamType logical_type = 14;
-  // Protocol version (required)
-  // For Jelly 1.0.x value must be 1.
-  // For Jelly 1.1.x value must be 2.
-  // For custom extensions, the value must be 10000 or higher.
-  uint32 version = 15;
-}
-
-// Physical stream type
-// This determines how the data is encoded in the stream, not the logical
-// structure of the data. See LogicalStreamType for the latter.
-enum PhysicalStreamType {
-  // Unspecified stream type – invalid
-  PHYSICAL_STREAM_TYPE_UNSPECIFIED = 0;
-  // RDF triples
-  PHYSICAL_STREAM_TYPE_TRIPLES = 1;
-  // RDF quads
-  PHYSICAL_STREAM_TYPE_QUADS = 2;
-  // RDF triples grouped in graphs
-  PHYSICAL_STREAM_TYPE_GRAPHS = 3;
-}
-
 // Logical stream type, according to the RDF Stream Taxonomy (RDF-STaX).
+// If column layout: not used – use RdfStreamType instead.
+//
 // Type 0 is reserved for the unspecified stream type.
 // The rest of the type numbers follow the taxonomical structure of RDF-STaX.
 // For example: 1 is a subtype of 0, 13 and 23 are subtypes of 3,
@@ -308,9 +572,7 @@ enum PhysicalStreamType {
 // RDF-STaX version: 1.1.2
 // https://w3id.org/stax/1.1.2
 //
-// ^ The above URL is used to automatically determine the version of RDF-STaX
-// in the Jelly protocol specification. Please keep it up-to-date and in the
-// same format.
+// Not used in the column layout.
 enum LogicalStreamType {
   // Unspecified stream type – invalid
   LOGICAL_STREAM_TYPE_UNSPECIFIED = 0;
@@ -340,6 +602,9 @@ enum LogicalStreamType {
 }
 
 // RDF stream row
+//
+// If row layout: one element of a frame.
+// If column layout: only the `options` field may be set.
 message RdfStreamRow {
   // Exactly one of these fields must be set.
   oneof row {
@@ -367,16 +632,4 @@ message RdfStreamRow {
     // Entry in the datatype lookup table.
     RdfDatatypeEntry datatype = 11;
   }
-}
-
-// RDF stream frame – base message for RDF streams.
-message RdfStreamFrame {
-  // Stream rows
-  repeated RdfStreamRow rows = 1;
-  // Arbitrary metadata
-  // The keys are UTF-8 encoded strings, the values are byte arrays.
-  // This may be used by implementations in any way they see fit.
-  // The metadata does not affect the RDF data in any way, treat it
-  // as comments in a text file.
-  map<string, bytes> metadata = 15;
 }

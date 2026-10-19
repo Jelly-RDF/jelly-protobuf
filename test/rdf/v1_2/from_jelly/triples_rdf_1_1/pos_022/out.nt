@@ -1,0 +1,3 @@
+<http://example.org/a> <http://example.org/b> _:x .
+<http://example.org/a> <http://example.org/b> <http://example.org/c> .
+<https://b.org/s2> <https://b.org/p2> _:x .

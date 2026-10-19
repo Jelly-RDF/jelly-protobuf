@@ -1,0 +1,3 @@
+_:n1 <http://example.org/p> _:n2 .
+_:n2 <http://example.org/p> _:n1 .
+_:n2 <http://example.org/p> _:n1 .

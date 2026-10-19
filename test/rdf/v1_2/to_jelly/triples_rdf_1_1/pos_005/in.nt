@@ -1,0 +1,40 @@
+<http://example.org/person/0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/person/0> <http://xmlns.com/foaf/0.1/name> "Person 0"@en .
+<http://example.org/person/0> <http://xmlns.com/foaf/0.1/age> "20"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/person/0> <http://xmlns.com/foaf/0.1/homepage> <https://site0.example/home> .
+<http://example.org/person/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/person/1> <http://xmlns.com/foaf/0.1/name> "Person 1"@en .
+<http://example.org/person/1> <http://xmlns.com/foaf/0.1/age> "21"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/person/1> <http://xmlns.com/foaf/0.1/homepage> <https://site1.example/home> .
+<http://example.org/person/2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/person/2> <http://xmlns.com/foaf/0.1/name> "Person 2"@en .
+<http://example.org/person/2> <http://xmlns.com/foaf/0.1/age> "22"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/person/2> <http://xmlns.com/foaf/0.1/homepage> <https://site2.example/home> .
+<http://example.org/person/3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/person/3> <http://xmlns.com/foaf/0.1/name> "Person 3"@en .
+<http://example.org/person/3> <http://xmlns.com/foaf/0.1/age> "23"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/person/3> <http://xmlns.com/foaf/0.1/homepage> <https://site0.example/home> .
+<http://example.org/person/4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/person/4> <http://xmlns.com/foaf/0.1/name> "Person 4"@en .
+<http://example.org/person/4> <http://xmlns.com/foaf/0.1/age> "24"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/person/4> <http://xmlns.com/foaf/0.1/homepage> <https://site1.example/home> .
+<http://example.org/person/5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/person/5> <http://xmlns.com/foaf/0.1/name> "Person 5"@en .
+<http://example.org/person/5> <http://xmlns.com/foaf/0.1/age> "25"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/person/5> <http://xmlns.com/foaf/0.1/homepage> <https://site2.example/home> .
+<http://example.org/person/6> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/person/6> <http://xmlns.com/foaf/0.1/name> "Person 6"@en .
+<http://example.org/person/6> <http://xmlns.com/foaf/0.1/age> "26"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/person/6> <http://xmlns.com/foaf/0.1/homepage> <https://site0.example/home> .
+<http://example.org/person/7> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/person/7> <http://xmlns.com/foaf/0.1/name> "Person 7"@en .
+<http://example.org/person/7> <http://xmlns.com/foaf/0.1/age> "27"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/person/7> <http://xmlns.com/foaf/0.1/homepage> <https://site1.example/home> .
+<http://example.org/person/8> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/person/8> <http://xmlns.com/foaf/0.1/name> "Person 8"@en .
+<http://example.org/person/8> <http://xmlns.com/foaf/0.1/age> "28"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/person/8> <http://xmlns.com/foaf/0.1/homepage> <https://site2.example/home> .
+<http://example.org/person/9> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/person/9> <http://xmlns.com/foaf/0.1/name> "Person 9"@en .
+<http://example.org/person/9> <http://xmlns.com/foaf/0.1/age> "29"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/person/9> <http://xmlns.com/foaf/0.1/homepage> <https://site0.example/home> .

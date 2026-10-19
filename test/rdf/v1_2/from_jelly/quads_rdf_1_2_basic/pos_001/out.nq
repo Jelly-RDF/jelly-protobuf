@@ -1,0 +1,20 @@
+<http://example.org/item0> <http://example.org/label> "label 0"@en .
+<http://example.org/item1> <http://example.org/label> "label 1"@ar--rtl <http://example.org/graph/a> .
+<http://example.org/item2> <http://example.org/label> "label 2"@en <http://example.org/graph/b> .
+<http://example.org/item3> <http://example.org/label> "label 3"@ar--rtl .
+<http://example.org/item4> <http://example.org/label> "label 4"@en <http://example.org/graph/a> .
+<http://example.org/item5> <http://example.org/label> "label 5"@ar--rtl <http://example.org/graph/b> .
+<http://example.org/item6> <http://example.org/label> "label 6"@en .
+<http://example.org/item7> <http://example.org/label> "label 7"@ar--rtl <http://example.org/graph/a> .
+<http://example.org/item8> <http://example.org/label> "label 8"@en <http://example.org/graph/b> .
+<http://example.org/item9> <http://example.org/label> "label 9"@ar--rtl .
+<http://example.org/item10> <http://example.org/label> "label 10"@en <http://example.org/graph/a> .
+<http://example.org/item11> <http://example.org/label> "label 11"@ar--rtl <http://example.org/graph/b> .
+<http://example.org/item12> <http://example.org/label> "label 12"@en .
+<http://example.org/item13> <http://example.org/label> "label 13"@ar--rtl <http://example.org/graph/a> .
+<http://example.org/item14> <http://example.org/label> "label 14"@en <http://example.org/graph/b> .
+<http://example.org/item15> <http://example.org/label> "label 15"@ar--rtl .
+<http://example.org/item16> <http://example.org/label> "label 16"@en <http://example.org/graph/a> .
+<http://example.org/item17> <http://example.org/label> "label 17"@ar--rtl <http://example.org/graph/b> .
+<http://example.org/item18> <http://example.org/label> "label 18"@en .
+<http://example.org/item19> <http://example.org/label> "label 19"@ar--rtl <http://example.org/graph/a> .

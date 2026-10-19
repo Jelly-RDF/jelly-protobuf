@@ -1,0 +1,7 @@
+<http://example.org/s> <http://example.org/p> "s" .
+<http://example.org/s> <http://example.org/p> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/s> <http://example.org/p> "2.5"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/s> <http://example.org/p> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+<http://example.org/s> <http://example.org/p> "en"@en .
+<http://example.org/s> <http://example.org/p> "de"@de .
+<http://example.org/s> <http://example.org/p> "pl"@pl .

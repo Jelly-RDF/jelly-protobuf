@@ -1,0 +1,30 @@
+<http://example.org/r0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( _:x0 <http://example.org/says> <<( <http://example.org/s0> <http://example.org/age> "0"^^<http://www.w3.org/2001/XMLSchema#integer> )>> )>> .
+<http://example.org/r0> <http://example.org/confidence> "0.0"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/r1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s1> <http://example.org/knows> <http://example.org/o1> )>> .
+<http://example.org/r1> <http://example.org/confidence> "0.1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/r2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s2> <http://example.org/knows> <http://example.org/o2> )>> .
+<http://example.org/r2> <http://example.org/confidence> "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/r3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s3> <http://example.org/knows> <http://example.org/o3> )>> .
+<http://example.org/r3> <http://example.org/confidence> "0.3"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/r4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( _:x4 <http://example.org/says> <<( <http://example.org/s4> <http://example.org/age> "4"^^<http://www.w3.org/2001/XMLSchema#integer> )>> )>> .
+<http://example.org/r4> <http://example.org/confidence> "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/r5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s0> <http://example.org/knows> <http://example.org/o5> )>> .
+<http://example.org/r5> <http://example.org/confidence> "0.5"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/r6> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s1> <http://example.org/knows> <http://example.org/o6> )>> .
+<http://example.org/r6> <http://example.org/confidence> "0.6"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/r7> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s2> <http://example.org/knows> <http://example.org/o7> )>> .
+<http://example.org/r7> <http://example.org/confidence> "0.7"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/r8> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( _:x8 <http://example.org/says> <<( <http://example.org/s8> <http://example.org/age> "8"^^<http://www.w3.org/2001/XMLSchema#integer> )>> )>> .
+<http://example.org/r8> <http://example.org/confidence> "0.8"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/r9> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s4> <http://example.org/knows> <http://example.org/o9> )>> .
+<http://example.org/r9> <http://example.org/confidence> "0.9"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/r10> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s0> <http://example.org/knows> <http://example.org/o10> )>> .
+<http://example.org/r10> <http://example.org/confidence> "0.10"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/r11> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s1> <http://example.org/knows> <http://example.org/o11> )>> .
+<http://example.org/r11> <http://example.org/confidence> "0.11"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/r12> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( _:x12 <http://example.org/says> <<( <http://example.org/s12> <http://example.org/age> "12"^^<http://www.w3.org/2001/XMLSchema#integer> )>> )>> .
+<http://example.org/r12> <http://example.org/confidence> "0.12"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/r13> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s3> <http://example.org/knows> <http://example.org/o13> )>> .
+<http://example.org/r13> <http://example.org/confidence> "0.13"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/r14> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s4> <http://example.org/knows> <http://example.org/o14> )>> .
+<http://example.org/r14> <http://example.org/confidence> "0.14"^^<http://www.w3.org/2001/XMLSchema#decimal> .

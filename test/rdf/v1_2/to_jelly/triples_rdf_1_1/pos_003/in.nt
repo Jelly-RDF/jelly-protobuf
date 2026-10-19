@@ -1,0 +1,15 @@
+<http://example.org/s> <http://example.org/p0> "text 0" .
+<http://example.org/s> <http://example.org/p1> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/s> <http://example.org/p2> "1.5"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/s> <http://example.org/p0> "y"@en .
+<http://example.org/s> <http://example.org/p1> "z"@pl .
+<http://example.org/s> <http://example.org/p2> "text 5" .
+<http://example.org/s> <http://example.org/p0> "6"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/s> <http://example.org/p1> "1.5"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/s> <http://example.org/p2> "y"@en .
+<http://example.org/s> <http://example.org/p0> "z"@pl .
+<http://example.org/s> <http://example.org/p1> "text 10" .
+<http://example.org/s> <http://example.org/p2> "11"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/s> <http://example.org/p0> "1.5"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+<http://example.org/s> <http://example.org/p1> "y"@en .
+<http://example.org/s> <http://example.org/p2> "z"@pl .

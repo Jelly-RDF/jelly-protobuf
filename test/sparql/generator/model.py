@@ -1,4 +1,4 @@
-"""RDF terms and SPARQL result sets, and their SPARQL Query Results JSON form.
+"""SPARQL result sets, and their SPARQL Query Results JSON form.
 
 The JSON form follows SPARQL 1.2 Query Results JSON: `its:dir` for the base
 direction and `{"type": "triple", ...}` for triple terms.
@@ -6,47 +6,21 @@ direction and `{"type": "triple", ...}` for triple terms.
 
 import json
 from dataclasses import dataclass, field
-from typing import Optional, Union
+from typing import Optional
 
-XSD = "http://www.w3.org/2001/XMLSchema#"
-RDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-XSD_STRING = XSD + "string"
-RDF_LANG_STRING = RDF + "langString"
-RDF_DIR_LANG_STRING = RDF + "dirLangString"
-
-
-@dataclass(frozen=True)
-class Iri:
-    value: str
-
-
-@dataclass(frozen=True)
-class Bnode:
-    label: str
-
-
-@dataclass(frozen=True)
-class Lit:
-    lex: str
-    datatype: Optional[str] = None  # None = simple literal (xsd:string)
-    lang: Optional[str] = None
-    direction: Optional[str] = None  # "ltr", "rtl", or None
-
-    def __post_init__(self):
-        if self.datatype == XSD_STRING:
-            object.__setattr__(self, "datatype", None)
-        assert not (self.datatype and self.lang)
-        assert self.direction is None or self.lang
-
-
-@dataclass(frozen=True)
-class Triple:
-    s: "Term"
-    p: "Term"
-    o: "Term"
-
-
-Term = Union[Iri, Bnode, Lit, Triple]
+from generator_common.terms import (  # noqa: F401
+    RDF,
+    RDF_DIR_LANG_STRING,
+    RDF_LANG_STRING,
+    XSD,
+    XSD_STRING,
+    BnodeMap,
+    Bnode,
+    Iri,
+    Lit,
+    Term,
+    Triple,
+)
 
 
 @dataclass
@@ -149,19 +123,7 @@ def equivalent(a, b) -> Optional[str]:
         return f"variables {a.vars} != {b.vars}"
     if len(a.rows) != len(b.rows):
         return f"{len(a.rows)} rows != {len(b.rows)} rows"
-    fwd, back = {}, {}
-
-    def same(x, y) -> bool:
-        if type(x) is not type(y):
-            return False
-        if isinstance(x, Bnode):
-            if fwd.setdefault(x.label, y.label) != y.label:
-                return False
-            return back.setdefault(y.label, x.label) == x.label
-        if isinstance(x, Triple):
-            return same(x.s, y.s) and same(x.p, y.p) and same(x.o, y.o)
-        return x == y
-
+    same = BnodeMap().same
     for i, (ra, rb) in enumerate(zip(a.rows, b.rows)):
         if set(ra) != set(rb):
             return f"row {i}: bound variables {sorted(ra)} != {sorted(rb)}"

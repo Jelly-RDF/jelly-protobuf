@@ -1,0 +1,4 @@
+<http://example.org/s> <http://example.org/p> "a" .
+<http://example.org/s> <http://example.org/p> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/s> <http://example.org/p> "b"@en .
+<http://example.org/s> <http://example.org/p> "c"@de .

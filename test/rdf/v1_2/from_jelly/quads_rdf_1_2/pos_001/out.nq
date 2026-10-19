@@ -1,0 +1,20 @@
+<http://example.org/r0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s0> <http://example.org/p> "0"^^<http://www.w3.org/2001/XMLSchema#integer> )>> .
+<http://example.org/r1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s1> <http://example.org/p> "1"^^<http://www.w3.org/2001/XMLSchema#integer> )>> <http://example.org/graph/a> .
+<http://example.org/r2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s2> <http://example.org/p> "2"^^<http://www.w3.org/2001/XMLSchema#integer> )>> _:g .
+<http://example.org/r3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s0> <http://example.org/p> "3"^^<http://www.w3.org/2001/XMLSchema#integer> )>> .
+<http://example.org/r4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s1> <http://example.org/p> "4"^^<http://www.w3.org/2001/XMLSchema#integer> )>> <http://example.org/graph/a> .
+<http://example.org/r5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s2> <http://example.org/p> "5"^^<http://www.w3.org/2001/XMLSchema#integer> )>> _:g .
+<http://example.org/r6> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s0> <http://example.org/p> "6"^^<http://www.w3.org/2001/XMLSchema#integer> )>> .
+<http://example.org/r7> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s1> <http://example.org/p> "7"^^<http://www.w3.org/2001/XMLSchema#integer> )>> <http://example.org/graph/a> .
+<http://example.org/r8> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s2> <http://example.org/p> "8"^^<http://www.w3.org/2001/XMLSchema#integer> )>> _:g .
+<http://example.org/r9> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s0> <http://example.org/p> "9"^^<http://www.w3.org/2001/XMLSchema#integer> )>> .
+<http://example.org/r10> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s1> <http://example.org/p> "10"^^<http://www.w3.org/2001/XMLSchema#integer> )>> <http://example.org/graph/a> .
+<http://example.org/r11> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s2> <http://example.org/p> "11"^^<http://www.w3.org/2001/XMLSchema#integer> )>> _:g .
+<http://example.org/r12> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s0> <http://example.org/p> "12"^^<http://www.w3.org/2001/XMLSchema#integer> )>> .
+<http://example.org/r13> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s1> <http://example.org/p> "13"^^<http://www.w3.org/2001/XMLSchema#integer> )>> <http://example.org/graph/a> .
+<http://example.org/r14> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s2> <http://example.org/p> "14"^^<http://www.w3.org/2001/XMLSchema#integer> )>> _:g .
+<http://example.org/r15> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s0> <http://example.org/p> "15"^^<http://www.w3.org/2001/XMLSchema#integer> )>> .
+<http://example.org/r16> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s1> <http://example.org/p> "16"^^<http://www.w3.org/2001/XMLSchema#integer> )>> <http://example.org/graph/a> .
+<http://example.org/r17> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s2> <http://example.org/p> "17"^^<http://www.w3.org/2001/XMLSchema#integer> )>> _:g .
+<http://example.org/r18> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s0> <http://example.org/p> "18"^^<http://www.w3.org/2001/XMLSchema#integer> )>> .
+<http://example.org/r19> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<( <http://example.org/s1> <http://example.org/p> "19"^^<http://www.w3.org/2001/XMLSchema#integer> )>> <http://example.org/graph/a> .
