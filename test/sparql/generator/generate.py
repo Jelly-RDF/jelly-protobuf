@@ -8,13 +8,13 @@ Usage (from any directory):
 
 Before anything is written, every case is checked:
 
-- positive "from Jelly" cases must decode, with the reference decoder, to the
+- positive "from Jelly" cases must decode, with the helper decoder, to the
   expected result;
-- negative "from Jelly" cases must fail in the reference decoder, for the
+- negative "from Jelly" cases must fail in the helper decoder, for the
   reason given in the case;
-- positive "to Jelly" cases are encoded with the reference encoder, and the
+- positive "to Jelly" cases are encoded with the helper encoder, and the
   output must decode back to the input with the requested stream options;
-- negative "to Jelly" cases must fail in the reference encoder;
+- negative "to Jelly" cases must fail in the helper encoder;
 - every frame must be accepted by `protoc --decode` against sparql.proto (if
   protoc is installed), to make sure the hand-written wire format matches the
   schema.
@@ -88,12 +88,12 @@ def build_from_jelly(case, label):
         result = decoder.decode(data)
     except decoder.DecodeError as e:
         if case.positive:
-            raise CaseError(f"{label}: the reference decoder rejects a positive case: {e}")
+            raise CaseError(f"{label}: the helper decoder rejects a positive case: {e}")
         if case.error not in str(e):
             raise CaseError(f"{label}: fails for another reason than expected ({case.error!r}): {e}")
         return files
     if not case.positive:
-        raise CaseError(f"{label}: the reference decoder accepts a negative case")
+        raise CaseError(f"{label}: the helper decoder accepts a negative case")
     diff = equivalent_all(case.expected, result)
     if diff:
         raise CaseError(f"{label}: decoded result differs from the expected one: {diff}")
@@ -134,23 +134,23 @@ def build_to_jelly(case, label):
         frames = encoder.encode(case.input, case.opts, case.max_rows)
     except encoder.EncodeError as e:
         if case.positive:
-            raise CaseError(f"{label}: the reference encoder rejects a positive case: {e}")
+            raise CaseError(f"{label}: the helper encoder rejects a positive case: {e}")
         if case.error not in str(e):
             raise CaseError(f"{label}: fails for another reason than expected ({case.error!r}): {e}")
         return files
     if not case.positive:
-        raise CaseError(f"{label}: the reference encoder accepts a negative case")
+        raise CaseError(f"{label}: the helper encoder accepts a negative case")
     check_protoc(frames, label)
     data = pb.delimited(frames)
     diff = equivalent_all(case.input, decoder.decode(data))
     if diff:
-        raise CaseError(f"{label}: the reference output does not decode to the input: {diff}")
+        raise CaseError(f"{label}: the helper encoder's output does not decode to the input: {diff}")
     last = pb.Fields(pb.split_delimited(data)[-1]).msg(9)
     if last is None or last.string(1):
-        raise CaseError(f"{label}: the last frame of the reference output has no trailer, or an error trailer")
+        raise CaseError(f"{label}: the last frame of the helper encoder's output has no trailer, or an error trailer")
     first_options = pb.Fields(pb.split_delimited(data)[0]).bytes(1)
     if first_options != case.opts.msg().encode():
-        raise CaseError(f"{label}: the reference output has other stream options than requested")
+        raise CaseError(f"{label}: the helper encoder's output has other stream options than requested")
     files["out.jellys"] = data
     return files
 

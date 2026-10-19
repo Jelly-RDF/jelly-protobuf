@@ -1,4 +1,4 @@
-"""Reference Jelly-RDF 1.2 consumer, written directly from the specification.
+"""Helper script for the test generator: decodes Jelly-RDF 1.2 streams.
 
 It is strict: it rejects everything the specification says a consumer MUST or
 SHOULD reject. The generator uses it to check that every positive test decodes

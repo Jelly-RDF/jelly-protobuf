@@ -1,4 +1,4 @@
-"""Reference Jelly-RDF 1.2 producer.
+"""Helper script for the test generator: encodes Jelly-RDF 1.2 streams.
 
 Used to build the expected outputs of the "to Jelly" tests, and the inputs of
 "from Jelly" tests that exercise common usage patterns. It follows the

@@ -1,5 +1,5 @@
-"""Reference encoder of the parts of rdf.proto that Jelly-RDF and Jelly-SPARQL
-share: lookup tables, columns, and RDF terms.
+"""Helper script for the test generators: encodes the parts of rdf.proto that
+Jelly-RDF and Jelly-SPARQL share (lookup tables, columns, and RDF terms).
 
 It follows the producer-side rules of the specification: least-recently-used
 lookup tables, batches that end before their working set would overflow the

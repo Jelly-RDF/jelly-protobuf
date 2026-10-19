@@ -1,6 +1,5 @@
-"""Reference decoder of the parts of rdf.proto that Jelly-RDF and Jelly-SPARQL
-share: lookup tables, columns, and RDF terms. Written directly from the
-specification.
+"""Helper script for the test generators: decodes the parts of rdf.proto that
+Jelly-RDF and Jelly-SPARQL share (lookup tables, columns, and RDF terms).
 
 It is strict: it rejects everything the specification says a consumer MUST or
 SHOULD reject.

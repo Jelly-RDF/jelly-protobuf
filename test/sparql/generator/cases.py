@@ -8,7 +8,7 @@ existing cases stable.
 `see` is the anchor of the rule in the specification that the case exercises: an
 anchor in the Jelly-SPARQL specification, or "<page>#<anchor>" for a rule in
 another specification page (e.g., "serialization#term-types" for Jelly-RDF).
-`error` (negative cases) is a fragment of the reference decoder's or encoder's
+`error` (negative cases) is a fragment of the helper decoder's or encoder's
 error message; the generator checks that the case fails for that reason.
 """
 
@@ -73,7 +73,7 @@ class Case:
     error: Optional[str] = None  # negative: expected error fragment
     input: object = None  # to_jelly: the result to serialize
     opts: Optional[Opts] = None  # to_jelly: stream options
-    max_rows: int = 64  # to_jelly: frame size of the reference output
+    max_rows: int = 64  # to_jelly: frame size of the helper encoder's output
     should: bool = False  # the rule is a SHOULD in the spec, not a MUST
 
 
@@ -91,7 +91,7 @@ def from_neg(category, name, see, frames, error, comment=None, raw=None, should=
 
 
 def from_pos_encoded(category, name, see, result, opts, max_rows=64, comment=None):
-    """A positive case whose input is produced by the reference encoder."""
+    """A positive case whose input is produced by the helper encoder."""
     from_pos(category, name, see, encode(result, opts, max_rows), result, comment)
 
 
@@ -177,7 +177,7 @@ LIT_ABC = {c: L(c) for c in "abcde"}
 
 C = SELECT_1_1
 
-# --- common usage patterns (produced by the reference encoder) -------------------
+# --- common usage patterns (produced by the helper encoder) -------------------
 
 TYPICAL = RS(
     ["person", "name", "age", "homepage"],
