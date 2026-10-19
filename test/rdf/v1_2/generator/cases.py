@@ -652,13 +652,13 @@ from_neg(C, "rdf_star set in the stream options. The field is used only in Jelly
 from_neg(C, "logical_type set in the stream options. The field is used only in Jelly-RDF 1.0.x and 1.1.x.",
          "stream-options", ONE_F(O(logical_type=msgs.LOGICAL_FLAT_TRIPLES)), "logical_type is set", should=True)
 from_neg(C, "physical_type not set (PHYSICAL_STREAM_TYPE_UNSPECIFIED).", "physical-stream-types",
-         ONE_F(O(physical_type=None)), "physical_type is unspecified", should=True)
+         ONE_F(O(physical_type=None)), "physical_type is unspecified")
 from_neg(C, "physical_type GRAPHS, which is used only in Jelly-RDF 1.0.x and 1.1.x.", "physical-stream-types",
-         ONE_F(O(physical_type=msgs.GRAPHS)), "physical_type GRAPHS", should=True)
+         ONE_F(O(physical_type=msgs.GRAPHS)), "physical_type GRAPHS")
 from_neg(C, "Unknown physical_type value 4.", "physical-stream-types",
-         ONE_F(O(physical_type=4)), "unknown physical_type", should=True)
+         ONE_F(O(physical_type=4)), "unknown physical_type")
 from_neg(C, "Unknown stream_type value 2.", "stream-types",
-         ONE_F(O(stream_type=2)), "unknown stream_type", should=True)
+         ONE_F(O(stream_type=2)), "unknown stream_type")
 from_neg(C, "Unknown rdf_version value 4.", "rdf-version",
          ONE_F(O(rdf_version=4)), "unknown rdf_version", should=True)
 from_neg(C, "max_name_table_size 127, below the minimum of 128.", "stream-options",

@@ -901,7 +901,6 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/v1_2/from_jelly/>
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/serialization/#physical-stream-types> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementPhysicalTypeTriples ;
-    mf:notable jellyt:featureShouldLevel ;
     mf:action <triples_rdf_1_1/neg_007/in.jelly> .
 
 <triples_rdf_1_1/neg_008> a jellyt:TestNegative, jellyt:TestRdf12FromJelly ;
@@ -909,7 +908,6 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/v1_2/from_jelly/>
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/serialization/#physical-stream-types> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementPhysicalTypeTriples ;
-    mf:notable jellyt:featureShouldLevel ;
     mf:action <triples_rdf_1_1/neg_008/in.jelly> .
 
 <triples_rdf_1_1/neg_009> a jellyt:TestNegative, jellyt:TestRdf12FromJelly ;
@@ -917,7 +915,6 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/v1_2/from_jelly/>
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/serialization/#physical-stream-types> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementPhysicalTypeTriples ;
-    mf:notable jellyt:featureShouldLevel ;
     mf:action <triples_rdf_1_1/neg_009/in.jelly> .
 
 <triples_rdf_1_1/neg_010> a jellyt:TestNegative, jellyt:TestRdf12FromJelly ;
@@ -925,7 +922,6 @@ BASE           <https://w3id.org/jelly/dev/tests/rdf/v1_2/from_jelly/>
     rdfs:seeAlso <https://w3id.org/jelly/dev/specification/serialization/#stream-types> ;
     rdft:approval rdft:Proposed ;
     mf:requires jellyt:requirementPhysicalTypeTriples ;
-    mf:notable jellyt:featureShouldLevel ;
     mf:action <triples_rdf_1_1/neg_010/in.jelly> .
 
 <triples_rdf_1_1/neg_011> a jellyt:TestNegative, jellyt:TestRdf12FromJelly ;
