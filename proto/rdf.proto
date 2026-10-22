@@ -3,8 +3,8 @@ package eu.ostrzyciel.jelly.core.proto.v1;
 
 // Jelly RDF serialization with Protocol Buffers.
 // Specification document:
-// https://w3id.org/jelly/dev/specification/serialization
-// Protocol version: 1.2.0 (in development)
+// https://w3id.org/jelly/1.2.0/specification/serialization
+// Protocol version: 1.2.0
 //
 // A Jelly-RDF stream is a sequence of RdfStreamFrame messages. The contents
 // of the frames use one of two layouts, depending on the protocol version:

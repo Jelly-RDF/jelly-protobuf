@@ -4,6 +4,9 @@ package eu.ostrzyciel.jelly.core.proto.v1.sparql;
 // Jelly-SPARQL: binary serialization for SPARQL query results
 // (solution sequences and boolean ASK results), based on the Jelly-RDF term
 // encoding (rdf.proto).
+// Specification document:
+// https://w3id.org/jelly/1.2.0/specification/sparql
+// Protocol version: 1.0.0
 //
 // The results are transmitted as a stream of frames. Each frame contains a
 // batch of solutions (rows) in a columnar layout: one column per variable.
@@ -45,7 +48,7 @@ message SparqlResultsOptions {
   // (required if datatype literals are used)
   uint32 max_datatype_table_size = 11;
   // Protocol version (required)
-  // For this proposal, the value must be 1.
+  // For Jelly-SPARQL 1.0.x, the value must be 1.
   // For custom extensions, the value must be 10000 or higher.
   uint32 version = 15;
 }
