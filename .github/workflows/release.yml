@@ -18,13 +18,13 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Validate the test case vocabulary
-        uses: NeverBlink-OSS/linkml-scala-action@v0.16.3
+        uses: NeverBlink-OSS/linkml-scala-action@v0.17.2
         with:
           files: test/test-manifest.yaml
           strict: true
 
       - name: Generate RDFS from the test case vocabulary
-        uses: NeverBlink-OSS/linkml-scala-action@v0.16.3
+        uses: NeverBlink-OSS/linkml-scala-action@v0.17.2
         with:
           command: generate
           generator: rdfs
@@ -32,7 +32,7 @@ jobs:
           output: build/test-manifest
 
       - name: Generate SHACL from the test case vocabulary
-        uses: NeverBlink-OSS/linkml-scala-action@v0.16.3
+        uses: NeverBlink-OSS/linkml-scala-action@v0.17.2
         with:
           command: generate
           generator: shacl
