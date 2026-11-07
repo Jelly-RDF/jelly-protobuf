@@ -1,6 +1,6 @@
 # Jelly test suite
 
-Machine-readable test manifests are in the `manifest.ttl` file of each subdirectory. The manifests follow the test case vocabulary, defined as a [LinkML](https://linkml.io) schema in the `test-manifest.yaml` file. The vocabulary is also published in RDFS and SHACL with every [release](https://github.com/Jelly-RDF/jelly-protobuf/releases).
+Machine-readable test manifests are in the `manifest.ttl` file of each subdirectory. The manifests follow the test case vocabulary, defined as a [LinkML](https://linkml.ohi.dev) schema in the `test-manifest.yaml` file. The vocabulary is also published in RDFS and SHACL with every [release](https://github.com/Jelly-RDF/jelly-protobuf/releases).
 
 - `rdf` – tests for the [Jelly RDF serialization format specification](https://w3id.org/jelly/dev/specification/serialization/) (Jelly-RDF):
     - `rdf/v1_2` – Jelly-RDF 1.2 streams (version tag 3, the column layout);
